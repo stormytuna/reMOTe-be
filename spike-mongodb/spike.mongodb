@@ -6,14 +6,21 @@ use('spike');
 // The drop() command destroys all data from a collection.
 // Make sure you run it against the correct database and collection.
 db.sales.drop();
+db.users.drop();
 
 // CREATE
 // SQL equivalent: INSERT INTO collection ROWS ( /* etc etc */ );
 // Insert a few documents into the sales collection.
 db.sales.insertMany([
   { '_id': 1, 'user_id': 1, 'item': 'abc', 'price': 10, 'quantity': 2, 'date': new Date('2014-03-01T08:00:00Z') },
-  { '_id': 2, 'user_id': 1, 'item': 'jkl', 'price': 20, 'quantity': 1, 'date': new Date('2014-03-01T09:00:00Z') },
-  { '_id': 3, 'user_id': 1, 'item': 'xyz', 'price': 5, 'quantity': 10, 'date': new Date('2014-03-15T09:00:00Z') },
+  { '_id': 2, 'user_id': 2, 'item': 'jkl', 'price': 20, 'quantity': 1, 'date': new Date('2014-03-01T09:00:00Z') },
+  { '_id': 3, 'user_id': 3, 'item': 'xyz', 'price': 5, 'quantity': 10, 'date': new Date('2014-03-15T09:00:00Z') },
+]);
+
+db.users.insertMany([
+  { '_id': 1, 'first_name': 'Joe', 'last_name': 'Bug' },
+  { '_id': 2, 'first_name': 'Sana', 'last_name': 'Gubari' },
+  { '_id': 3, 'first_name': 'Jack', 'last_name': 'Glossop' }
 ]);
 
 // READ
@@ -36,3 +43,29 @@ db.sales.find({_id: 1});
 // SQL equivalent: DELETE FROM collection WHERE condition;
 db.sales.deleteOne({_id: 2});
 db.sales.find();
+
+
+
+//JOIN tables together by foreign key
+
+// db.<table>.aggregate({
+//    $lookup:
+//      {
+//        from: <collection to join>,
+//        localField: <field from the input documents>,
+//        foreignField: <field from the documents of the "from" collection>,
+//        as: <output array field>
+//      }
+// })
+
+db.users.aggregate(
+{
+   $lookup:
+     {
+       from: 'sales',
+       localField: '_id',
+       foreignField: 'user_id',
+       as: 'result'
+     }
+}
+)
