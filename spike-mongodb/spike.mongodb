@@ -36,3 +36,5 @@ db.sales.find({_id: 1});
 // SQL equivalent: DELETE FROM collection WHERE condition;
 db.sales.deleteOne({_id: 2});
 db.sales.find();
+
+// More info: https://www.mongodb.com/docs/manual/reference/sql-comparison/
