@@ -1,0 +1,27 @@
+[
+  {
+    "firstName": "Albert",
+    "lastName": "Einstein",
+    "dateOfBirth": "1879-03-14T13:30:00+0000",
+    "famousFor": [
+      "General relativity",
+      "Photoeletric effect"
+    ]
+  },
+  {
+    "firstName": "Marie",
+    "lastName": "Curie",
+    "dateOfBirth": "1867-11-07T13:30:00+0000",
+    "famousFor": [
+      "Discovering polonium and radium"
+    ]
+  },
+  {
+    "firstName": "Galileo",
+    "lastName": "Galilei",
+    "dateOfBirth": "1564-02-15T13:30:00+0000",
+    "famousFor": [
+      "Contributions to astronomy"
+    ]
+  }
+]
