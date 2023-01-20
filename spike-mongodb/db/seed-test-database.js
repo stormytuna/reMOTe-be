@@ -4,13 +4,17 @@
 const mongoose = require("mongoose");
 const Scientist = require("./scientists");
 const scientistData = require("./data/scientists.json");
+// This is to hide our username and password as mongodb-uri.json isn't uploaded to our repo
+// In a hosted version we would use an environment variable called something like MONGO_PASSWORD and use process.env.MONGO_PASSWORD
+const username = require("./mongodb-uri.json").username;
+const password = require("./mongodb-uri.json").password;
 
 // Then we connect to our database
 // This first parameter is the connection string, not sure how to obfuscate this so that randos can't login though
 // The second parameter is a callback for when mongoose connects successfully
 // The third parameter is a callback for when mongoose fails to connect
 mongoose.connect(
-  "mongodb+srv://stormytuna:ayanami@test.cpnpkbx.mongodb.net/test",
+  `mongodb+srv://${username}:${password}@test.cpnpkbx.mongodb.net/test`,
   () => {
     console.log("Successfully connected!");
   },
