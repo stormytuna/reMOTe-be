@@ -1,0 +1,120 @@
+[
+  {
+    "username": "test-user-01",
+    "firstName": "David",
+    "lastName": "Smith",
+    "address": {
+      "addressLine": "123 Somewhere Street",
+      "postcode": "AB12 3CD"
+    },
+    "contact": {
+      "phoneNumber": "123456789",
+      "email": "davidsmith@company.com"
+    },
+    "technician": {},
+    "reviews": [ ],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "username": "test-user-02",
+    "firstName": "John",
+    "lastName": "Swash",
+    "address": {
+      "addressLine": "153 Place Blvd",
+      "postcode": "GD13 3IK"
+    },
+    "contact": {
+      "phoneNumber": "4567890123",
+      "email": "johnswash@company.com"
+    },
+    "technician": {},
+    "reviews": [ ],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "username": "test-user-03",
+    "firstName": "Alex",
+    "lastName": "Something",
+    "address": {
+      "addressLine": "233 Somewhere Street",
+      "postcode": "AB12 3CF"
+    },
+    "contact": {
+      "phoneNumber": "32476654238",
+      "email": "alexsomething@company.com"
+    },
+    "technician": {},
+    "reviews": [ ],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "username": "test-tech-01",
+    "firstName": "James",
+    "lastName": "Wright",
+    "address": {
+      "addressLine": "12 Random Place",
+      "postcode": "KF76 9LM"
+    },
+    "contact": {
+      "phoneNumber": "32985262985",
+      "email": "jameswright@company.com"
+    },
+    "technician": {
+      "services": [
+        "Servicing and MOT",
+        "Clutch repairs",
+        "Engine and cooling"
+      ],
+      "reviews": [
+        {
+          "reviewBody": "Very good services :)",
+          "rating": 4,
+          "reviewedBy": "(user id of someone, database provides id so we dont know it yet)"
+        },
+        {
+          "reviewBody": "Bad >:(",
+          "rating": 1,
+          "reviewedBy": "(user id of someone, database provides id so we dont know it yet)"
+        }
+       ]
+    },
+    "reviews": [ ],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "username": "test-tech-02",
+    "firstName": "Marie",
+    "lastName": "Smith",
+    "address": {
+      "addressLine": "554 Some Street",
+      "postcode": "KJ73 1LN"
+    },
+    "contact": {
+      "phoneNumber": "32911162985",
+      "email": "mariesmith@company.com"
+    },
+    "technician": {
+      "services": [
+        "Servicing and MOT",
+        "Clutch repairs",
+        "Breakdown and recovery",
+        "Tyres, wheels and tracking"
+      ],
+      "reviews": [
+        {
+          "reviewBody": "Very good services :)",
+          "rating": 5,
+          "reviewedBy": "(user id of someone, database provides id so we dont know it yet)"
+        }
+       ]
+    },
+    "reviews": [
+      {
+        "reviewBody": "Very good to service :)",
+        "rating": 5,
+        "reviewedBy": "(user id of someone, database provides id so we dont know it yet)"
+      }
+     ],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  }
+]
