@@ -63,15 +63,15 @@
     "technician": {
       "services": [
         {
-          "service": "Clutch repairs",
+          "name": "Clutch repairs",
           "price": 100
         },
         {
-          "service": "Breakdown and recovery",
+          "name": "Breakdown and recovery",
           "price": 1000
         },
         {
-          "service": "Tyres, wheels and tracking",
+          "name": "Tyres, wheels and tracking",
           "price": 10000
         }
       ],
@@ -107,19 +107,19 @@
     "technician": {
       "services": [
         {
-          "service": "Servicing and MOT",
+          "name": "Servicing and MOT",
           "price": 100
         },
         {
-          "service": "Clutch repairs",
+          "name": "Clutch repairs",
           "price": 1000
         },
         {
-          "service": "Breakdown and recovery",
+          "name": "Breakdown and recovery",
           "price": 10000
         },
         {
-          "service": "Tyres, wheels and tracking",
+          "name": "Tyres, wheels and tracking",
           "price": 100000
         }
       ],

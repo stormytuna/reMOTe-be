@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  username: String,
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   firstName: String,
   lastName: String,
   address: {
@@ -9,13 +13,34 @@ const userSchema = new mongoose.Schema({
     postcode: String,
   },
   contact: {
-    phoneNumber: String,
-    email: String,
+    phoneNumber: {
+      type: Number,
+      unique: true,
+    },
+    email: {
+      type: String,
+      unique: true,
+    },
   },
   technician: {
     type: {
-      services: [{ name: String, price: Number }],
-      reviews: [{ reviewBody: String, rating: String, reviewedBy: String }],
+      services: {
+        type: [
+          {
+            name: { type: String, required: true },
+            price: { type: Number, required: true },
+            description: String,
+          },
+        ],
+        required: true,
+      },
+      reviews: [
+        {
+          reviewBody: { type: String, required: true },
+          rating: { type: String, required: true },
+          reviewedBy: { type: String, required: true },
+        },
+      ],
     },
     enum: [Object, null],
     default: null,
