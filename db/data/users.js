@@ -13,23 +13,22 @@ const userSchema = new mongoose.Schema({
     email: String,
   },
   technician: {
-    services: [String],
-    reviews: [
-      {
-        reviewBody: String,
-        rating: Number,
-        reviewedBy: Number,
-      },
-    ],
+    type: {
+      services: [{ name: String, price: Number }],
+      reviews: [{ reviewBody: String, rating: String, reviewedBy: String }],
+    },
+    enum: [Object, null],
+    default: null,
   },
   reviews: [
     {
       reviewBody: String,
-      rating: Number,
-      reviewedBy: Number,
+      rating: String,
+      reviewedBy: String,
     },
   ],
   avatarUrl: String,
 });
 
-module.exports = mongoose.model("User", userSchema);
+const User = new mongoose.model("User", userSchema);
+module.exports = User;
