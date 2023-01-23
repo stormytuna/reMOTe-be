@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { postcodeRegex } = require("../../utils");
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -10,7 +11,12 @@ const userSchema = new mongoose.Schema({
   lastName: String,
   address: {
     addressLine: String,
-    postcode: String,
+    postcode: {
+      type: String,
+      validator: function (value) {
+        return postcodeRegex.test(value);
+      },
+    },
   },
   contact: {
     phoneNumber: {
@@ -52,7 +58,7 @@ const userSchema = new mongoose.Schema({
       reviewedBy: { type: String, required: true },
     },
   ],
-  avatarUrl: String,
+  avatarUrl: { type: String, default: "https://i.imgur.com/pN04qjy.jpg" },
 });
 
 const User = new mongoose.model("User", userSchema);
