@@ -69,12 +69,12 @@
         {
           "reviewBody": "Very good services :)",
           "rating": 4,
-          "reviewedBy": "(user id of someone, database provides id so we dont know it yet)"
+          "reviewedBy": 1
         },
         {
           "reviewBody": "Bad >:(",
           "rating": 1,
-          "reviewedBy": "(user id of someone, database provides id so we dont know it yet)"
+          "reviewedBy": 2
         }
        ]
     },
@@ -104,7 +104,7 @@
         {
           "reviewBody": "Very good services :)",
           "rating": 5,
-          "reviewedBy": "(user id of someone, database provides id so we dont know it yet)"
+          "reviewedBy": 3
         }
        ]
     },
@@ -112,7 +112,7 @@
       {
         "reviewBody": "Very good to service :)",
         "rating": 5,
-        "reviewedBy": "(user id of someone, database provides id so we dont know it yet)"
+        "reviewedBy": 4
       }
      ],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
