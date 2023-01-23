@@ -82,3 +82,64 @@ describe("GET /api/technicians/:user_id", () => {
       });
   });
 });
+
+describe('PATCH /api/technicians/:user_id', () => {
+  const patchData = {
+      services: [
+        "Servicing and MOT",
+        "Clutch repairs",
+        "Engine and cooling",
+        "Tyre Replacement",
+        "General Servicing"
+      ]
+  }
+  test('should accept an object of services, update the technician, and return it', () => {
+  const newTechnician = {
+    _id: "63ce75449ae462be0adad72d",
+    __v: 0,
+    username: "test-tech-01",
+    firstName: "James",
+    lastName: "Wright",
+    address: {
+      addressLine: "12 Random Place",
+      postcode: "KF76 9LM",
+    },
+    contact: {
+      phoneNumber: "32985262985",
+      email: "jameswright@company.com",
+    },
+    technician: {
+      services: [
+        "Servicing and MOT",
+        "Clutch repairs",
+        "Engine and cooling",
+        "Tyre Replacement",
+        "General Servicing"
+      ],
+      reviews: [
+        {
+          _id: expect.any(String),
+          reviewBody: "Very good services :)",
+          rating: 4,
+          reviewedBy: 1,
+        },
+        {
+          _id: expect.any(String),
+          reviewBody: "Bad >:(",
+          rating: 1,
+          reviewedBy: 2,
+        },
+      ],
+    },
+    reviews: [],
+    avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
+  }
+  return request(app)
+  .patch("/api/technicians/63ce75449ae462be0adad72d")
+  .send(patchData)
+  .expect(200)
+  .then(({ body }) => {
+    expect(body).toEqual({...newTechnician})
+  })
+  });
+});

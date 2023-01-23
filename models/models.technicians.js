@@ -17,3 +17,13 @@ exports.findTechnician = async (id) => {
     console.error(e);
   }
 };
+
+exports.updateTechnician = async (id, updates) => {
+  try {
+    await User.updateOne({_id: id}, { $set: {"technician.services": updates.services} })
+    const updatedTechnician = await User.findById(id);
+    return updatedTechnician;
+  } catch (e) {
+    console.error(e);
+  }
+}
