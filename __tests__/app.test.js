@@ -18,6 +18,18 @@ afterAll(() => {
   return disconnect();
 });
 
+describe("404s on non-existent endpoints", () => {
+  test("status:404, responds with an appropriate error message", () => {
+    return request(app)
+      .get("/api/totally-a-real-endpoint")
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
+  });
+});
+
 describe("GET /api/technicians", () => {
   test("status:200, responds with a technicians array", () => {
     return request(app)
