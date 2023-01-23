@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
       reviews: [
         {
           reviewBody: { type: String, required: true },
-          rating: { type: String, required: true },
+          rating: { type: String, required: true, min: 0, max: 5 },
           reviewedBy: { type: String, required: true },
         },
       ],
@@ -47,9 +47,9 @@ const userSchema = new mongoose.Schema({
   },
   reviews: [
     {
-      reviewBody: String,
-      rating: String,
-      reviewedBy: String,
+      reviewBody: { type: String, required: true },
+      rating: { type: String, required: true, min: 0, max: 5 },
+      reviewedBy: { type: String, required: true },
     },
   ],
   avatarUrl: String,
