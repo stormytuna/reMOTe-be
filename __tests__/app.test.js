@@ -154,4 +154,13 @@ describe('PATCH /api/technicians/:user_id', () => {
     expect(body).toEqual({...newTechnician})
   })
   });
+  test('should respond with a 400 when provided with an invalid id', () => {
+    return request(app)
+    .patch("/api/technicians/not-an-id")
+    .send(patchData)
+    .expect(400)
+    .then((err) => {
+      console.log(err);
+    })
+  });
 });
