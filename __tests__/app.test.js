@@ -33,3 +33,63 @@ describe("GET /api/technicians", () => {
       });
   });
 });
+
+describe.only("POST /api/technicians", () => {
+  test("status:200, responds with the new technician object", () => {
+    const newTechnician = {
+      username: "ahmedH",
+      firstName: "Ahmed",
+      lastName: "Hussian",
+      address: {
+        addressLine: "1 Random Place",
+        postCode: "KF76 9LM",
+      },
+      contact: {
+        phoneNumber: "32985262985",
+        email: "ahmedhussain@company.com",
+      },
+      technician: {
+        services: [
+          "Servicing and MOT",
+          "Clutch repairs",
+          "Engine and cooling",
+          "Valleting",
+        ],
+      },
+
+      avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
+    };
+    return request(app)
+      .post("/api/technicians")
+      .send(newTechnician)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body).toEqual({
+          _id: expect.any(String),
+          __v: expect.any(Number),
+          username: "ahmedH",
+          firstName: "Ahmed",
+          lastName: "Hussian",
+          address: {
+            addressLine: "1 Random Place",
+            postCode: "KF76 9LM",
+          },
+          contact: {
+            phoneNumber: "32985262985",
+            email: "ahmedhussain@company.com",
+          },
+          technician: {
+            services: [
+              "Servicing and MOT",
+              "Clutch repairs",
+              "Engine and cooling",
+              "Valleting",
+            ],
+            reviews: [],
+          },
+          reviews: [],
+          avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
+        });
+      });
+  });
+});
