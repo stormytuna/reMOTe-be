@@ -11,8 +11,8 @@ exports.findTechnicians = async () => {
 
 exports.postTechnician = async (technician) => {
   try {
-    const newTechnician = await User.insertMany(technician);
-    return newTechnician[0];
+    const newTechnician = await User.create(technician);
+    return newTechnician;
   } catch (e) {
     console.error(e);
   }

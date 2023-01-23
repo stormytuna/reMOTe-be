@@ -34,7 +34,7 @@ describe("GET /api/technicians", () => {
   });
 });
 
-describe.only("POST /api/technicians", () => {
+describe("POST /api/technicians", () => {
   test("status:200, responds with the new technician object", () => {
     const newTechnician = {
       username: "ahmedH",
@@ -45,8 +45,8 @@ describe.only("POST /api/technicians", () => {
         postCode: "KF76 9LM",
       },
       contact: {
-        phoneNumber: "32985262985",
-        email: "ahmedhussain@company.com",
+        phoneNumber: "07470761588",
+        email: "ahmedhussain@gmail.com",
       },
       technician: {
         services: [
@@ -56,7 +56,6 @@ describe.only("POST /api/technicians", () => {
           "Valleting",
         ],
       },
-
       avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
     };
     return request(app)
@@ -64,7 +63,8 @@ describe.only("POST /api/technicians", () => {
       .send(newTechnician)
       .expect(201)
       .then(({ body }) => {
-        expect(body).toEqual({
+        const { technician } = body;
+        expect(technician).toEqual({
           _id: expect.any(String),
           __v: expect.any(Number),
           username: "ahmedH",
@@ -75,8 +75,8 @@ describe.only("POST /api/technicians", () => {
             postCode: "KF76 9LM",
           },
           contact: {
-            phoneNumber: "32985262985",
-            email: "ahmedhussain@company.com",
+            phoneNumber: "07470761588",
+            email: "ahmedhussain@gmail.com",
           },
           technician: {
             services: [

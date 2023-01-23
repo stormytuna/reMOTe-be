@@ -15,8 +15,7 @@ exports.getTechnicians = async (req, res, next) => {
 exports.createTechnician = async (req, res, next) => {
   try {
     const technician = await postTechnician(req.body);
-
-    res.status(201).send(technician);
+    res.status(201).send({ technician });
   } catch (err) {
     next(err);
   }
