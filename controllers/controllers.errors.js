@@ -6,6 +6,11 @@ exports.handleCustomErrors = (err, req, res, next) => {
   }
 };
 
+exports.handleMongoDBErrors = (err, req, res, next) => {
+  // Add mongodb error codes here
+  next(err);
+};
+
 exports.handle404s = (req, res, next) => {
   res.status(404).send({ msg: "Content not found" });
 };
