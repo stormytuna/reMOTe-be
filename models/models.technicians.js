@@ -8,3 +8,12 @@ exports.findTechnicians = async () => {
     console.error(e.message);
   }
 };
+
+exports.findTechnician = async (id) => {
+  try {
+    const technician = await User.findById(id);
+    return technician;
+  } catch (e) {
+    console.error(e);
+  }
+};

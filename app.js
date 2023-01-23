@@ -4,13 +4,17 @@ const {
   handle404s,
   handle500s,
 } = require("./controllers/controllers.errors");
-const { getTechnicians } = require("./controllers/controllers.technicians");
+const {
+  getTechnicians,
+  getTechnician,
+} = require("./controllers/controllers.technicians");
 
 const app = express();
 
 app.use(express.json());
 
-app.use("/api/technicians", getTechnicians);
+app.get("/api/technicians", getTechnicians);
+app.get("/api/technicians/:user_id", getTechnician);
 
 app.use(handleCustomErrors);
 app.use("/*", handle404s);
