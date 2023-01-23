@@ -8,3 +8,12 @@ exports.findTechnicians = async () => {
     console.error(e.message);
   }
 };
+
+exports.postTechnician = async (technician) => {
+  try {
+    const newTechnician = await User.insertMany(technician);
+    return newTechnician[0];
+  } catch (e) {
+    console.error(e);
+  }
+};

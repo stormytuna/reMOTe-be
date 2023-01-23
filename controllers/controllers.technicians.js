@@ -1,4 +1,7 @@
-const { findTechnicians } = require("../models/models.technicians");
+const {
+  findTechnicians,
+  postTechnician,
+} = require("../models/models.technicians");
 
 exports.getTechnicians = async (req, res, next) => {
   try {
@@ -6,5 +9,15 @@ exports.getTechnicians = async (req, res, next) => {
     res.status(200).send({ technicians });
   } catch (e) {
     next(e);
+  }
+};
+
+exports.createTechnician = async (req, res, next) => {
+  try {
+    const technician = await postTechnician(req.body);
+
+    res.status(201).send(technician);
+  } catch (err) {
+    next(err);
   }
 };

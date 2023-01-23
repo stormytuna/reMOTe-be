@@ -1,10 +1,14 @@
 const express = require("express");
-const { getTechnicians } = require("./controllers/controllers.technicians");
+const {
+  getTechnicians,
+  createTechnician,
+} = require("./controllers/controllers.technicians");
 
 const app = express();
 
 app.use(express.json());
 
-app.use("/api/technicians", getTechnicians);
+app.get("/api/technicians", getTechnicians);
+app.post("/api/technicians", createTechnician);
 
 module.exports = app;
