@@ -155,7 +155,7 @@ describe("POST /api/technicians/:user_id/reviews", () => {
         expect(technician.technician.reviews).toHaveLength(3);
         expect(technician.technician.reviews[2]).toMatchObject({
         reviewBody: "This man is a car maniac! 5/7",
-        rating: "4",
+        rating: 4,
         reviewedBy: "1",})
       });
   });

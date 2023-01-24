@@ -4,7 +4,6 @@ const {
   handleMongoDBErrors,
   handle404s,
   handle500s,
-  handleMongoDBErrors,
 } = require("./controllers/controllers.errors");
 
 const {

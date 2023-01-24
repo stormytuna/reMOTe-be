@@ -36,6 +36,7 @@ exports.postReviewForTech = async (id, review) => {
   await User.findOneAndUpdate({ _id: id }, {$push: {['technician.reviews']: review }})
   return await User.findById({ _id: id });
 }
+
 exports.updateTechnician = async (id, updates) => {
     await User.findOneAndUpdate({_id: id}, { $push: {"technician.services": updates} })
     return await User.findById(id);
