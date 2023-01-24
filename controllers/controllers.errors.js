@@ -2,13 +2,16 @@ exports.handleCustomErrors = (err, req, res, next) => {
   if (err.status && err.msg) {
     res.status(err.status).send({ msg: err.msg });
   } else {
-    next(error);
+    next(err);
   }
 };
 
 exports.handleMongoDBErrors = (err, req, res, next) => {
-  // Add mongodb error codes here
+  if (err.name === 'CastError') {
+    res.status(400).send({ msg: "Bad Request" })
+  } else {
   next(err);
+  }
 };
 
 exports.handle404s = (req, res, next) => {
@@ -16,6 +19,5 @@ exports.handle404s = (req, res, next) => {
 };
 
 exports.handle500s = (err, req, res, next) => {
-  console.log(err);
   res.status(500).send({ msg: "Internal server error" });
 };
