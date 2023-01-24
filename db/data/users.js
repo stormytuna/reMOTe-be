@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { postcodeRegex, phoneNumberRegex } = require("../../utils");
+const { postcodeRegex, phoneNumberRegex, emailRegex } = require("../../utils");
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -13,9 +13,8 @@ const userSchema = new mongoose.Schema({
     addressLine: String,
     postcode: {
       type: String,
-      validator: function (value) {
-        return postcodeRegex.test(value);
-      },
+      validator: (value) => postcodeRegex.test(value),
+      message: (props) => `${props.value} is not a valid postcode`,
     },
   },
   contact: {
@@ -24,16 +23,17 @@ const userSchema = new mongoose.Schema({
       required: true,
       unique: true,
       validate: {
-        validator: function (value) {
-          console.log(value);
-          return phoneNumberRegex.test(value);
-        },
+        validator: (value) => phoneNumberRegex.test(value),
         message: (props) => `${props.value} is not a valid phone number`,
       },
     },
     email: {
       type: String,
       unique: true,
+      validate: {
+        validator: (value) => emailRegex.test(value),
+        message: (props) => `${props.value} is not a valid email`,
+      },
     },
   },
   technician: {
