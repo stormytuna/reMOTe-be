@@ -167,3 +167,71 @@ describe("GET /api/technicians/:user_id", () => {
       });
   });
 });
+
+describe("POST /api/users/:user_id/reviews", () => {
+  test("status:201, responds with the newly updated user", () => {
+    return request(app)
+      .post("/api/users/63ce75449ae462be0adad72a/reviews")
+      .send({
+        reviewBody: "This is a test review",
+        rating: 3,
+        reviewedBy: 15,
+      })
+      .expect(201)
+      .then(({ body }) => {
+        const { user } = body;
+        expect(user._id).toEqual("63ce75449ae462be0adad72a");
+        expect(user.reviews).toHaveLength(1);
+        expect(user.reviews[0]).toMatchObject({
+          reviewBody: "This is a test review",
+          rating: 3,
+          reviewedBy: 15,
+        });
+      });
+  });
+
+  test("status:400, responds with an appropriate error message when given a malformed body", () => {
+    return request(app)
+      .post("/api/users/63ce75449ae462be0adad72a/reviews")
+      .send({
+        abnisfn: "This is a test review",
+        regegegg: 3,
+        sarfawsrse: 15,
+      })
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("status:400, responds with an appropriate error message when given a review that fails schema validation", () => {
+    return request(app)
+      .post("/api/users/63ce75449ae462be0adad72a/reviews")
+      .send({
+        reviewBody: "This is a test review",
+        rating: "aaa",
+        reviewedBy: 15,
+      })
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("status:400, responds with an appropriate error message when our given user ID isn't valid", () => {
+    return request(app)
+      .post("/api/users/totally-a-real-user/reviews")
+      .send({
+        reviewBody: "This is a test review",
+        rating: 3,
+        reviewedBy: 15,
+      })
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+});
