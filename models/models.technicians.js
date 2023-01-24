@@ -33,7 +33,6 @@ exports.findTechnician = async (id) => {
 };
 
 exports.postReviewForTech = async (id, review) => {
-
   const { reviewBody, rating, reviewedBy, ...rest } = review;
   if (
     Object.keys(rest).length > 0 ||
@@ -44,9 +43,12 @@ exports.postReviewForTech = async (id, review) => {
     return Promise.reject({ status: 400, msg: "Bad request" });
   }
 
-  await User.findOneAndUpdate({ _id: id }, {$push: {['technician.reviews']: review }})
+  await User.findOneAndUpdate(
+    { _id: id },
+    { $push: { ["technician.reviews"]: review } }
+  );
   return await User.findById({ _id: id });
-}
+};
 
 exports.updateTechnician = async (id, updates) => {
   await User.findOneAndUpdate(
