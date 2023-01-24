@@ -21,10 +21,12 @@ exports.postTechnician = async (technician) => {
 };
 
 exports.findTechnician = async (id) => {
-  try {
-    const technician = await User.findById(id);
-    return technician;
-  } catch (e) {
-    console.error(e);
+  const technician = await User.findById(id);
+
+  // Check 404s
+  if (!technician) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
   }
+
+  return technician;
 };

@@ -250,4 +250,24 @@ describe("GET /api/technicians/:user_id", () => {
         });
       });
   });
+
+  test("status:400, responds with an appropriate message when given user ID is invalid", () => {
+    return request(app)
+      .get("/api/technicians/totally-a-real-user")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("status:404, responds with an appropriate error message when given user ID doesn't exist", () => {
+    return request(app)
+      .get("/api/technicians/63ce754ddddd62be0adad72d")
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
+  });
 });

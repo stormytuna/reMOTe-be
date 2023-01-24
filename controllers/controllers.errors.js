@@ -8,10 +8,13 @@ exports.handleCustomErrors = (err, req, res, next) => {
 
 exports.handleMongoDBErrors = (err, req, res, next) => {
   // Add mongodb error codes here
-  if (err._message === "User validation failed") {
+  const failedValidation = err._message === "User validation failed";
+  const invalidId = ("" + err.reason).startsWith("BSONTypeError:");
+  if (failedValidation || invalidId) {
     res.status(400).send({ msg: "Bad request" });
+  } else {
+    next(err);
   }
-  next(err);
 };
 
 exports.handle404s = (req, res, next) => {
@@ -19,6 +22,6 @@ exports.handle404s = (req, res, next) => {
 };
 
 exports.handle500s = (err, req, res, next) => {
-  // console.log(err);
+  console.log(err);
   res.status(500).send({ msg: "Internal server error" });
 };
