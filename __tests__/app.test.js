@@ -31,7 +31,7 @@ describe("404s on non-existent endpoints", () => {
 });
 
 describe("GET /api/technicians", () => {
-  test("status:200, responds with a technicians array", () => {
+  test("status:200, responds with an array of technicians", () => {
     return request(app)
       .get("/api/technicians")
       .expect(200)
@@ -235,7 +235,7 @@ describe("POST /api/technicians", () => {
 });
 
 describe("GET /api/technicians/:user_id", () => {
-  test("status:200, responds with a technician with the given id", () => {
+  test("status:200, responds with the technician with the given id", () => {
     return request(app)
       .get("/api/technicians/63ce75449ae462be0adad72d")
       .expect(200)
@@ -251,7 +251,7 @@ describe("GET /api/technicians/:user_id", () => {
       });
   });
 
-  test("status:400, responds with an appropriate message when given user ID is invalid", () => {
+  test("status:400, responds with an appropriate error message when given user ID is invalid", () => {
     return request(app)
       .get("/api/technicians/totally-a-real-user")
       .expect(400)
@@ -261,7 +261,7 @@ describe("GET /api/technicians/:user_id", () => {
       });
   });
 
-  test("status:404, responds with an appropriate error message when given user ID doesn't exist", () => {
+  test("status:404, responds with an appropriate error when provided a valid ID but no user exists", () => {
     return request(app)
       .get("/api/technicians/63ce754ddddd62be0adad72d")
       .expect(404)
@@ -273,7 +273,7 @@ describe("GET /api/technicians/:user_id", () => {
 });
 
 describe("POST /api/technicians/:user_id/reviews", () => {
-  test("status:201, adds new review to the technician object", () => {
+  test("status:201, updates the users technician.reviews array with the given review object", () => {
     const newReview = {
       reviewBody: "This man is a car maniac! 5/7",
       rating: 4,
@@ -294,6 +294,7 @@ describe("POST /api/technicians/:user_id/reviews", () => {
         });
       });
   });
+
   test("status:400, responds with an appropriate error message when given a malformed body", () => {
     return request(app)
       .post("/api/technicians/63ce75449ae462be0adad72d/reviews")
@@ -308,7 +309,8 @@ describe("POST /api/technicians/:user_id/reviews", () => {
         expect(msg).toBe("Bad request");
       });
   });
-  test("status:400, responds with an appropriate error message when given a review that fails schema validation", () => {
+
+  test("status:400, responds with an appropriate error message when given body fails schema validation", () => {
     return request(app)
       .post("/api/technicians/63ce75449ae462be0adad72d/reviews")
       .send({
@@ -322,7 +324,8 @@ describe("POST /api/technicians/:user_id/reviews", () => {
         expect(msg).toBe("Bad request");
       });
   });
-  test("status:400, responds with an appropriate error message when our given user ID isn't valid", () => {
+
+  test("status:400, responds with an appropriate error message when given user ID is invalid", () => {
     return request(app)
       .post("/api/technicians/not-a-user/reviews")
       .send({
@@ -336,6 +339,7 @@ describe("POST /api/technicians/:user_id/reviews", () => {
         expect(msg).toBe("Bad request");
       });
   });
+
   test("status:404, responds with an appropriate error when provided a valid ID but no user exists", () => {
     return request(app)
       .get("/api/technicians/63ce75449ae462be0adad72z/reviews")
@@ -349,7 +353,7 @@ describe("POST /api/technicians/:user_id/reviews", () => {
 
 describe("PATCH /api/technicians/:user_id", () => {
   const patchData = { name: "Tyre Replacement", price: 50 };
-  test("status:200, should accept an object of services, update the technician, and return it", () => {
+  test("status:200, replaces the users technician.services array with the given services array", () => {
     return request(app)
       .patch("/api/technicians/63ce75449ae462be0adad72d")
       .send(patchData)
@@ -390,7 +394,7 @@ describe("PATCH /api/technicians/:user_id", () => {
       });
   });
 
-  test("status:400, should respond with an appropriate error message when provided an invalid id", () => {
+  test("status:400, should respond with an appropriate error message when given user ID is invalid", () => {
     return request(app)
       .patch("/api/technicians/not-an-id")
       .send(patchData)
@@ -401,7 +405,7 @@ describe("PATCH /api/technicians/:user_id", () => {
       });
   });
 
-  test("status:404, should respond with an appropriate error message when given id does not exist", () => {
+  test("status:404, responds with an appropriate error when provided a valid ID but no user exists", () => {
     return request(app)
       .patch("/api/technicians/63ce7544aaaaa2be0adad72d")
       .send(patchData)
