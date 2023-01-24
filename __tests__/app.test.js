@@ -154,22 +154,37 @@ describe('PATCH /api/technicians/:user_id', () => {
   });
   test('should respond with a 400 when provided with an invalid id', () => {
     return request(app)
-    .patch("/api/technicians/not-an-id")
-    .send(patchData)
-    .expect(400)
-    .then(({ body }) => {
-      const { msg } = body;
-      expect(msg).toBe('Bad Request')
-    })
+      .patch("/api/technicians/63ce75449ae462be0adad72d")
+      .send(patchData)
+      .expect(200)
+      .then(({ body }) => {
+        const { technician } = body;
+        expect(technician.technician.services).toMatchObject([
+          { name: "Servicing and MOT", price: 500 },
+          { name: "Clutch repairs", price: 5000 },
+        ]);
+      });
   });
-  test('should respond with a 400 when id not found', () => {
+
+  test("should respond with a 400 when provided with an invalid id", () => {
     return request(app)
-    .patch('/api/technicians/63ce75449ae462be0adad72g')
-    .send(patchData)
-    .expect(400)
-    .then(({ body }) => {
-      const { msg } = body;
-      expect(msg).toBe('Bad Request');
-    })
+      .patch("/api/technicians/not-an-id")
+      .send(patchData)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad Request");
+      });
+  });
+
+  test("should respond with a 400 when id not found", () => {
+    return request(app)
+      .patch("/api/technicians/63ce75449ae462be0adad72g")
+      .send(patchData)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad Request");
+      });
   });
 });

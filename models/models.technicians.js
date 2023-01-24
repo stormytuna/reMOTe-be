@@ -1,8 +1,10 @@
 const User = require("../db/data/users");
 
 exports.findTechnicians = async () => {
-    const technicians = await User.find({ "technician.services": { $ne: [] } });
-    return technicians;
+  const technicians = await User.find({
+    technician: { $ne: null },
+  });
+  return technicians;
 };
 
 exports.findTechnician = async (id) => {
@@ -14,7 +16,7 @@ exports.postTechnician = async (technician) => {
   try {
     const newTechnician = await User.create(technician);
     return newTechnician;
-    } catch (e) {
+  } catch (e) {
     console.error(e);
   }
 };
