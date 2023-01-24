@@ -3,6 +3,7 @@ exports.handleCustomErrors = (err, req, res, next) => {
     res.status(err.status).send({ msg: err.msg });
   } else {
     next(err);
+    next(err);
   }
 };
 
@@ -19,6 +20,5 @@ exports.handle404s = (req, res, next) => {
 };
 
 exports.handle500s = (err, req, res, next) => {
-  console.log(err);
   res.status(500).send({ msg: "Internal server error" });
 };

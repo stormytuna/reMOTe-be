@@ -2,7 +2,8 @@ const {
   findTechnicians,
   postTechnician,
   findTechnician,
-  postReviewForTech
+  postReviewForTech,
+  updateTechnician,
 } = require("../models/models.technicians");
 
 exports.getTechnicians = async (req, res, next) => {
@@ -14,19 +15,38 @@ exports.getTechnicians = async (req, res, next) => {
   }
 };
 
-
 exports.createTechnician = async (req, res, next) => {
   try {
     const technician = await postTechnician(req.body);
     res.status(201).send({ technician });
   } catch (err) {
     next(err);
-    }
+  }
 };
 
 exports.getTechnician = async (req, res, next) => {
   try {
     const technician = await findTechnician(req.params.user_id);
+    res.status(200).send({ technician });
+  } catch (e) {
+    next(e);
+  }
+};
+
+
+exports.createReviewforTech = async (req, res, next) => {
+    try {
+      const technician = await postReviewForTech(req.params.user_id, req.body);
+      res.status(201).send({ technician })
+    } catch (e) {
+      next(e);
+    }
+}
+exports.patchTechnician = async (req, res, next) => {
+  const updates = req.body;
+  const id = req.params.user_id;
+  try {
+    const technician = await updateTechnician(id, updates);
     res.status(200).send({ technician });
   } catch (e) {
     next(e);
