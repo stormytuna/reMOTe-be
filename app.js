@@ -10,6 +10,7 @@ const {
   createTechnician,
   getTechnicians,
   getTechnician,
+  createReviewforTech,
   patchTechnician,
 } = require("./controllers/controllers.technicians");
 
@@ -23,12 +24,13 @@ app.post("/api/technicians", createTechnician);
 
 app.get("/api/technicians/:user_id", getTechnician);
 
+app.post("/api/technicians/:user_id/reviews", createReviewforTech);
+
 app.patch("/api/technicians/:user_id", patchTechnician);
 
 app.all("*", handle404s);
 app.use(handleCustomErrors);
 app.use(handleMongoDBErrors);
-app.use("/*", handle404s);
 app.use(handle500s);
 
 module.exports = app;

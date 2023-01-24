@@ -272,54 +272,77 @@ describe("GET /api/technicians/:user_id", () => {
   });
 });
 
-describe('PATCH /api/technicians/:user_id', () => {
-  const patchData = {name: 'Tyre Replacement', price: 50}
-  test('should accept an object of services, update the technician, and return it', () => {
-  return request(app)
-  .patch("/api/technicians/63ce75449ae462be0adad72d")
-  .send(patchData)
-  .expect(200)
-  .then(({ body }) => {
-    const { updatedTechnician } = body;
-    console.log(updatedTechnician)
-    expect(updatedTechnician._id).toEqual('63ce75449ae462be0adad72d')
-    expect(updatedTechnician.technician.services).toHaveLength(4)
-    expect(updatedTechnician.technician.services[3]).toEqual({...patchData, _id: expect.any(String)});
-  })
-  });
-  test('should respond with a 400 when provided with an invalid id', () => {
+
+describe("POST /api/technicians/:user_id/reviews", () => {
+  test("status:201, adds new review to the technician object", () => {
+    const newReview = {
+          reviewBody: "This man is a car maniac! 5/7",
+          rating: 4,
+          reviewedBy: 1,
+    }
     return request(app)
-      .patch("/api/technicians/63ce75449ae462be0adad72d")
-      .send(patchData)
-      .expect(200)
+      .post ("/api/technicians/63ce75449ae462be0adad72d/reviews")
+      .send(newReview)
+      .expect(201)
       .then(({ body }) => {
         const { technician } = body;
-        expect(technician.technician.services).toMatchObject([
-          { name: "Servicing and MOT", price: 500 },
-          { name: "Clutch repairs", price: 5000 },
-        ]);
+        expect(technician._id).toEqual('63ce75449ae462be0adad72d')
+        expect(technician.technician.reviews).toHaveLength(3);
+        expect(technician.technician.reviews[2]).toMatchObject({
+        reviewBody: "This man is a car maniac! 5/7",
+        rating: 4,
+        reviewedBy: "1",})
       });
   });
-
-  test("should respond with a 400 when provided with an invalid id", () => {
+  test("status:400, responds with an appropriate error message when given a malformed body", () => {
     return request(app)
-      .patch("/api/technicians/not-an-id")
-      .send(patchData)
+      .post("/api/technicians/63ce75449ae462be0adad72d/reviews")
+      .send({
+        abnisfn: "This is a test review",
+        regegegg: 3,
+        sarfawsrse: 15,
+      })
       .expect(400)
       .then(({ body }) => {
         const { msg } = body;
-        expect(msg).toBe("Bad Request");
+        expect(msg).toBe("Bad request");
       });
   });
-
-  test("should respond with a 400 when id not found", () => {
+  test("status:400, responds with an appropriate error message when given a review that fails schema validation", () => {
     return request(app)
-      .patch("/api/technicians/63ce75449ae462be0adad72g")
-      .send(patchData)
+      .post("/api/technicians/63ce75449ae462be0adad72d/reviews")
+      .send({
+        reviewBody: "This is a test review",
+        rating: "aaa",
+        reviewedBy: 15,
+      })
       .expect(400)
       .then(({ body }) => {
         const { msg } = body;
-        expect(msg).toBe("Bad Request");
+        expect(msg).toBe("Bad request");
+      });
+  });
+  test("status:400, responds with an appropriate error message when our given user ID isn't valid", () => {
+    return request(app)
+      .post("/api/technicians/not-a-user/reviews")
+      .send({
+        reviewBody: "This is a test review",
+        rating: 3,
+        reviewedBy: 15,
+      })
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+  test("status:404, responds with an appropriate error when provided a valid ID but no user exists", () => {
+    return request(app)
+      .get("/api/technicians/63ce75449ae462be0adad72z/reviews")
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
       });
   });
 });
