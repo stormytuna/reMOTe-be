@@ -14,14 +14,13 @@ exports.getTechnicians = async (req, res, next) => {
   }
 };
 
-
 exports.createTechnician = async (req, res, next) => {
   try {
     const technician = await postTechnician(req.body);
     res.status(201).send({ technician });
   } catch (err) {
     next(err);
-    }
+  }
 };
 
 exports.getTechnician = async (req, res, next) => {
@@ -37,10 +36,9 @@ exports.patchTechnician = async (req, res, next) => {
   const updates = req.body;
   const id = req.params.user_id;
   try {
-    await updateTechnician(id, updates)
-    const updatedTechnician = await findTechnician(id);
-    res.status(200).send(updatedTechnician)
-  } catch (e){
+    const technician = await updateTechnician(id, updates);
+    res.status(200).send({ technician });
+  } catch (e) {
     next(e);
   }
 };
