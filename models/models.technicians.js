@@ -12,12 +12,12 @@ exports.findTechnicians = async () => {
 };
 
 exports.postTechnician = async (technician) => {
-  try {
-    const newTechnician = await User.create(technician);
-    return newTechnician;
-    } catch (e) {
-    console.error(e);
+  if (technician.technician === null) {
+    return Promise.reject({ status: 400, msg: "Bad request" });
   }
+
+  const newTechnician = await User.create(technician);
+  return newTechnician;
 };
 
 exports.findTechnician = async (id) => {

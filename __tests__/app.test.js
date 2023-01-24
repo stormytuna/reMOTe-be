@@ -129,6 +129,109 @@ describe("POST /api/technicians", () => {
         });
       });
   });
+
+  test("status:400, responds with an appropriate error message when given a malformed body", () => {
+    const newTechnician = {
+      wfvvs: "ahmedH",
+      gsfgsd: "Ahmed",
+      lastName: "Hussian",
+      address: {
+        vbdfgsd: "1 Random Place",
+        postcode: "KF76 9LM",
+      },
+      contact: {
+        vcsvsdfsd: "07470761588",
+        email: "ahmedhussain@gmail.com",
+      },
+      technician: {
+        services: [
+          {
+            vsdvsgf: "Servicing and MOT",
+            price: 50,
+          },
+          {
+            name: "Clutch repairs",
+            price: 60,
+          },
+          {
+            name: "Engine and cooling",
+            vsdgs: 500,
+            description: "Something",
+          },
+          {
+            name: "Valeting",
+            vsgs: 5000,
+          },
+        ],
+      },
+      avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
+    };
+
+    return request(app)
+      .post("/api/technicians")
+      .send(newTechnician)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("status:400, responds with an appropriate error message when given a body that fails schema validation", () => {
+    const newTechnician = {
+      username: "ahmedH",
+      firstName: "Ahmed",
+      lastName: "Hussian",
+      address: {
+        addressLine: "1 Random Place",
+        postcode: "KF76 9LM",
+      },
+      contact: {
+        phoneNumber: "07470761588",
+        email: "ahmedhussain@gmail.com",
+      },
+      technician: {
+        services: "something",
+      },
+      avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
+    };
+
+    return request(app)
+      .post("/api/technicians")
+      .send(newTechnician)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("status:400, responds with an appropriate error message when given a body with a null technician", () => {
+    const newTechnician = {
+      username: "ahmedH",
+      firstName: "Ahmed",
+      lastName: "Hussian",
+      address: {
+        addressLine: "1 Random Place",
+        postcode: "KF76 9LM",
+      },
+      contact: {
+        phoneNumber: "07470761588",
+        email: "ahmedhussain@gmail.com",
+      },
+      technician: null,
+      avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
+    };
+
+    return request(app)
+      .post("/api/technicians")
+      .send(newTechnician)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
 });
 
 describe("GET /api/technicians/:user_id", () => {
