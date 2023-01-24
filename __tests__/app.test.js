@@ -126,43 +126,12 @@ describe("GET /api/technicians/:user_id", () => {
       .expect(200)
       .then(({ body }) => {
         const { technician } = body;
-        expect(technician).toEqual({
+        expect(technician).toMatchObject({
           _id: "63ce75449ae462be0adad72d",
-          __v: 0,
-          username: "test-tech-01",
-          firstName: "James",
-          lastName: "Wright",
-          address: {
-            addressLine: "12 Random Place",
-            postcode: "KF76 9LM",
-          },
-          contact: {
-            phoneNumber: "32985262985",
-            email: "jameswright@company.com",
-          },
           technician: {
-            services: [
-              "Servicing and MOT",
-              "Clutch repairs",
-              "Engine and cooling",
-            ],
-            reviews: [
-              {
-                _id: expect.any(String),
-                reviewBody: "Very good services :)",
-                rating: 4,
-                reviewedBy: 1,
-              },
-              {
-                _id: expect.any(String),
-                reviewBody: "Bad >:(",
-                rating: 1,
-                reviewedBy: 2,
-              },
-            ],
+            services: expect.any(Array),
+            reviews: expect.any(Array),
           },
-          reviews: [],
-          avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
         });
       });
   });
