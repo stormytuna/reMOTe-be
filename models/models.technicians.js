@@ -28,3 +28,19 @@ exports.findTechnician = async (id) => {
     console.error(e);
   }
 };
+
+exports.postReviewForTech = async (id, review) => {
+
+  const { reviewBody, rating, reviewedBy, ...rest } = review;
+  if (
+    Object.keys(rest).length > 0 ||
+    typeof reviewBody !== "string" ||
+    typeof rating !== "number" ||
+    typeof reviewedBy !== "number"
+  ) {
+    return Promise.reject({ status: 400, msg: "Bad request" });
+  }
+
+  await User.findOneAndUpdate({ _id: id }, {$push: {['technician.reviews']: review }})
+  return await User.findById({ _id: id });
+}

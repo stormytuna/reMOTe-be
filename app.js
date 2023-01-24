@@ -3,12 +3,14 @@ const {
   handleCustomErrors,
   handle404s,
   handle500s,
+  handleMongoDBErrors,
 } = require("./controllers/controllers.errors");
 
 const {
   createTechnician,
   getTechnicians,
   getTechnician,
+  createReviewforTech
 } = require("./controllers/controllers.technicians");
 
 const app = express();
@@ -21,7 +23,11 @@ app.post("/api/technicians", createTechnician);
 
 app.get("/api/technicians/:user_id", getTechnician);
 
+app.post("/api/technicians/:user_id/reviews", createReviewforTech)
+
+
 app.use(handleCustomErrors);
+app.use(handleMongoDBErrors);
 app.use("/*", handle404s);
 app.use(handle500s);
 
