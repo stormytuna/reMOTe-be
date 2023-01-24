@@ -1,15 +1,16 @@
 const express = require("express");
 const {
   handleCustomErrors,
+  handleMongoDBErrors,
   handle404s,
   handle500s,
-  handleMongoDBErrors,
 } = require("./controllers/controllers.errors");
 
 const {
   createTechnician,
   getTechnicians,
   getTechnician,
+  patchTechnician,
 } = require("./controllers/controllers.technicians");
 
 const app = express();
@@ -22,6 +23,9 @@ app.post("/api/technicians", createTechnician);
 
 app.get("/api/technicians/:user_id", getTechnician);
 
+app.patch("/api/technicians/:user_id", patchTechnician);
+
+app.all("*", handle404s);
 app.use(handleCustomErrors);
 app.use(handleMongoDBErrors);
 app.use("/*", handle404s);

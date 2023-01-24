@@ -271,3 +271,55 @@ describe("GET /api/technicians/:user_id", () => {
       });
   });
 });
+
+describe('PATCH /api/technicians/:user_id', () => {
+  const patchData = {name: 'Tyre Replacement', price: 50}
+  test('should accept an object of services, update the technician, and return it', () => {
+  return request(app)
+  .patch("/api/technicians/63ce75449ae462be0adad72d")
+  .send(patchData)
+  .expect(200)
+  .then(({ body }) => {
+    const { updatedTechnician } = body;
+    console.log(updatedTechnician)
+    expect(updatedTechnician._id).toEqual('63ce75449ae462be0adad72d')
+    expect(updatedTechnician.technician.services).toHaveLength(4)
+    expect(updatedTechnician.technician.services[3]).toEqual({...patchData, _id: expect.any(String)});
+  })
+  });
+  test('should respond with a 400 when provided with an invalid id', () => {
+    return request(app)
+      .patch("/api/technicians/63ce75449ae462be0adad72d")
+      .send(patchData)
+      .expect(200)
+      .then(({ body }) => {
+        const { technician } = body;
+        expect(technician.technician.services).toMatchObject([
+          { name: "Servicing and MOT", price: 500 },
+          { name: "Clutch repairs", price: 5000 },
+        ]);
+      });
+  });
+
+  test("should respond with a 400 when provided with an invalid id", () => {
+    return request(app)
+      .patch("/api/technicians/not-an-id")
+      .send(patchData)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad Request");
+      });
+  });
+
+  test("should respond with a 400 when id not found", () => {
+    return request(app)
+      .patch("/api/technicians/63ce75449ae462be0adad72g")
+      .send(patchData)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad Request");
+      });
+  });
+});
