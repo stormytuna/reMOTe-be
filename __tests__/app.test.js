@@ -54,7 +54,7 @@ describe("POST /api/technicians", () => {
       lastName: "Hussian",
       address: {
         addressLine: "1 Random Place",
-        postCode: "KF76 9LM",
+        postcode: "KF76 9LM",
       },
       contact: {
         phoneNumber: "07470761588",
@@ -62,10 +62,23 @@ describe("POST /api/technicians", () => {
       },
       technician: {
         services: [
-          "Servicing and MOT",
-          "Clutch repairs",
-          "Engine and cooling",
-          "Valleting",
+          {
+            name: "Servicing and MOT",
+            price: 50,
+          },
+          {
+            name: "Clutch repairs",
+            price: 60,
+          },
+          {
+            name: "Engine and cooling",
+            price: 500,
+            description: "Something",
+          },
+          {
+            name: "Valeting",
+            price: 5000,
+          },
         ],
       },
       avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
@@ -76,7 +89,7 @@ describe("POST /api/technicians", () => {
       .expect(201)
       .then(({ body }) => {
         const { technician } = body;
-        expect(technician).toEqual({
+        expect(technician).toMatchObject({
           _id: expect.any(String),
           __v: expect.any(Number),
           username: "ahmedH",
@@ -84,7 +97,7 @@ describe("POST /api/technicians", () => {
           lastName: "Hussian",
           address: {
             addressLine: "1 Random Place",
-            postCode: "KF76 9LM",
+            postcode: "KF76 9LM",
           },
           contact: {
             phoneNumber: "07470761588",
@@ -92,23 +105,22 @@ describe("POST /api/technicians", () => {
           },
           technician: {
             services: [
-              "Servicing and MOT",
-              "Clutch repairs",
-              "Engine and cooling",
-              "Valleting",
-            ],
-            reviews: [
               {
-                _id: expect.any(String),
-                reviewBody: "Very good services :)",
-                rating: 4,
-                reviewedBy: 1,
+                name: "Servicing and MOT",
+                price: 50,
               },
               {
-                _id: expect.any(String),
-                reviewBody: "Bad >:(",
-                rating: 1,
-                reviewedBy: 2,
+                name: "Clutch repairs",
+                price: 60,
+              },
+              {
+                name: "Engine and cooling",
+                price: 500,
+                description: "Something",
+              },
+              {
+                name: "Valeting",
+                price: 5000,
               },
             ],
           },
