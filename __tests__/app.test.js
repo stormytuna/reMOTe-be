@@ -138,7 +138,7 @@ describe("GET /api/technicians/:user_id", () => {
 });
 
 
-describe.only("POST /api/technicians/:user_id/reviews", () => {
+describe("POST /api/technicians/:user_id/reviews", () => {
   test("status:201, adds new review to the technician object", () => {
     const newReview = {
           reviewBody: "This man is a car maniac! 5/7",
@@ -201,11 +201,13 @@ describe.only("POST /api/technicians/:user_id/reviews", () => {
         expect(msg).toBe("Bad request");
       });
   });
+  test("status:404, responds with an appropriate error when provided a valid ID but no user exists", () => {
+    return request(app)
+      .get("/api/technicians/63ce75449ae462be0adad72z/reviews")
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
+  });
 });
-
-
-
-
-
-
-
