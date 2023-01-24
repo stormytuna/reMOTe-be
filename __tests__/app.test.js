@@ -360,7 +360,6 @@ describe("PATCH /api/technicians/:user_id", () => {
       .expect(200)
       .then(({ body }) => {
         const { technician } = body;
-        console.log(technician);
         expect(technician._id).toEqual("63ce75449ae462be0adad72d");
         expect(technician.technician.services).toHaveLength(4);
         expect(technician.technician.services[3]).toEqual({
