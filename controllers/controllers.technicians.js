@@ -30,6 +30,6 @@ exports.patchTechnician = async (req, res, next) => {
     const updatedTechnician = await findTechnician(id);
     res.status(200).send(updatedTechnician)
   } catch (e){
-    return next(e);
+    next(e);
   }
 };

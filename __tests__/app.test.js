@@ -159,8 +159,19 @@ describe('PATCH /api/technicians/:user_id', () => {
     .patch("/api/technicians/not-an-id")
     .send(patchData)
     .expect(400)
-    .then((err) => {
-      console.log(err);
+    .then(({ body }) => {
+      const { msg } = body;
+      expect(msg).toBe('Bad Request')
+    })
+  });
+  test('should respond with a 400 when id not found', () => {
+    return request(app)
+    .patch('/api/technicians/63ce75449ae462be0adad72g')
+    .send(patchData)
+    .expect(400)
+    .then(({ body }) => {
+      const { msg } = body;
+      expect(msg).toBe('Bad Request');
     })
   });
 });
