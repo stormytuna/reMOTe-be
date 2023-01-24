@@ -1,5 +1,6 @@
 const {
   findTechnicians,
+  postTechnician,
   findTechnician,
   updateTechnician,
 } = require("../models/models.technicians");
@@ -11,6 +12,16 @@ exports.getTechnicians = async (req, res, next) => {
   } catch (e) {
     next(e);
   }
+};
+
+
+exports.createTechnician = async (req, res, next) => {
+  try {
+    const technician = await postTechnician(req.body);
+    res.status(201).send({ technician });
+  } catch (err) {
+    next(err);
+    }
 };
 
 exports.getTechnician = async (req, res, next) => {

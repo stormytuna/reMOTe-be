@@ -12,7 +12,6 @@
       "phoneNumber": "123456789",
       "email": "davidsmith@company.com"
     },
-    "technician": {},
     "reviews": [ ],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
@@ -29,7 +28,6 @@
       "phoneNumber": "4567890123",
       "email": "johnswash@company.com"
     },
-    "technician": {},
     "reviews": [ ],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
@@ -43,10 +41,9 @@
       "postcode": "AB12 3CF"
     },
     "contact": {
-      "phoneNumber": "32476654238",
+      "phoneNumber": "32985262132",
       "email": "alexsomething@company.com"
     },
-    "technician": {},
     "reviews": [ ],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
@@ -60,14 +57,23 @@
       "postcode": "KF76 9LM"
     },
     "contact": {
-      "phoneNumber": "32985262985",
+      "phoneNumber": "32985262911",
       "email": "jameswright@company.com"
     },
     "technician": {
       "services": [
-        "Servicing and MOT",
-        "Clutch repairs",
-        "Engine and cooling"
+        {
+          "name": "Clutch repairs",
+          "price": 100
+        },
+        {
+          "name": "Breakdown and recovery",
+          "price": 1000
+        },
+        {
+          "name": "Tyres, wheels and tracking",
+          "price": 10000
+        }
       ],
       "reviews": [
         {
@@ -78,7 +84,7 @@
         {
           "reviewBody": "Bad >:(",
           "rating": 1,
-          "reviewedBy": 2
+          "reviewedBy": "63ce75449ae462be0adad72a"
         }
        ]
     },
@@ -100,16 +106,28 @@
     },
     "technician": {
       "services": [
-        "Servicing and MOT",
-        "Clutch repairs",
-        "Breakdown and recovery",
-        "Tyres, wheels and tracking"
+        {
+          "name": "Servicing and MOT",
+          "price": 100
+        },
+        {
+          "name": "Clutch repairs",
+          "price": 1000
+        },
+        {
+          "name": "Breakdown and recovery",
+          "price": 10000
+        },
+        {
+          "name": "Tyres, wheels and tracking",
+          "price": 100000
+        }
       ],
       "reviews": [
         {
           "reviewBody": "Very good services :)",
           "rating": 5,
-          "reviewedBy": 3
+          "reviewedBy": "63ce75449ae462be0adad72a"
         }
        ]
     },
@@ -117,7 +135,7 @@
       {
         "reviewBody": "Very good to service :)",
         "rating": 5,
-        "reviewedBy": 4
+        "reviewedBy": "63ce75449ae462be0adad72d"
       }
      ],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"

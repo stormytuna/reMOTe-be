@@ -1,35 +1,73 @@
 const mongoose = require("mongoose");
+const { postcodeRegex, phoneNumberRegex, emailRegex } = require("../../utils");
 
 const userSchema = new mongoose.Schema({
-  username: String,
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   firstName: String,
   lastName: String,
   address: {
     addressLine: String,
-    postcode: String,
+    postcode: {
+      type: String,
+      validator: (value) => postcodeRegex.test(value),
+      message: (props) => `${props.value} is not a valid postcode`,
+    },
   },
   contact: {
-    phoneNumber: String,
-    email: String,
+    phoneNumber: {
+      type: String,
+      required: true,
+      unique: true,
+      validate: {
+        validator: (value) => phoneNumberRegex.test(value),
+        message: (props) => `${props.value} is not a valid phone number`,
+      },
+    },
+    email: {
+      type: String,
+      unique: true,
+      validate: {
+        validator: (value) => emailRegex.test(value),
+        message: (props) => `${props.value} is not a valid email`,
+      },
+    },
   },
   technician: {
-    services: [String],
-    reviews: [
-      {
-        reviewBody: String,
-        rating: Number,
-        reviewedBy: Number,
+    type: {
+      services: {
+        type: [
+          {
+            name: { type: String, required: true },
+            price: { type: Number, required: true },
+            description: String,
+          },
+        ],
+        required: true,
       },
-    ],
+      reviews: [
+        {
+          reviewBody: { type: String, required: true },
+          rating: { type: String, required: true, min: 0, max: 5 },
+          reviewedBy: { type: String, required: true },
+        },
+      ],
+    },
+    enum: [Object, null],
+    default: null,
   },
   reviews: [
     {
-      reviewBody: String,
-      rating: Number,
-      reviewedBy: Number,
+      reviewBody: { type: String, required: true },
+      rating: { type: String, required: true, min: 0, max: 5 },
+      reviewedBy: { type: String, required: true },
     },
   ],
-  avatarUrl: String,
+  avatarUrl: { type: String, default: "https://i.imgur.com/pN04qjy.jpg" },
 });
 
-module.exports = mongoose.model("User", userSchema);
+const User = new mongoose.model("User", userSchema);
+module.exports = User;
