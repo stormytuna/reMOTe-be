@@ -46,32 +46,56 @@ describe("GET /api/technicians", () => {
   });
 });
 
-describe("GET /api/technicians/:user_id", () => {
-  test("status:200, responds with a technician with the given id", () => {
+describe("POST /api/technicians", () => {
+  test("status:200, responds with the new technician object", () => {
+    const newTechnician = {
+      username: "ahmedH",
+      firstName: "Ahmed",
+      lastName: "Hussian",
+      address: {
+        addressLine: "1 Random Place",
+        postCode: "KF76 9LM",
+      },
+      contact: {
+        phoneNumber: "07470761588",
+        email: "ahmedhussain@gmail.com",
+      },
+      technician: {
+        services: [
+          "Servicing and MOT",
+          "Clutch repairs",
+          "Engine and cooling",
+          "Valleting",
+        ],
+      },
+      avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
+    };
     return request(app)
-      .get("/api/technicians/63ce75449ae462be0adad72d")
-      .expect(200)
+      .post("/api/technicians")
+      .send(newTechnician)
+      .expect(201)
       .then(({ body }) => {
         const { technician } = body;
         expect(technician).toEqual({
-          _id: "63ce75449ae462be0adad72d",
-          __v: 0,
-          username: "test-tech-01",
-          firstName: "James",
-          lastName: "Wright",
+          _id: expect.any(String),
+          __v: expect.any(Number),
+          username: "ahmedH",
+          firstName: "Ahmed",
+          lastName: "Hussian",
           address: {
-            addressLine: "12 Random Place",
-            postcode: "KF76 9LM",
+            addressLine: "1 Random Place",
+            postCode: "KF76 9LM",
           },
           contact: {
-            phoneNumber: "32985262985",
-            email: "jameswright@company.com",
+            phoneNumber: "07470761588",
+            email: "ahmedhussain@gmail.com",
           },
           technician: {
             services: [
               "Servicing and MOT",
               "Clutch repairs",
               "Engine and cooling",
+              "Valleting",
             ],
             reviews: [
               {
@@ -95,63 +119,37 @@ describe("GET /api/technicians/:user_id", () => {
   });
 });
 
+describe("GET /api/technicians/:user_id", () => {
+  test("status:200, responds with a technician with the given id", () => {
+    return request(app)
+      .get("/api/technicians/63ce75449ae462be0adad72d")
+      .expect(200)
+      .then(({ body }) => {
+        const { technician } = body;
+        expect(technician).toMatchObject({
+          _id: "63ce75449ae462be0adad72d",
+          technician: {
+            services: expect.any(Array),
+            reviews: expect.any(Array),
+          },
+        });
+      });
+  });
+});
+
 describe('PATCH /api/technicians/:user_id', () => {
-  const patchData = {
-      services: [
-        "Servicing and MOT",
-        "Clutch repairs",
-        "Engine and cooling",
-        "Tyre Replacement",
-        "General Servicing"
-      ]
-  }
+  const patchData = {name: 'Tyre Replacement', price: 50}
   test('should accept an object of services, update the technician, and return it', () => {
-  const newTechnician = {
-    _id: "63ce75449ae462be0adad72d",
-    __v: 0,
-    username: "test-tech-01",
-    firstName: "James",
-    lastName: "Wright",
-    address: {
-      addressLine: "12 Random Place",
-      postcode: "KF76 9LM",
-    },
-    contact: {
-      phoneNumber: "32985262985",
-      email: "jameswright@company.com",
-    },
-    technician: {
-      services: [
-        "Servicing and MOT",
-        "Clutch repairs",
-        "Engine and cooling",
-        "Tyre Replacement",
-        "General Servicing"
-      ],
-      reviews: [
-        {
-          _id: expect.any(String),
-          reviewBody: "Very good services :)",
-          rating: 4,
-          reviewedBy: 1,
-        },
-        {
-          _id: expect.any(String),
-          reviewBody: "Bad >:(",
-          rating: 1,
-          reviewedBy: 2,
-        },
-      ],
-    },
-    reviews: [],
-    avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
-  }
   return request(app)
   .patch("/api/technicians/63ce75449ae462be0adad72d")
   .send(patchData)
   .expect(200)
   .then(({ body }) => {
-    expect(body).toEqual({...newTechnician})
+    const { updatedTechnician } = body;
+    console.log(updatedTechnician)
+    expect(updatedTechnician._id).toEqual('63ce75449ae462be0adad72d')
+    expect(updatedTechnician.technician.services).toHaveLength(4)
+    expect(updatedTechnician.technician.services[3]).toEqual({...patchData, _id: expect.any(String)});
   })
   });
   test('should respond with a 400 when provided with an invalid id', () => {

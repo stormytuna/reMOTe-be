@@ -10,8 +10,16 @@ exports.findTechnician = async (id) => {
     return technician;
 };
 
+exports.postTechnician = async (technician) => {
+  try {
+    const newTechnician = await User.create(technician);
+    return newTechnician;
+    } catch (e) {
+    console.error(e);
+  }
+};
+
 exports.updateTechnician = async (id, updates) => {
-    await User.updateOne({_id: id}, { $set: {"technician.services": updates.services} })
-    const updatedTechnician = await User.findById(id);
-    return updatedTechnician;
+    await User.findOneAndUpdate({_id: id}, { $push: {"technician.services": updates} })
+    return await User.findById(id);
 }
