@@ -7,11 +7,11 @@ exports.handleCustomErrors = (err, req, res, next) => {
 };
 
 exports.handleMongoDBErrors = (err, req, res, next) => {
-  if (err.name === 'CastError') {
-    res.status(400).send({ msg: "Bad Request" })
-  } else {
-  next(err);
-  }
+  if (err.reason.toString().startsWith("BSONTypeError:")) {
+      res.status(400).send({ msg: "Bad request" });
+    } else {
+      next(err);
+    }
 };
 
 exports.handle404s = (req, res, next) => {
