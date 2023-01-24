@@ -37,8 +37,7 @@ exports.patchTechnician = async (req, res, next) => {
   const updates = req.body;
   const id = req.params.user_id;
   try {
-    await updateTechnician(id, updates)
-    const updatedTechnician = await findTechnician(id);
+    const updatedTechnician = await updateTechnician(id, updates)
     res.status(200).send({ updatedTechnician })
   } catch (e){
     next(e);
