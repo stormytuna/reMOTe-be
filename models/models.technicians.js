@@ -55,5 +55,12 @@ exports.updateTechnician = async (id, updates) => {
     { _id: id },
     { $push: { "technician.services": updates } }
   );
-  return await User.findById(id);
+  const technician = await User.findById(id);
+
+  // Handles 404s
+  if (!technician) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+
+  return technician;
 };

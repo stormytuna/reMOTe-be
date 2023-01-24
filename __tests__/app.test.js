@@ -346,3 +346,69 @@ describe("POST /api/technicians/:user_id/reviews", () => {
       });
   });
 });
+
+describe("PATCH /api/technicians/:user_id", () => {
+  const patchData = { name: "Tyre Replacement", price: 50 };
+  test("status:200, should accept an object of services, update the technician, and return it", () => {
+    return request(app)
+      .patch("/api/technicians/63ce75449ae462be0adad72d")
+      .send(patchData)
+      .expect(200)
+      .then(({ body }) => {
+        const { technician } = body;
+        console.log(technician);
+        expect(technician._id).toEqual("63ce75449ae462be0adad72d");
+        expect(technician.technician.services).toHaveLength(4);
+        expect(technician.technician.services[3]).toEqual({
+          ...patchData,
+          _id: expect.any(String),
+        });
+      });
+  });
+
+  test("status:400, responds with an appropriate error message when given a malformed body", () => {
+    const patchData = { wgrfwsfsfs: "Tyre Replacement", arafa: 50 };
+    return request(app)
+      .patch("/api/technicians/not-an-id")
+      .send(patchData)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("status:400, responds with an appropriate error message when given body fails schema validation", () => {
+    const patchData = { name: "Tyre Replacement", price: "aaa" };
+    return request(app)
+      .patch("/api/technicians/not-an-id")
+      .send(patchData)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("status:400, should respond with an appropriate error message when provided an invalid id", () => {
+    return request(app)
+      .patch("/api/technicians/not-an-id")
+      .send(patchData)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("status:404, should respond with an appropriate error message when given id does not exist", () => {
+    return request(app)
+      .patch("/api/technicians/63ce7544aaaaa2be0adad72d")
+      .send(patchData)
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
+  });
+});
