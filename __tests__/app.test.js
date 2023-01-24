@@ -46,7 +46,6 @@ describe("GET /api/technicians", () => {
   });
 });
 
-
 describe("POST /api/technicians", () => {
   test("status:200, responds with the new technician object", () => {
     const newTechnician = {
@@ -90,15 +89,13 @@ describe("POST /api/technicians", () => {
           contact: {
             phoneNumber: "07470761588",
             email: "ahmedhussain@gmail.com",
-             },
+          },
           technician: {
             services: [
               "Servicing and MOT",
               "Clutch repairs",
               "Engine and cooling",
               "Valleting",
-            ],
-            reviews: [],
             ],
             reviews: [
               {
@@ -122,12 +119,6 @@ describe("POST /api/technicians", () => {
   });
 });
 
-            
-            
-        
-            
-            
-
 describe("GET /api/technicians/:user_id", () => {
   test("status:200, responds with a technician with the given id", () => {
     return request(app)
@@ -148,16 +139,12 @@ describe("GET /api/technicians/:user_id", () => {
           contact: {
             phoneNumber: "32985262985",
             email: "jameswright@company.com",
-
           },
           technician: {
             services: [
               "Servicing and MOT",
               "Clutch repairs",
               "Engine and cooling",
-            ],
-            reviews: [],
-
             ],
             reviews: [
               {
