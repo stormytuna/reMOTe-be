@@ -46,6 +46,88 @@ describe("GET /api/technicians", () => {
   });
 });
 
+
+describe("POST /api/technicians", () => {
+  test("status:200, responds with the new technician object", () => {
+    const newTechnician = {
+      username: "ahmedH",
+      firstName: "Ahmed",
+      lastName: "Hussian",
+      address: {
+        addressLine: "1 Random Place",
+        postCode: "KF76 9LM",
+      },
+      contact: {
+        phoneNumber: "07470761588",
+        email: "ahmedhussain@gmail.com",
+      },
+      technician: {
+        services: [
+          "Servicing and MOT",
+          "Clutch repairs",
+          "Engine and cooling",
+          "Valleting",
+        ],
+      },
+      avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
+    };
+    return request(app)
+      .post("/api/technicians")
+      .send(newTechnician)
+      .expect(201)
+      .then(({ body }) => {
+        const { technician } = body;
+        expect(technician).toEqual({
+          _id: expect.any(String),
+          __v: expect.any(Number),
+          username: "ahmedH",
+          firstName: "Ahmed",
+          lastName: "Hussian",
+          address: {
+            addressLine: "1 Random Place",
+            postCode: "KF76 9LM",
+          },
+          contact: {
+            phoneNumber: "07470761588",
+            email: "ahmedhussain@gmail.com",
+             },
+          technician: {
+            services: [
+              "Servicing and MOT",
+              "Clutch repairs",
+              "Engine and cooling",
+              "Valleting",
+            ],
+            reviews: [],
+            ],
+            reviews: [
+              {
+                _id: expect.any(String),
+                reviewBody: "Very good services :)",
+                rating: 4,
+                reviewedBy: 1,
+              },
+              {
+                _id: expect.any(String),
+                reviewBody: "Bad >:(",
+                rating: 1,
+                reviewedBy: 2,
+              },
+            ],
+          },
+          reviews: [],
+          avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
+        });
+      });
+  });
+});
+
+            
+            
+        
+            
+            
+
 describe("GET /api/technicians/:user_id", () => {
   test("status:200, responds with a technician with the given id", () => {
     return request(app)
@@ -66,12 +148,16 @@ describe("GET /api/technicians/:user_id", () => {
           contact: {
             phoneNumber: "32985262985",
             email: "jameswright@company.com",
+
           },
           technician: {
             services: [
               "Servicing and MOT",
               "Clutch repairs",
               "Engine and cooling",
+            ],
+            reviews: [],
+
             ],
             reviews: [
               {

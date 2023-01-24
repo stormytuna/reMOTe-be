@@ -9,6 +9,15 @@ exports.findTechnicians = async () => {
   }
 };
 
+exports.postTechnician = async (technician) => {
+  try {
+    const newTechnician = await User.create(technician);
+    return newTechnician;
+    } catch (e) {
+    console.error(e);
+  }
+};
+
 exports.findTechnician = async (id) => {
   try {
     const technician = await User.findById(id);
