@@ -14,5 +14,12 @@ exports.createReview = async (review, id) => {
 
   // Actually do our patch
   await User.findOneAndUpdate({ _id: id }, { $push: { reviews: review } });
-  return await User.findById({ _id: id });
+  const updatedUser = await User.findById({ _id: id });
+
+  // Check for a 404
+  if (!updatedUser) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+
+  return updatedUser;
 };

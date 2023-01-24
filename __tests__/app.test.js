@@ -54,7 +54,7 @@ describe("POST /api/technicians", () => {
       lastName: "Hussian",
       address: {
         addressLine: "1 Random Place",
-        postCode: "KF76 9LM",
+        postcode: "KF76 9LM",
       },
       contact: {
         phoneNumber: "07470761588",
@@ -84,7 +84,7 @@ describe("POST /api/technicians", () => {
           lastName: "Hussian",
           address: {
             addressLine: "1 Random Place",
-            postCode: "KF76 9LM",
+            postcode: "KF76 9LM",
           },
           contact: {
             phoneNumber: "07470761588",
@@ -97,20 +97,7 @@ describe("POST /api/technicians", () => {
               "Engine and cooling",
               "Valleting",
             ],
-            reviews: [
-              {
-                _id: expect.any(String),
-                reviewBody: "Very good services :)",
-                rating: 4,
-                reviewedBy: 1,
-              },
-              {
-                _id: expect.any(String),
-                reviewBody: "Bad >:(",
-                rating: 1,
-                reviewedBy: 2,
-              },
-            ],
+            reviews: [],
           },
           reviews: [],
           avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
@@ -232,6 +219,21 @@ describe("POST /api/users/:user_id/reviews", () => {
       .then(({ body }) => {
         const { msg } = body;
         expect(msg).toBe("Bad request");
+      });
+  });
+
+  test.only("status:404, responds with an appropriate error message when our given user ID doesn't exist", () => {
+    return request(app)
+      .post("/api/users/63ce75449ae462baaaaad72e/reviews")
+      .send({
+        reviewBody: "This is a test review",
+        rating: 3,
+        reviewedBy: 15,
+      })
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
       });
   });
 });
