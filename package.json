@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "express": "^4.18.2",
+    "husky": "^8.0.3",
     "mongoose": "^6.8.4",
     "mongosh": "^1.6.2"
   },
@@ -16,7 +17,8 @@
   "scripts": {
     "test": "jest --detectOpenHandles",
     "start": "nodemon ./app.js",
-    "seed": "node ./db/seed-all.js"
+    "seed": "node ./db/seed-all.js",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
