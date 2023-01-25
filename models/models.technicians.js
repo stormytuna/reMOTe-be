@@ -12,6 +12,7 @@ exports.findTechnician = async (id) => {
   return technician;
 };
 
+
 exports.postTechnician = async (technician) => {
   try {
     const newTechnician = await User.create(technician);

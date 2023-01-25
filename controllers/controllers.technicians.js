@@ -33,7 +33,6 @@ exports.getTechnician = async (req, res, next) => {
     next(e);
   }
 };
-
 exports.deleteTechnician = async (req, res, next) => {
   try {
     const user = await updateTechnicianProp(req.params.user_id);
