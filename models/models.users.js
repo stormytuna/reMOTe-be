@@ -34,3 +34,13 @@ exports.findUserReviews = async (id) => {
 
   return user.reviews;
 };
+
+exports.createUser = async (user) => {
+  
+  if (user.user === null) {
+    return Promise.reject({ status: 400, msg: "Bad request" });
+  }
+  const newUser = await User.create(user);
+  console.log(newUser)
+  return newUser;
+};

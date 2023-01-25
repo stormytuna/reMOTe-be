@@ -544,3 +544,122 @@ describe("POST /api/users/:user_id/reviews", () => {
       });
   });
 });
+describe("POST /api/users", () => {
+  test("status:200, responds with the new user object", () => {
+    const newUser = {
+      username: "totally-not-batman-btw",
+      firstName: "Bruce",
+      lastName: "Wayne",
+      address: {
+        addressLine: "153 Gotham Avenue",
+        postcode: "GT52 12P",
+      },
+      contact: {
+        phoneNumber: "52452852152",
+        email: "b_wayne@wayne-tech.com",
+      },
+      avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
+    };
+    return request(app)
+      .post("/api/users")
+      .send(newUser)
+      .expect(201)
+      .then(({ body }) => {
+        const { user } = body;
+        expect(user).toMatchObject({
+          _id: expect.any(String),
+          __v: expect.any(Number),
+          username: "totally-not-batman-btw",
+          firstName: "Bruce",
+          lastName: "Wayne",
+          address: {
+            addressLine: "153 Gotham Avenue",
+            postcode: "GT52 12P",
+          },
+          contact: {
+            phoneNumber: "52452852152",
+            email: "b_wayne@wayne-tech.com",
+          },
+          reviews: [],
+          avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
+        });
+      });
+  });
+
+  test("status:400, responds with an appropriate error message when given a malformed body", () => {
+    const newUser = {
+      userdddname: "totally-not-batman-btw",
+      firstName: "Bruce",
+      lastdddName: "Wayne",
+      addrdddddess: {
+        addressLine: "153 Gotham Avenue",
+        postcode: "GT52 12P",
+      },
+      contact: {
+        phoneNumber: "52452852152",
+        email: "b_wayne@wayne-tech.com",
+      },
+      reviews: [],
+      avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
+    };
+
+    return request(app)
+      .post("/api/users")
+      .send(newUser)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("status:400, responds with an appropriate error message when given a body that fails schema validation", () => {
+    const newUser = {
+      username: "totally-not-batman-btw",
+
+      address: {
+        addressLine: "153 Gotham Avenue",
+      },
+      contact: {
+        email: "b_wayne@wayne-tech.com",
+      },
+      avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
+    };
+
+    return request(app)
+      .post("/api/users")
+      .send(newUser)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("status:400, responds with an appropriate error message when given a body with a null properties", () => {
+    const newUser = {
+      userdddname: "totally-not-batman-btw",
+      firstName: null,
+      lastdddName: "Wayne",
+      addrdddddess: {
+        addressLine: "153 Gotham Avenue",
+        postcode: "GT52 12P",
+      },
+      contact: {
+        phoneNumber: "52452852152",
+        email: "b_wayne@wayne-tech.com",
+      },
+      reviews: [],
+      avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
+    };
+
+    return request(app)
+      .post("/api/users")
+      .send(newUser)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+});
