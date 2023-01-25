@@ -66,6 +66,30 @@ const userSchema = new mongoose.Schema({
       reviewedBy: { type: String, required: true },
     },
   ],
+  orders: {
+    type: [
+      {
+        services: {
+          type: [
+            {
+              name: { type: String, required: true },
+              price: { type: Number, required: true },
+              description: String,
+            },
+          ],
+          required: true,
+        },
+        createdAt: { type: Date, required: true },
+        fulfilledAt: {
+          type: Date,
+          enum: [Date, null],
+          required: true,
+          default: null,
+        },
+        servicedBy: { type: String, required: true },
+      },
+    ],
+  },
   avatarUrl: { type: String, default: "https://i.imgur.com/pN04qjy.jpg" },
 });
 

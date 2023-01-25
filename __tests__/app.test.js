@@ -399,7 +399,7 @@ describe("DELETE /api/technicians/:user_id", () => {
       .delete(`/api/technicians/63ce75449ae462be0adad72d`)
       .expect(200)
       .then(({ body: { user } }) => {
-        expect(user).toEqual(newUser);
+        expect(user).toMatchObject(newUser);
       });
   });
 
