@@ -14,8 +14,9 @@ exports.findTechnicians = async () => {
 exports.postTechnician = async (technician) => {
   try {
     const newTechnician = await User.create(technician);
+
     return newTechnician;
-    } catch (e) {
+  } catch (e) {
     console.error(e);
   }
 };
@@ -27,4 +28,12 @@ exports.findTechnician = async (id) => {
   } catch (e) {
     console.error(e);
   }
+};
+
+exports.updateTechnicianProp = async (technicianToBeUpdated) => {
+  const user = await User.updateOne(technicianToBeUpdated, {
+    $set: { technician: null },
+  });
+
+  return user;
 };

@@ -2,11 +2,14 @@ exports.handleCustomErrors = (err, req, res, next) => {
   if (err.status && err.msg) {
     res.status(err.status).send({ msg: err.msg });
   } else {
-    next(error);
+    next(err);
   }
 };
 
 exports.handleMongoDBErrors = (err, req, res, next) => {
+  if (err.name === "CastError") {
+    res.status(400).send({ msg: "Bad Request" });
+  }
   // Add mongodb error codes here
   next(err);
 };

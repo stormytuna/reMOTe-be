@@ -9,6 +9,7 @@ const {
   createTechnician,
   getTechnicians,
   getTechnician,
+  deleteTechnician,
 } = require("./controllers/controllers.technicians");
 
 const app = express();
@@ -20,6 +21,8 @@ app.get("/api/technicians", getTechnicians);
 app.post("/api/technicians", createTechnician);
 
 app.get("/api/technicians/:user_id", getTechnician);
+
+app.patch("/api/technicians/:user_id", deleteTechnician);
 
 app.use(handleCustomErrors);
 app.use("/*", handle404s);

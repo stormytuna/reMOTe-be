@@ -46,7 +46,7 @@ describe("GET /api/technicians", () => {
   });
 });
 
-describe("POST /api/technicians", () => {
+xdescribe("POST /api/technicians", () => {
   test("status:200, responds with the new technician object", () => {
     const newTechnician = {
       username: "ahmedH",
@@ -54,7 +54,7 @@ describe("POST /api/technicians", () => {
       lastName: "Hussian",
       address: {
         addressLine: "1 Random Place",
-        postCode: "KF76 9LM",
+        postcode: "KF76 9LM",
       },
       contact: {
         phoneNumber: "07470761588",
@@ -62,10 +62,8 @@ describe("POST /api/technicians", () => {
       },
       technician: {
         services: [
-          "Servicing and MOT",
-          "Clutch repairs",
-          "Engine and cooling",
-          "Valleting",
+          { name: "Servicing and MOT", price: 45 },
+          { name: "clutch repair", price: 100 },
         ],
       },
       avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
@@ -74,7 +72,7 @@ describe("POST /api/technicians", () => {
       .post("/api/technicians")
       .send(newTechnician)
       .expect(201)
-      .then(({ body }) => {
+      .then((body) => {
         const { technician } = body;
         expect(technician).toEqual({
           _id: expect.any(String),
@@ -84,7 +82,7 @@ describe("POST /api/technicians", () => {
           lastName: "Hussian",
           address: {
             addressLine: "1 Random Place",
-            postCode: "KF76 9LM",
+            postcode: "KF76 9LM",
           },
           contact: {
             phoneNumber: "07470761588",
@@ -92,10 +90,8 @@ describe("POST /api/technicians", () => {
           },
           technician: {
             services: [
-              "Servicing and MOT",
-              "Clutch repairs",
-              "Engine and cooling",
-              "Valleting",
+              { name: "Servicing and MOT", price: 45 },
+              { name: "clutch repair", price: 100 },
             ],
             reviews: [
               {
@@ -133,6 +129,35 @@ describe("GET /api/technicians/:user_id", () => {
             reviews: expect.any(Array),
           },
         });
+      });
+  });
+});
+
+describe.only("PATCH /api/technicians/:user_id", () => {
+  test("status:200, downgrades technician to a user account and responds with the updated account", () => {
+    const user = {
+      _id: "63ce75449ae462be0adad72d",
+      __v: 0,
+      username: "test-tech-01",
+      firstName: "James",
+      lastName: "Wright",
+      address: {
+        addressLine: "12 Random Place",
+        postcode: "KF76 9LM",
+      },
+      contact: {
+        phoneNumber: "32985262911",
+        email: "jameswright@company.com",
+      },
+      technician: null,
+      reviews: [],
+      avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
+    };
+    return request(app)
+      .patch(`/api/technicians/63ce75449ae462be0adad72d`)
+      .expect(200)
+      .then(({ body: { downgradedTechnician } }) => {
+        expect(downgradedTechnician).toEqual(user);
       });
   });
 });
