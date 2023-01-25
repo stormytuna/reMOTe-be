@@ -2,6 +2,7 @@ const {
   findTechnicians,
   postTechnician,
   findTechnician,
+  updateTechnicianProp,
   postReviewForTech,
   updateTechnician,
 } = require("../models/models.technicians");
@@ -28,6 +29,14 @@ exports.getTechnician = async (req, res, next) => {
   try {
     const technician = await findTechnician(req.params.user_id);
     res.status(200).send({ technician });
+  } catch (e) {
+    next(e);
+  }
+};
+exports.deleteTechnician = async (req, res, next) => {
+  try {
+    const user = await updateTechnicianProp(req.params.user_id);
+    res.status(200).send({ user });
   } catch (e) {
     next(e);
   }

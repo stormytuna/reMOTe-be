@@ -8,8 +8,8 @@ exports.findTechnicians = async () => {
 };
 
 exports.findTechnician = async (id) => {
-    const technician = await User.findById(id);
-    return technician;
+  const technician = await User.findById(id);
+  return technician;
 };
 
 
@@ -22,8 +22,27 @@ exports.postTechnician = async (technician) => {
   }
 };
 
-exports.postReviewForTech = async (id, review) => {
+exports.findTechnician = async (id) => {
+  try {
+    const technician = await User.findById(id);
+    return technician;
+  } catch (e) {
+    console.error(e);
+  }
+};
 
+exports.updateTechnicianProp = async (technicianID) => {
+  await User.findOneAndUpdate(
+    { _id: technicianID },
+    {
+      $set: { technician: null },
+    }
+  );
+  const user = await User.findById(technicianID);
+  return user;
+};
+
+exports.postReviewForTech = async (id, review) => {
   const { reviewBody, rating, reviewedBy, ...rest } = review;
   if (
     Object.keys(rest).length > 0 ||
@@ -34,11 +53,17 @@ exports.postReviewForTech = async (id, review) => {
     return Promise.reject({ status: 400, msg: "Bad request" });
   }
 
-  await User.findOneAndUpdate({ _id: id }, {$push: {['technician.reviews']: review }})
+  await User.findOneAndUpdate(
+    { _id: id },
+    { $push: { ["technician.reviews"]: review } }
+  );
   return await User.findById({ _id: id });
-}
+};
 
 exports.updateTechnician = async (id, updates) => {
-    await User.findOneAndUpdate({_id: id}, { $push: {"technician.services": updates} })
-    return await User.findById(id);
-}
+  await User.findOneAndUpdate(
+    { _id: id },
+    { $push: { "technician.services": updates } }
+  );
+  return await User.findById(id);
+};
