@@ -39,7 +39,13 @@ exports.updateTechnicianProp = async (technicianID) => {
       $set: { technician: null },
     }
   );
+
   const user = await User.findById(technicianID);
+  // Handle 404s
+  if (!user) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+
   return user;
 };
 
