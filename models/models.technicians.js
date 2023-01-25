@@ -32,6 +32,17 @@ exports.findTechnician = async (id) => {
   return technician;
 };
 
+exports.updateTechnicianProp = async (technicianID) => {
+  await User.findOneAndUpdate(
+    { _id: technicianID },
+    {
+      $set: { technician: null },
+    }
+  );
+  const user = await User.findById(technicianID);
+  return user;
+};
+
 exports.postReviewForTech = async (id, review) => {
   const { reviewBody, rating, reviewedBy, ...rest } = review;
   if (

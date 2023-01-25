@@ -10,6 +10,7 @@ const {
   createTechnician,
   getTechnicians,
   getTechnician,
+  deleteTechnician,
   createReviewforTech,
   patchTechnician,
 } = require("./controllers/controllers.technicians");
@@ -23,6 +24,8 @@ app.get("/api/technicians", getTechnicians);
 app.post("/api/technicians", createTechnician);
 
 app.get("/api/technicians/:user_id", getTechnician);
+
+app.delete("/api/technicians/:user_id", deleteTechnician);
 
 app.post("/api/technicians/:user_id/reviews", createReviewforTech);
 
