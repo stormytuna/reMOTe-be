@@ -68,7 +68,5 @@ exports.updateTechnician = async (id, updates) => {
 };
 
 exports.deleteReview = async (user_id, review_id) => {
-  await User.findOneAndUpdate({ _id: user_id }, { $pull: { "reviews": { _id: review_id } } }, { new: true });
-  const user = await User.findById({_id: user_id});
-  return user;
+  await User.findOneAndUpdate({ _id: user_id }, { $pull: { "reviews": { _id: review_id } } });
 }

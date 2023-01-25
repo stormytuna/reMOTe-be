@@ -302,33 +302,11 @@ describe("DELETE /api/technicians/:user_id", () => {
   });
 });
 
-describe('DELETE /api/reviews/:review_id', () => {
-      const updatedUser = {
-      _id: "63ce75449ae462be0adad72e",
-      __v: 0,
-      username: "test-tech-02",
-      firstName: "Marie",
-      lastName: "Smith",
-      address: {
-        addressLine: "554 Some Street",
-        postcode: "KJ73 1LN",
-      },
-      contact: {
-        phoneNumber: "32911162985",
-        email: "mariesmith@company.com",
-      },
-      technician: expect(typeof Array),
-      reviews: [],
-      avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
-    };
+describe('DELETE /api/user_id/reviews/:review_id', () => {
     test.only('should delete a review using review_id', () => {
     return request(app)
-    .delete('/api/63ce75449ae462be0adad72e/reviews/63d12d664ebd7191ae5dcbd2')
-    .expect(200)
-    .then(({ body: { user } }) => {
-      console.log(user);
-      // expect(user).toEqual(updatedUser)
-    })
+    .delete('/api/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a')
+    .expect(204)
   });
   test('should return a 404 when provided a review_id', () => {
     return request(app)

@@ -75,8 +75,8 @@ exports.createReviewforTech = async (req, res, next) => {
 
 exports.removeReview = async (req, res, next) => {
   try {
-    const user = await deleteReview(req.params.user_id, req.params.review_id)
-    res.status(200).send({ user });
+    await deleteReview(req.params.user_id, req.params.review_id)
+    res.status(204).send()
   } catch (e) {
     next(e);
   }
