@@ -1,6 +1,7 @@
 const express = require("express");
 const {
   handleCustomErrors,
+  handleMongoDBErrors,
   handle404s,
   handle500s,
 } = require("./controllers/controllers.errors");
@@ -10,6 +11,8 @@ const {
   getTechnicians,
   getTechnician,
   deleteTechnician,
+  createReviewforTech,
+  patchTechnician,
 } = require("./controllers/controllers.technicians");
 
 const app = express();
@@ -24,8 +27,13 @@ app.get("/api/technicians/:user_id", getTechnician);
 
 app.delete("/api/technicians/:user_id", deleteTechnician);
 
+app.post("/api/technicians/:user_id/reviews", createReviewforTech);
+
+app.patch("/api/technicians/:user_id", patchTechnician);
+
+app.all("*", handle404s);
 app.use(handleCustomErrors);
-app.use("/*", handle404s);
+app.use(handleMongoDBErrors);
 app.use(handle500s);
 
 module.exports = app;

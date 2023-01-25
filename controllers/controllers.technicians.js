@@ -3,6 +3,8 @@ const {
   postTechnician,
   findTechnician,
   updateTechnicianProp,
+  postReviewForTech,
+  updateTechnician,
 } = require("../models/models.technicians");
 
 exports.getTechnicians = async (req, res, next) => {
@@ -36,6 +38,34 @@ exports.deleteTechnician = async (req, res, next) => {
   try {
     const user = await updateTechnicianProp(req.params.user_id);
     res.status(200).send({ user });
+  } catch (e) {
+    next(e);
+  }
+};
+
+exports.createReviewforTech = async (req, res, next) => {
+  try {
+    const technician = await postReviewForTech(req.params.user_id, req.body);
+    res.status(201).send({ technician });
+  } catch (e) {
+    next(e);
+  }
+};
+exports.patchTechnician = async (req, res, next) => {
+  const updates = req.body;
+  const id = req.params.user_id;
+  try {
+    const technician = await updateTechnician(id, updates);
+    res.status(200).send({ technician });
+  } catch (e) {
+    next(e);
+  }
+};
+
+exports.createReviewforTech = async (req, res, next) => {
+  try {
+    const technician = await postReviewForTech(req.params.user_id, req.body);
+    res.status(201).send({ technician });
   } catch (e) {
     next(e);
   }

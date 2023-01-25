@@ -8,10 +8,12 @@ exports.handleCustomErrors = (err, req, res, next) => {
 
 exports.handleMongoDBErrors = (err, req, res, next) => {
   if (err.name === "CastError") {
-    res.status(400).send({ msg: "Bad Request" });
+    res.status(400).send({ msg: "Bad request" });
+  } else if (err.reason.toString().startsWith("BSONTypeError:")) {
+    res.status(400).send({ msg: "Bad request" });
+  } else {
+    next(err);
   }
-  // Add mongodb error codes here
-  next(err);
 };
 
 exports.handle404s = (req, res, next) => {
@@ -19,6 +21,5 @@ exports.handle404s = (req, res, next) => {
 };
 
 exports.handle500s = (err, req, res, next) => {
-  console.log(err);
   res.status(500).send({ msg: "Internal server error" });
 };
