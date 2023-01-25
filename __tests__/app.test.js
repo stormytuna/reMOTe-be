@@ -469,17 +469,17 @@ describe("POST /api/users/:user_id/reviews", () => {
       .send({
         reviewBody: "This is a test review",
         rating: 3,
-        reviewedBy: 15,
+        reviewedBy: "15",
       })
       .expect(201)
       .then(({ body }) => {
         const { user } = body;
         expect(user._id).toEqual("63ce75449ae462be0adad72a");
-        expect(user.reviews).toHaveLength(1);
-        expect(user.reviews[0]).toMatchObject({
+        expect(user.reviews).toHaveLength(2);
+        expect(user.reviews[1]).toMatchObject({
           reviewBody: "This is a test review",
           rating: 3,
-          reviewedBy: 15,
+          reviewedBy: "15",
         });
       });
   });
@@ -490,7 +490,7 @@ describe("POST /api/users/:user_id/reviews", () => {
       .send({
         abnisfn: "This is a test review",
         regegegg: 3,
-        sarfawsrse: 15,
+        sarfawsrse: "15",
       })
       .expect(400)
       .then(({ body }) => {
@@ -505,7 +505,7 @@ describe("POST /api/users/:user_id/reviews", () => {
       .send({
         reviewBody: "This is a test review",
         rating: "aaa",
-        reviewedBy: 15,
+        reviewedBy: "15",
       })
       .expect(400)
       .then(({ body }) => {
@@ -520,7 +520,7 @@ describe("POST /api/users/:user_id/reviews", () => {
       .send({
         reviewBody: "This is a test review",
         rating: 3,
-        reviewedBy: 15,
+        reviewedBy: "15",
       })
       .expect(400)
       .then(({ body }) => {
@@ -529,13 +529,13 @@ describe("POST /api/users/:user_id/reviews", () => {
       });
   });
 
-  test.only("status:404, responds with an appropriate error message when our given user ID doesn't exist", () => {
+  test("status:404, responds with an appropriate error message when our given user ID doesn't exist", () => {
     return request(app)
       .post("/api/users/63ce75449ae462baaaaad72e/reviews")
       .send({
         reviewBody: "This is a test review",
         rating: 3,
-        reviewedBy: 15,
+        reviewedBy: "15",
       })
       .expect(404)
       .then(({ body }) => {

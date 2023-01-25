@@ -7,7 +7,7 @@ exports.createReview = async (review, id) => {
     Object.keys(rest).length > 0 ||
     typeof reviewBody !== "string" ||
     typeof rating !== "number" ||
-    typeof reviewedBy !== "number"
+    typeof reviewedBy !== "string"
   ) {
     return Promise.reject({ status: 400, msg: "Bad request" });
   }
