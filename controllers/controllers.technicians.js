@@ -2,6 +2,7 @@ const {
   findTechnicians,
   postTechnician,
   findTechnician,
+  findUserReviews,
   postReviewForTech,
   updateTechnician,
 } = require("../models/models.technicians");
@@ -62,3 +63,12 @@ exports.createReviewforTech = async (req, res, next) => {
       next(e);
     }
 }
+exports.getUserReviews = async (req, res, next) => {
+  try {
+    const reviews = await findUserReviews(req.params.user_id);
+    res.status(200).send({ reviews });
+
+  } catch (e) {
+    next(e);
+  }
+};
