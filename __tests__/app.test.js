@@ -242,7 +242,6 @@ describe("GET /api/technicians/:user_id", () => {
       });
   });
 });
-
 describe("PATCH /api/technicians/:user_id", () => {
   const patchData = { name: "Tyre Replacement", price: 50 };
   test("status:200, should accept an object of services, update the technician, and return it", () => {
@@ -421,6 +420,24 @@ describe("DELETE /api/technicians/:user_id", () => {
       .then(({ body }) => {
         const { msg } = body;
         expect(msg).toBe("Content not found");
+      });
+  });
+});
+
+describe("GET /api/user/:user_id/reviews", () => {
+  test("status:200, responds with a reviews from a user with the given user_id", () => {
+    return request(app)
+      .get("/api/users/63ce75449ae462be0adad72a/reviews")
+      .expect(200)
+      .then(({ body }) => {
+        const { reviews } = body;
+        expect(reviews).toMatchObject([
+          {
+            reviewBody: "Very good to service :)",
+            rating: 5,
+            reviewedBy: "63ce75449ae462be0adad72d",
+          },
+        ]);
       });
   });
 });

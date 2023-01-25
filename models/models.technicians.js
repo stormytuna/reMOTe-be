@@ -12,6 +12,7 @@ exports.findTechnician = async (id) => {
   return technician;
 };
 
+
 exports.postTechnician = async (technician) => {
   if (technician.technician === null) {
     return Promise.reject({ status: 400, msg: "Bad request" });

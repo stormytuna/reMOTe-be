@@ -15,6 +15,8 @@ const {
   patchTechnician,
 } = require("./controllers/controllers.technicians");
 
+const { getUserReviews } = require("./controllers/controllers.users");
+
 const app = express();
 
 app.use(express.json());
@@ -27,7 +29,9 @@ app.get("/api/technicians/:user_id", getTechnician);
 
 app.delete("/api/technicians/:user_id", deleteTechnician);
 
-app.post("/api/technicians/:user_id/reviews", createReviewforTech);
+app.get("/api/users/:user_id/reviews", getUserReviews);
+
+app.post("/api/technicians/:user_id/reviews", createReviewforTech);;
 
 app.patch("/api/technicians/:user_id", patchTechnician);
 
