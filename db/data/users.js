@@ -50,9 +50,14 @@ const userSchema = new mongoose.Schema({
       },
       reviews: [
         {
-          reviewBody: { type: String, required: true },
-          rating: { type: Number, required: true, min: 0, max: 5 },
-          reviewedBy: { type: String, required: true },
+          type: {
+            reviewBody: { type: String, required: true },
+            rating: { type: Number, required: true, min: 0, max: 5 },
+            reviewedBy: {
+              type: String,
+              required: true,
+            },
+          },
         },
       ],
     },
