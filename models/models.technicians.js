@@ -30,10 +30,13 @@ exports.findTechnician = async (id) => {
   }
 };
 
-exports.updateTechnicianProp = async (technicianToBeUpdated) => {
-  const user = await User.updateOne(technicianToBeUpdated, {
-    $set: { technician: null },
-  });
-
+exports.updateTechnicianProp = async (technicianID) => {
+  await User.findOneAndUpdate(
+    { _id: technicianID },
+    {
+      $set: { technician: null },
+    }
+  );
+  const user = await User.findById(technicianID);
   return user;
 };

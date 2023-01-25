@@ -34,11 +34,8 @@ exports.getTechnician = async (req, res, next) => {
 
 exports.deleteTechnician = async (req, res, next) => {
   try {
-    const technician = await findTechnician(req.params.user_id);
-    await updateTechnicianProp(technician);
-    const downgradedTechnician = await findTechnician(req.params.user_id);
-
-    res.status(200).send({ downgradedTechnician });
+    const user = await updateTechnicianProp(req.params.user_id);
+    res.status(200).send({ user });
   } catch (e) {
     next(e);
   }

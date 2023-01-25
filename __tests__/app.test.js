@@ -46,7 +46,7 @@ describe("GET /api/technicians", () => {
   });
 });
 
-xdescribe("POST /api/technicians", () => {
+describe("POST /api/technicians", () => {
   test("status:200, responds with the new technician object", () => {
     const newTechnician = {
       username: "ahmedH",
@@ -133,9 +133,9 @@ describe("GET /api/technicians/:user_id", () => {
   });
 });
 
-describe.only("PATCH /api/technicians/:user_id", () => {
+describe("PATCH /api/technicians/:user_id", () => {
   test("status:200, downgrades technician to a user account and responds with the updated account", () => {
-    const user = {
+    const newUser = {
       _id: "63ce75449ae462be0adad72d",
       __v: 0,
       username: "test-tech-01",
@@ -154,10 +154,10 @@ describe.only("PATCH /api/technicians/:user_id", () => {
       avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
     };
     return request(app)
-      .patch(`/api/technicians/63ce75449ae462be0adad72d`)
+      .delete(`/api/technicians/63ce75449ae462be0adad72d`)
       .expect(200)
-      .then(({ body: { downgradedTechnician } }) => {
-        expect(downgradedTechnician).toEqual(user);
+      .then(({ body: { user } }) => {
+        expect(user).toEqual(newUser);
       });
   });
 });

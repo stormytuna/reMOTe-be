@@ -22,7 +22,7 @@ app.post("/api/technicians", createTechnician);
 
 app.get("/api/technicians/:user_id", getTechnician);
 
-app.patch("/api/technicians/:user_id", deleteTechnician);
+app.delete("/api/technicians/:user_id", deleteTechnician);
 
 app.use(handleCustomErrors);
 app.use("/*", handle404s);
