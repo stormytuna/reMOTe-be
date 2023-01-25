@@ -13,6 +13,7 @@ const {
   deleteTechnician,
   createReviewforTech,
   patchTechnician,
+  removeReview
 } = require("./controllers/controllers.technicians");
 
 const app = express();
@@ -30,6 +31,8 @@ app.delete("/api/technicians/:user_id", deleteTechnician);
 app.post("/api/technicians/:user_id/reviews", createReviewforTech);
 
 app.patch("/api/technicians/:user_id", patchTechnician);
+
+app.delete("/api/:user_id/reviews/:review_id", removeReview);
 
 app.all("*", handle404s);
 app.use(handleCustomErrors);

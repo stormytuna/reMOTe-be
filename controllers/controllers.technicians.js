@@ -5,6 +5,7 @@ const {
   updateTechnicianProp,
   postReviewForTech,
   updateTechnician,
+  deleteReview
 } = require("../models/models.technicians");
 
 exports.getTechnicians = async (req, res, next) => {
@@ -70,3 +71,13 @@ exports.createReviewforTech = async (req, res, next) => {
     next(e);
   }
 };
+
+
+exports.removeReview = async (req, res, next) => {
+  try {
+    const user = await deleteReview(req.params.user_id, req.params.review_id)
+    res.status(200).send({ user });
+  } catch (e) {
+    next(e);
+  }
+}
