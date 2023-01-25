@@ -12,8 +12,9 @@ const {
   getTechnician,
   createReviewforTech,
   patchTechnician,
-  getUserReviews,
-} = require("./controllers/controllers.technicians");
+} = require("./controllers/controllers.users");
+
+const { getUserReviews } = require("./controllers/controllers.technicians");
 
 const app = express();
 
@@ -27,9 +28,9 @@ app.get("/api/technicians/:user_id", getTechnician);
 
 app.get("/api/users/:user_id/reviews", getUserReviews);
 
-app.post("/api/technicians/:user_id/reviews", createReviewforTech)
+app.post("/api/technicians/:user_id/reviews", createReviewforTech);
 
-app.patch("/api/technicians/:user_id", patchTechnician)
+app.patch("/api/technicians/:user_id", patchTechnician);
 
 app.all("*", handle404s);
 app.use(handleCustomErrors);

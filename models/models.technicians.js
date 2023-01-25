@@ -12,10 +12,6 @@ exports.findTechnician = async (id) => {
     return technician;
 };
 
-exports.findUserReviews = async (id) => {
-  const reviews = await User.find({reviews: {_id: id}});
-  return reviews;
-};
 
 exports.postTechnician = async (technician) => {
   try {

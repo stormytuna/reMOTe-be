@@ -212,7 +212,7 @@ describe("POST /api/technicians/:user_id/reviews", () => {
   });
 });
 
-describe("GET /api/user/:user_id/reviews", () => {
+describe.only("GET /api/user/:user_id/reviews", () => {
   test("status:200, responds with a reviews from a user with the given user_id", () => {
     return request(app)
       .get("/api/users/63ce75449ae462be0adad72a/reviews")
