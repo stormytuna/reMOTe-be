@@ -23,3 +23,14 @@ exports.createReview = async (review, id) => {
 
   return updatedUser;
 };
+
+exports.findUserReviews = async (id) => {
+  const user = await User.findById(id);
+
+  // Handle 404s
+  if (!user) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+
+  return user.reviews;
+};
