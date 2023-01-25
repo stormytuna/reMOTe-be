@@ -1,4 +1,4 @@
-const { findUserReviews } = require("../models/models.technicians");
+const { findUserReviews } = require("../models/models.users");
 
 exports.getUserReviews = async (req, res, next) => {
   try {

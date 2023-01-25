@@ -137,26 +137,26 @@ describe("GET /api/technicians/:user_id", () => {
   });
 });
 
-
 describe("POST /api/technicians/:user_id/reviews", () => {
   test("status:201, adds new review to the technician object", () => {
     const newReview = {
-          reviewBody: "This man is a car maniac! 5/7",
-          rating: 4,
-          reviewedBy: 1,
-    }
+      reviewBody: "This man is a car maniac! 5/7",
+      rating: 4,
+      reviewedBy: 1,
+    };
     return request(app)
-      .post ("/api/technicians/63ce75449ae462be0adad72d/reviews")
+      .post("/api/technicians/63ce75449ae462be0adad72d/reviews")
       .send(newReview)
       .expect(201)
       .then(({ body }) => {
         const { technician } = body;
-        expect(technician._id).toEqual('63ce75449ae462be0adad72d')
+        expect(technician._id).toEqual("63ce75449ae462be0adad72d");
         expect(technician.technician.reviews).toHaveLength(3);
         expect(technician.technician.reviews[2]).toMatchObject({
-        reviewBody: "This man is a car maniac! 5/7",
-        rating: 4,
-        reviewedBy: "1",})
+          reviewBody: "This man is a car maniac! 5/7",
+          rating: 4,
+          reviewedBy: "1",
+        });
       });
   });
   test("status:400, responds with an appropriate error message when given a malformed body", () => {
@@ -212,14 +212,20 @@ describe("POST /api/technicians/:user_id/reviews", () => {
   });
 });
 
-describe.only("GET /api/user/:user_id/reviews", () => {
+describe("GET /api/user/:user_id/reviews", () => {
   test("status:200, responds with a reviews from a user with the given user_id", () => {
     return request(app)
       .get("/api/users/63ce75449ae462be0adad72a/reviews")
       .expect(200)
       .then(({ body }) => {
         const { reviews } = body;
-        expect(reviews).toMatchObject([]);
+        expect(reviews).toMatchObject([
+          {
+            reviewBody: "Very good to service :)",
+            rating: 5,
+            reviewedBy: "63ce75449ae462be0adad72d",
+          },
+        ]);
       });
   });
 });

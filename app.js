@@ -12,9 +12,9 @@ const {
   getTechnician,
   createReviewforTech,
   patchTechnician,
-} = require("./controllers/controllers.users");
+} = require("./controllers/controllers.technicians");
 
-const { getUserReviews } = require("./controllers/controllers.technicians");
+const { getUserReviews } = require("./controllers/controllers.users");
 
 const app = express();
 
