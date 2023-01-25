@@ -424,7 +424,7 @@ describe("DELETE /api/technicians/:user_id", () => {
   });
 });
 
-describe("GET /api/user/:user_id/reviews", () => {
+describe("GET /api/users/:user_id/reviews", () => {
   test("status:200, responds with a reviews from a user with the given user_id", () => {
     return request(app)
       .get("/api/users/63ce75449ae462be0adad72a/reviews")
@@ -438,6 +438,26 @@ describe("GET /api/user/:user_id/reviews", () => {
             reviewedBy: "63ce75449ae462be0adad72d",
           },
         ]);
+      });
+  });
+
+  test("status:400, responds with an appropriate error message when given an invalid user ID", () => {
+    return request(app)
+      .get("/api/users/totally-a-real-user-ID/reviews")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("status:404, responds with an appropriate error mesage when given a non existent user ID", () => {
+    return request(app)
+      .get("/api/users/63ceaaaaaae462be0adad72a/reviews")
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
       });
   });
 });
