@@ -12,9 +12,9 @@ const {
   getTechnician,
   deleteTechnician,
   createReviewforTech,
-  patchTechnician,
+  patchTechnician
 } = require("./controllers/controllers.technicians");
-const { postReview } = require("./controllers/controllers.users");
+const { postReview, patchUserReview } = require("./controllers/controllers.users");
 
 const { getUserReviews } = require("./controllers/controllers.users");
 
@@ -31,6 +31,7 @@ app.delete("/api/technicians/:user_id", deleteTechnician);
 
 app.post("/api/users/:user_id/reviews", postReview);
 app.get("/api/users/:user_id/reviews", getUserReviews);
+app.patch("/api/users/:user_id/reviews/:review_id", patchUserReview);
 
 app.all("*", handle404s);
 app.use(handleCustomErrors);

@@ -34,3 +34,16 @@ exports.findUserReviews = async (id) => {
 
   return user.reviews;
 };
+
+exports.updateUserReview = async (user_id, review_id, updates) => {
+
+ const { rating, reviewBody } = updates;
+  const dataToBeUpdated = {rating: rating, reviewBody: reviewBody}
+
+  const userReview = await User.findOneAndUpdate({[`reviews._id`]: review_id}, { $set: {"reviews.$": dataToBeUpdated}});
+
+  console.log(userReview);
+
+  // { $set: {[`reviews.${review_id}`]: updates}}
+
+};

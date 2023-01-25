@@ -544,3 +544,24 @@ describe("POST /api/users/:user_id/reviews", () => {
       });
   });
 });
+
+
+describe.only('PATCH /api/users/:user_id/reviews/:review_id', () => {
+  const patchData = {
+    "reviewBody": "Very good to service :), needs to clean their boot out though! it's full of clothes!",
+    "rating": 5,
+    "reviewedBy": "63ce75449ae462be0adad72d",
+    "_id": "63ce75449ae462be0adae13a"
+  }
+  // test('should respond with a 200, accept a review object, update the review, and return it', () => {
+  //   return request(app)
+  //   .patch("/api/users/63ce75449ae462be0adad98e/reviews/63ce75449ae462be0adae13a")
+  //   .send(patchData)
+  //   .expect(200)
+  //   .then(({ body }) => {
+  //     const { review } = body;
+  //     expect(review._id).toEqual("63ce75449ae462be0adae13a");
+  //     expect(review.reviewBody).toEqual('Very good to service :), needs to clean their boot out though! it\'s full of clothes!')
+  //   });
+  // });
+});

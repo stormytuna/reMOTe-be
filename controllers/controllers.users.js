@@ -1,4 +1,4 @@
-const { createReview, findUserReviews } = require("../models/models.users");
+const { createReview, findUserReviews, updateUserReview } = require("../models/models.users");
 
 exports.postReview = async (req, res, next) => {
   try {
@@ -16,4 +16,13 @@ exports.getUserReviews = async (req, res, next) => {
   } catch (e) {
     next(e);
   }
+};
+
+exports.patchUserReview = async ( req, res, next) => {
+  try {
+    const review = await updateUserReview(req.params.user_id, req.params.review_id, req.body)
+    res.status(200).send({ review })
+  } catch (e) {
+    next (e);
+  };
 };
