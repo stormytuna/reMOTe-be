@@ -34,7 +34,6 @@ exports.getTechnician = async (req, res, next) => {
     next(e);
   }
 };
-
 exports.deleteTechnician = async (req, res, next) => {
   try {
     const user = await updateTechnicianProp(req.params.user_id);
@@ -44,14 +43,6 @@ exports.deleteTechnician = async (req, res, next) => {
   }
 };
 
-exports.createReviewforTech = async (req, res, next) => {
-  try {
-    const technician = await postReviewForTech(req.params.user_id, req.body);
-    res.status(201).send({ technician });
-  } catch (e) {
-    next(e);
-  }
-};
 exports.patchTechnician = async (req, res, next) => {
   const updates = req.body;
   const id = req.params.user_id;

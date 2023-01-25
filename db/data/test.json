@@ -12,7 +12,13 @@
       "phoneNumber": "123456789",
       "email": "davidsmith@company.com"
     },
-    "reviews": [ ],
+    "reviews": [
+      {
+        "reviewBody": "Very good to service :)",
+        "rating": 5,
+        "reviewedBy": "63ce75449ae462be0adad72d"
+      }
+    ],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
   {
@@ -28,7 +34,7 @@
       "phoneNumber": "4567890123",
       "email": "johnswash@company.com"
     },
-    "reviews": [ ],
+    "reviews": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
   {
@@ -44,7 +50,7 @@
       "phoneNumber": "32985262132",
       "email": "alexsomething@company.com"
     },
-    "reviews": [ ],
+    "reviews": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
   {
@@ -86,9 +92,9 @@
           "rating": 1,
           "reviewedBy": "63ce75449ae462be0adad72a"
         }
-       ]
+      ]
     },
-    "reviews": [ ],
+    "reviews": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
   {
@@ -129,7 +135,7 @@
           "rating": 5,
           "reviewedBy": "63ce75449ae462be0adad72a"
         }
-       ]
+      ]
     },
     "reviews": [
       {
@@ -138,7 +144,7 @@
         "reviewedBy": "63ce75449ae462be0adad72d",
         "_id": "63ce75449ae462be0adae13a"
       }
-     ],
+    ],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   }
 ]

@@ -12,22 +12,25 @@ exports.findTechnician = async (id) => {
   return technician;
 };
 
+
 exports.postTechnician = async (technician) => {
-  try {
-    const newTechnician = await User.create(technician);
-    return newTechnician;
-  } catch (e) {
-    console.error(e);
+  if (technician.technician === null) {
+    return Promise.reject({ status: 400, msg: "Bad request" });
   }
+
+  const newTechnician = await User.create(technician);
+  return newTechnician;
 };
 
 exports.findTechnician = async (id) => {
-  try {
-    const technician = await User.findById(id);
-    return technician;
-  } catch (e) {
-    console.error(e);
+  const technician = await User.findById(id);
+
+  // Check 404s
+  if (!technician) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
   }
+
+  return technician;
 };
 
 exports.updateTechnicianProp = async (technicianID) => {
@@ -37,7 +40,13 @@ exports.updateTechnicianProp = async (technicianID) => {
       $set: { technician: null },
     }
   );
+
   const user = await User.findById(technicianID);
+  // Handle 404s
+  if (!user) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+
   return user;
 };
 
@@ -64,7 +73,14 @@ exports.updateTechnician = async (id, updates) => {
     { _id: id },
     { $push: { "technician.services": updates } }
   );
-  return await User.findById(id);
+  const technician = await User.findById(id);
+
+  // Handles 404s
+  if (!technician) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+
+  return technician;
 };
 
 exports.deleteReview = async (user_id, review_id) => {
