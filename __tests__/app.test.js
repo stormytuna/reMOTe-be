@@ -5,6 +5,7 @@ const app = require("../app");
 const { connect } = require("../db/start-connection");
 const { disconnect } = require("../db/end-connection");
 const { seed } = require("../db/seed-test");
+const { default: mongoose } = require("mongoose");
 
 beforeAll(() => {
   return connect();
@@ -302,7 +303,7 @@ describe("POST /api/technicians/:user_id/reviews", () => {
     const newReview = {
       reviewBody: "This man is a car maniac! 5/7",
       rating: 4,
-      reviewedBy: 1,
+      reviewedBy: new mongoose.Types.ObjectId("63ce75449ae462be0adad72b"),
     };
     return request(app)
       .post("/api/technicians/63ce75449ae462be0adad72d/reviews")
@@ -315,7 +316,7 @@ describe("POST /api/technicians/:user_id/reviews", () => {
         expect(technician.technician.reviews[2]).toMatchObject({
           reviewBody: "This man is a car maniac! 5/7",
           rating: 4,
-          reviewedBy: "1",
+          reviewedBy: "63ce75449ae462be0adad72b",
         });
       });
   });
@@ -400,7 +401,7 @@ describe("DELETE /api/technicians/:user_id", () => {
       .delete(`/api/technicians/63ce75449ae462be0adad72d`)
       .expect(200)
       .then(({ body: { user } }) => {
-        expect(user).toEqual(newUser);
+        expect(user).toMatchObject(newUser);
       });
   });
 
@@ -501,7 +502,7 @@ test("status:201, responds with the newly updated user", () => {
       .send({
         reviewBody: "This is a test review",
         rating: 3,
-        reviewedBy: "15",
+        reviewedBy: new mongoose.Types.ObjectId("63ce75449ae462be0adad72b"),
       })
       .expect(201)
       .then(({ body }) => {
@@ -511,7 +512,7 @@ test("status:201, responds with the newly updated user", () => {
         expect(user.reviews[1]).toMatchObject({
           reviewBody: "This is a test review",
           rating: 3,
-          reviewedBy: "15",
+          reviewedBy: "63ce75449ae462be0adad72b",
         });
       });
   });
@@ -567,7 +568,7 @@ test("status:201, responds with the newly updated user", () => {
       .send({
         reviewBody: "This is a test review",
         rating: 3,
-        reviewedBy: "15",
+        reviewedBy: new mongoose.Types.ObjectId("63ce75449ae462be0adad72b"),
       })
 
       .expect(404)
