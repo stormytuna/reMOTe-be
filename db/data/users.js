@@ -52,7 +52,10 @@ const userSchema = new mongoose.Schema({
         {
           reviewBody: { type: String, required: true },
           rating: { type: Number, required: true, min: 0, max: 5 },
-          reviewedBy: { type: String, required: true },
+          reviewedBy: {
+            type: mongoose.Types.ObjectId,
+            required: true,
+          },
         },
       ],
     },
@@ -63,9 +66,36 @@ const userSchema = new mongoose.Schema({
     {
       reviewBody: { type: String, required: true },
       rating: { type: Number, required: true, min: 0, max: 5 },
-      reviewedBy: { type: String, required: true },
+      reviewedBy: {
+        type: mongoose.Types.ObjectId,
+        required: true,
+      },
     },
   ],
+  orders: {
+    type: [
+      {
+        services: {
+          type: [
+            {
+              name: { type: String, required: true },
+              price: { type: Number, required: true },
+              description: String,
+            },
+          ],
+          required: true,
+        },
+        createdAt: { type: Date, required: true },
+        fulfilledAt: {
+          type: Date,
+          enum: [Date, null],
+          required: true,
+          default: null,
+        },
+        servicedBy: { type: mongoose.Types.ObjectId, required: true },
+      },
+    ],
+  },
   avatarUrl: { type: String, default: "https://i.imgur.com/pN04qjy.jpg" },
 });
 

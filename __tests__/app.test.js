@@ -5,6 +5,7 @@ const app = require("../app");
 const { connect } = require("../db/start-connection");
 const { disconnect } = require("../db/end-connection");
 const { seed } = require("../db/seed-test");
+const { default: mongoose } = require("mongoose");
 
 beforeAll(() => {
   return connect();
@@ -242,6 +243,7 @@ describe("GET /api/technicians/:user_id", () => {
       });
   });
 });
+
 describe("PATCH /api/technicians/:user_id", () => {
   const patchData = { name: "Tyre Replacement", price: 50 };
   test("status:200, should accept an object of services, update the technician, and return it", () => {
@@ -301,7 +303,7 @@ describe("POST /api/technicians/:user_id/reviews", () => {
     const newReview = {
       reviewBody: "This man is a car maniac! 5/7",
       rating: 4,
-      reviewedBy: 1,
+      reviewedBy: new mongoose.Types.ObjectId("63ce75449ae462be0adad72b"),
     };
     return request(app)
       .post("/api/technicians/63ce75449ae462be0adad72d/reviews")
@@ -314,7 +316,7 @@ describe("POST /api/technicians/:user_id/reviews", () => {
         expect(technician.technician.reviews[2]).toMatchObject({
           reviewBody: "This man is a car maniac! 5/7",
           rating: 4,
-          reviewedBy: "1",
+          reviewedBy: "63ce75449ae462be0adad72b",
         });
       });
   });
@@ -399,7 +401,7 @@ describe("DELETE /api/technicians/:user_id", () => {
       .delete(`/api/technicians/63ce75449ae462be0adad72d`)
       .expect(200)
       .then(({ body: { user } }) => {
-        expect(user).toEqual(newUser);
+        expect(user).toMatchObject(newUser);
       });
   });
 
@@ -462,14 +464,45 @@ describe("GET /api/users/:user_id/reviews", () => {
   });
 });
 
+describe('DELETE /api/user_id/reviews/:review_id', () => {
+    test('should delete a review using review_id', () => {
+    return request(app)
+    .delete('/api/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a')
+    .expect(204)
+  });
+  test('should return a 404 when provided an non-existant user_id', () => {
+    return request(app)
+    .delete('/api/63ce75449ae462be0adad98e/reviews/63ce75449ae462be0adae13a')
+    .expect(404)
+    .then(({ body: { msg } }) => {
+      expect(msg).toBe("Content not found");
+    })
+  });
+  test('should a 404 when provided an non-existant review_id', () => {
+    return request(app)
+    .delete('/api/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae57a')
+    .expect(404)
+    .then(({ body: { msg } }) => {
+      expect(msg).toBe("Content not found");
+    })
+  });
+  test("should return a 400 when given an invalid user ID", () => {
+    return request(app)
+      .delete("/api/fake-user-ID/reviews/63ce75449ae462be0adae13a")
+  .expect(404)
+  .then(({ body }) => {
+  const { msg } = body;
+  expect(msg).toBe("Content not found");
+});
+});
 describe("POST /api/users/:user_id/reviews", () => {
-  test("status:201, responds with the newly updated user", () => {
+test("status:201, responds with the newly updated user", () => {
     return request(app)
       .post("/api/users/63ce75449ae462be0adad72a/reviews")
       .send({
         reviewBody: "This is a test review",
         rating: 3,
-        reviewedBy: "15",
+        reviewedBy: new mongoose.Types.ObjectId("63ce75449ae462be0adad72b"),
       })
       .expect(201)
       .then(({ body }) => {
@@ -479,7 +512,7 @@ describe("POST /api/users/:user_id/reviews", () => {
         expect(user.reviews[1]).toMatchObject({
           reviewBody: "This is a test review",
           rating: 3,
-          reviewedBy: "15",
+          reviewedBy: "63ce75449ae462be0adad72b",
         });
       });
   });
@@ -535,8 +568,9 @@ describe("POST /api/users/:user_id/reviews", () => {
       .send({
         reviewBody: "This is a test review",
         rating: 3,
-        reviewedBy: "15",
+        reviewedBy: new mongoose.Types.ObjectId("63ce75449ae462be0adad72b"),
       })
+
       .expect(404)
       .then(({ body }) => {
         const { msg } = body;
@@ -663,3 +697,5 @@ describe("POST /api/users", () => {
       });
   });
 });
+});
+
