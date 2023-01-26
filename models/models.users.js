@@ -89,3 +89,30 @@ exports.removeUser = async (user_id) => {
 
   await User.remove({ _id: user_id})
 }
+
+exports.updateOrder = async (user_id, order_id, updates) => {
+  const { services } = updates;
+  const expectedKeys = ["services"]
+  const receivedKeys = Object.keys(updates);
+
+  if (!patchKeysAreEqual(expectedKeys, receivedKeys)){
+    return Promise.reject({ status: 400, msg: "Bad request" });
+  }
+
+  await User.findOneAndUpdate({'_id' : user_id}, { $set: {"orders.$[elem].services": services}}, {arrayFilters: [ {"elem._id": {$eq: order_id} }]})
+  const user = await User.findById({_id: user_id});
+
+  if (!user) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+
+  const order = await User.find({'orders': {$elemMatch: {_id: order_id}}})
+
+  if(order.length === 0) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+
+  return user.orders;
+};
+
+
