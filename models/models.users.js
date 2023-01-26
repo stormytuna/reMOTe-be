@@ -89,3 +89,22 @@ exports.removeUser = async (user_id) => {
 
   await User.remove({ _id: user_id})
 }
+
+
+exports.createOrder = async (user_id, order) => {
+  const expectedKeys = ['services', 'createdAt', 'fulfilledAt', 'servicedBy']
+  const receivedKeys = Object.keys(order)
+  const user = await User.findById(user_id);
+
+    if (!patchKeysAreEqual(receivedKeys, expectedKeys)){
+      return Promise.reject({ status: 400, msg: "Bad request" });
+    }
+
+    if (!user) {
+      return Promise.reject({ status: 404, msg: "Content not found" });
+    }
+
+    await User.findOneAndUpdate({ _id: user_id }, { $push: { orders: order } });
+    const updatedUser = await User.findById({ _id: user_id });
+    return updatedUser.orders;
+};

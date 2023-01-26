@@ -19,6 +19,7 @@
         "reviewedBy": "63ce75449ae462be0adad72d"
       }
     ],
+    "orders": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
   {
@@ -35,6 +36,7 @@
       "email": "johnswash@company.com"
     },
     "reviews": [],
+    "orders": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
   {
@@ -51,8 +53,23 @@
       "email": "alexsomething@company.com"
     },
     "reviews": [],
+    "orders": [
+      {
+        "services": [{"name": "Servicing and MOT", "price": 120, "description": "Serviced and MOTed. Requires clutch repairs" }, {"name": "Clutch repairs", "price": 200, "description": "clutch repairs to pass MOT" }],
+        "createdAt": "2020-05-18T14:10:30Z",
+        "fulfilledAt": "2020-05-28T14:09:10Z",
+        "servicedBy": "63ce75449ae462be0adad72e"
+      },
+      {
+        "services": [{ "name": "Breakdown and recovery", "price": 150, "description": "Ran out of fuel causing engine to stall and battery to die"}],
+        "createdAt": "2021-08-18T14:12:30Z",
+        "fulfilledAt": "2021-08-18T14:13:30Z",
+        "servicedBy": "63ce75449ae462be0adad72e"
+      }
+    ],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
+
   {
     "_id": "63ce75449ae462be0adad72d",
     "username": "test-tech-01",
@@ -95,6 +112,7 @@
       ]
     },
     "reviews": [],
+    "orders": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
   {
@@ -145,6 +163,7 @@
         "_id": "63ce75449ae462be0adae13a"
       }
     ],
+    "orders": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   }
 ]
