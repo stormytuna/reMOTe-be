@@ -1,5 +1,5 @@
 const User = require("../db/data/users");
-const { patchKeysAreEqual, reviewCheck } = require('../controllers/controller.functions');
+const { patchKeysAreEqual } = require('../utils');
 
 exports.createReview = async (review, id) => {
   // Check for bad request
