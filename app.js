@@ -16,7 +16,9 @@ const {
   patchTechnician
 } = require("./controllers/controllers.technicians");
 
-const { postReview, getUserReviews, postUser, removeReview, deleteUser, patchUserReview } = require("./controllers/controllers.users");
+
+const { postReview, getUserReviews, postUser, removeReview, patchUserReview, deleteUser } = require("./controllers/controllers.users");
+
 
 const app = express();
 
