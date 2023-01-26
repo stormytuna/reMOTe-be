@@ -66,7 +66,8 @@ exports.findUserOrders = async (user_id) => {
 
 
 exports.removeUser = async (user_id) => {
-
+  const user = await User.findById(user_id);
+  
   if (!user) {
     return Promise.reject({ status: 404, msg: "Content not found" });
   }
