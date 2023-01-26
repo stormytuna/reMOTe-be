@@ -35,6 +35,15 @@ exports.findUserReviews = async (id) => {
   return user.reviews;
 };
 
+exports.createUser = async (user) => {
+  
+  if (user.user === null) {
+    return Promise.reject({ status: 400, msg: "Bad request" });
+  }
+  const newUser = await User.create(user);
+  console.log(newUser)
+  return newUser;
+};
 exports.deleteReview = async (user_id, review_id) => {
 
   const user = await User.findById(user_id);

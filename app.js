@@ -15,9 +15,8 @@ const {
   createReviewforTech,
   patchTechnician,
 } = require("./controllers/controllers.technicians");
-const { postReview } = require("./controllers/controllers.users");
 
-const { getUserReviews, removeReview } = require("./controllers/controllers.users");
+const { postReview, getUserReviews, postUser, removeReview } = require("./controllers/controllers.users");
 
 const app = express();
 
@@ -34,6 +33,7 @@ app.delete("/api/technicians/:user_id", deleteTechnician);
 
 app.post("/api/users/:user_id/reviews", postReview);
 app.get("/api/users/:user_id/reviews", getUserReviews);
+app.post("/api/users", postUser);
 
 app.delete("/api/:user_id/reviews/:review_id", removeReview);
 
