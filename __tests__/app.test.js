@@ -568,6 +568,13 @@ test("status:201, responds with the newly updated user", () => {
         rating: 3,
         reviewedBy: "15",
       })
+
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
+  });
 });
 });
-});
+
