@@ -16,7 +16,7 @@ const {
 } = require("./controllers/controllers.technicians");
 const { postReview } = require("./controllers/controllers.users");
 
-const { getUserReviews } = require("./controllers/controllers.users");
+const { getUserReviews, removeReview } = require("./controllers/controllers.users");
 
 const app = express();
 
@@ -31,6 +31,8 @@ app.delete("/api/technicians/:user_id", deleteTechnician);
 
 app.post("/api/users/:user_id/reviews", postReview);
 app.get("/api/users/:user_id/reviews", getUserReviews);
+
+app.delete("/api/:user_id/reviews/:review_id", removeReview);
 
 app.all("*", handle404s);
 app.use(handleCustomErrors);
