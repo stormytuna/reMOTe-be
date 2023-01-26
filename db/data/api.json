@@ -1,0 +1,301 @@
+{
+  "endpoints": {
+    "GET /api": {
+      "description": "serves a json representation of all the available endpoints of the api"
+    },
+    "GET /api/technicians": {
+      "description": "Serves an array of all technicians",
+      "queries": [],
+      "exampleResponse": [ 
+        {
+          "_id": "63ce75449ae462be0adad72d",
+          "username": "test-tech-01",
+          "firstName": "James",
+          "lastName": "Wright",
+          "address": {
+            "addressLine": "12 Random Place",
+            "postcode": "KF76 9LM"
+          },
+          "contact": {
+            "phoneNumber": "32985262911",
+            "email": "jameswright@company.com"
+          },
+          "technician": {
+            "services": [
+              {
+                "name": "Clutch repairs",
+                "price": 100
+              },
+              {
+                "name": "Breakdown and recovery",
+                "price": 1000
+              },
+              {
+                "name": "Tyres, wheels and tracking",
+                "price": 10000
+              }
+            ],
+            "reviews": [
+              {
+                "reviewBody": "Very good services :)",
+                "rating": 4,
+                "reviewedBy": 1
+              },
+              {
+                "reviewBody": "Bad >:(",
+                "rating": 1,
+                "reviewedBy": "63ce75449ae462be0adad72a"
+              }
+            ]
+          },
+          "reviews": [],
+          "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+        }
+      ]
+    },
+    "GET /api/technicians/:user_id": {
+      "description": "Serves the technician with the given user ID",
+      "queries": [],
+      "exampleResponse": {
+        "technician": {
+          "_id": "63ce75449ae462be0adad72d",
+          "username": "test-tech-01",
+          "firstName": "James",
+          "lastName": "Wright",
+          "address": {
+            "addressLine": "12 Random Place",
+            "postcode": "KF76 9LM"
+          },
+          "contact": {
+            "phoneNumber": "32985262911",
+            "email": "jameswright@company.com"
+          },
+          "technician": {
+            "services": [
+              {
+                "name": "Clutch repairs",
+                "price": 100
+              },
+              {
+                "name": "Breakdown and recovery",
+                "price": 1000
+              },
+              {
+                "name": "Tyres, wheels and tracking",
+                "price": 10000
+              }
+            ],
+            "reviews": [
+              {
+                "reviewBody": "Very good services :)",
+                "rating": 4,
+                "reviewedBy": 1
+              },
+              {
+                "reviewBody": "Bad >:(",
+                "rating": 1,
+                "reviewedBy": "63ce75449ae462be0adad72a"
+              }
+            ]
+          },
+          "reviews": [],
+          "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+        }
+      }
+    },
+    "GET /api/users/:user_id/reviews": {
+      "description": "Serves the reviews of the user with the given user ID",
+      "queries": [],
+      "exampleResponse": [
+        {
+          "reviewBody": "Very good services :)",
+          "rating": 5,
+          "reviewedBy": "63ce75449ae462be0adad72a"
+        }
+      ]
+    },
+    "PATCH /api/technicians/:user_id": {
+      "description": "Replaces the technicians services array with the sent services array",
+      "exampleRequest": [
+        {
+          "name": "Service name",
+          "price": 100,
+          "description": "Service description"
+        }
+      ],
+      "exampleResponse": {
+        "technician": {
+          "_id": "63ce75449ae462be0adad72d",
+          "username": "test-tech-01",
+          "firstName": "James",
+          "lastName": "Wright",
+          "address": {
+            "addressLine": "12 Random Place",
+            "postcode": "KF76 9LM"
+          },
+          "contact": {
+            "phoneNumber": "32985262911",
+            "email": "jameswright@company.com"
+          },
+          "technician": {
+            "services": [
+              {
+                "name": "Service name",
+                "price": 100,
+                "description": "Service description"
+              }
+            ],
+            "reviews": [
+              {
+                "reviewBody": "Very good services :)",
+                "rating": 4,
+                "reviewedBy": 1
+              },
+              {
+                "reviewBody": "Bad >:(",
+                "rating": 1,
+                "reviewedBy": "63ce75449ae462be0adad72a"
+              }
+            ]
+          },
+          "reviews": [],
+          "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+        }
+      }
+    },
+    "POST /api/technicians": {
+      "description": "Adds the sent technician and serves the newly created technician",
+      "exampleRequest": {
+        "username": "ahmedH",
+        "firstName": "Ahmed",
+        "lastName": "Hussian",
+        "address": {
+          "addressLine": "1 Random Place",
+          "postcode": "KF76 9LM"
+        },
+        "contact": {
+          "phoneNumber": "07470761588",
+          "email": "ahmedhussain@gmail.com"
+        },
+        "technician": {
+          "services": [
+            { "name": "Servicing and MOT", "price": 45 },
+            { "name": "clutch repair", "price": 100 }
+          ]
+        },
+        "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+      },
+      "exampleResponse": {
+        "_id": "63ce75449ae462be0adad72d",
+        "username": "ahmedH",
+        "firstName": "Ahmed",
+        "lastName": "Hussian",
+        "address": {
+          "addressLine": "1 Random Place",
+          "postcode": "KF76 9LM"
+        },
+        "contact": {
+          "phoneNumber": "07470761588",
+          "email": "ahmedhussain@gmail.com"
+        },
+        "technician": {
+          "services": [
+            { "name": "Servicing and MOT", "price": 45 },
+            { "name": "clutch repair", "price": 100 }
+          ],
+          "reviews": []
+        },
+        "reviews": [],
+        "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+      }
+    },
+    "POST /api/technicians/:user_id/reviews": {
+      "description": "Adds the sent review to the technicians reviews array and serves the modified technician",
+      "exampleRequest": {
+        "reviewBody": "This man is a car maniac! 5/7",
+        "rating": 4,
+        "reviewedBy": 1
+      },
+      "exampleResponse": {
+        "_id": "63ce75449ae462be0adad72e",
+        "username": "test-tech-02",
+        "firstName": "Marie",
+        "lastName": "Smith",
+        "address": {
+          "addressLine": "554 Some Street",
+          "postcode": "KJ73 1LN"
+        },
+        "contact": {
+          "phoneNumber": "32911162985",
+          "email": "mariesmith@company.com"
+        },
+        "technician": {
+          "services": [
+            {
+              "name": "Servicing and MOT",
+              "price": 100
+            },
+            {
+              "name": "Clutch repairs",
+              "price": 1000
+            },
+            {
+              "name": "Breakdown and recovery",
+              "price": 10000
+            },
+            {
+              "name": "Tyres, wheels and tracking",
+              "price": 100000
+            }
+          ],
+          "reviews": [
+            {
+              "reviewBody": "Very good services :)",
+              "rating": 5,
+              "reviewedBy": "63ce75449ae462be0adad72a"
+            },
+            {
+              "reviewBody": "This man is a car maniac! 5/7",
+              "rating": 4,
+              "reviewedBy": 1
+            }
+          ]
+        },
+        "reviews": [
+          {
+            "reviewBody": "Very good to service :)",
+            "rating": 5,
+            "reviewedBy": "63ce75449ae462be0adad72d"
+          }
+        ],
+        "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+      }
+    },
+    "DELETE /api/technicians/:user_id": {
+      "description": "Sets the technician prop on the given technician to null and serves the user",
+      "exampleResponse": {
+        "_id": "63ce75449ae462be0adad72a",
+        "username": "test-user-01",
+        "firstName": "David",
+        "lastName": "Smith",
+        "address": {
+          "addressLine": "123 Somewhere Street",
+          "postcode": "AB12 3CD"
+        },
+        "contact": {
+          "phoneNumber": "123456789",
+          "email": "davidsmith@company.com"
+        },
+        "technician": null,
+        "reviews": [
+          {
+            "reviewBody": "Very good to service :)",
+            "rating": 5,
+            "reviewedBy": "63ce75449ae462be0adad72d"
+          }
+        ],
+        "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+      }
+    }
+  }
+}
