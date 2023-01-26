@@ -61,5 +61,3 @@ exports.createReviewforTech = async (req, res, next) => {
     next(e);
   }
 };
-
-

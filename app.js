@@ -13,10 +13,12 @@ const {
   getTechnician,
   deleteTechnician,
   createReviewforTech,
-  patchTechnician,
+  patchTechnician
 } = require("./controllers/controllers.technicians");
 
-const { postReview, getUserReviews, postUser, removeReview, deleteUser } = require("./controllers/controllers.users");
+
+const { postReview, getUserReviews, postUser, removeReview, patchUserReview, deleteUser } = require("./controllers/controllers.users");
+
 
 const app = express();
 
@@ -33,14 +35,16 @@ app.delete("/api/technicians/:user_id", deleteTechnician);
 
 app.post("/api/users/:user_id/reviews", postReview);
 app.get("/api/users/:user_id/reviews", getUserReviews);
+app.patch("/api/users/:user_id/reviews/:review_id", patchUserReview);
+
 app.post("/api/users", postUser);
 app.delete("/api/users/:user_id", deleteUser);
 
 app.delete("/api/:user_id/reviews/:review_id", removeReview);
 
-app.all("*", handle404s);
 app.use(handleCustomErrors);
 app.use(handleMongoDBErrors);
+app.all("*", handle404s);
 app.use(handle500s);
 
 module.exports = app;
