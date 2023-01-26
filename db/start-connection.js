@@ -1,8 +1,13 @@
 const mongoose = require("mongoose");
-const { username, password } = require("./mongodb-uri.json");
-const dbUri =
-  process.env.DATABASE_URI ||
-  `mongodb+srv://${username}:${password}@test.cpnpkbx.mongodb.net/test`;
+
+let { username, password } = require("./mongodb-uri.json");
+let dbUri = `mongodb+srv://${username}:${password}@test.cpnpkbx.mongodb.net/test`;
+
+if (process.env.MONGODB_USERNAME && process.env.MONGODB_PASSWORD) {
+  username = process.env.MONGODB_USERNAME;
+  password = process.env.MONGODB_PASSWORD;
+  dbUri = `mongodb+srv://${username}:${password}@prod.ko0v9jw.mongodb.net/test`;
+}
 
 exports.connect = () => {
   mongoose.set("strictQuery", false);
