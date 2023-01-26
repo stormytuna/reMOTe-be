@@ -18,7 +18,8 @@
     "test": "jest --detectOpenHandles",
     "start": "nodemon ./app.js",
     "seed": "node ./db/seed-all.js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "clear_jest": "jest --clearCache"
   },
   "repository": {
     "type": "git",

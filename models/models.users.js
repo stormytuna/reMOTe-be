@@ -1,4 +1,5 @@
 const User = require("../db/data/users");
+const { patchKeysAreEqual, reviewCheck } = require('../controllers/controller.functions');
 
 exports.createReview = async (review, id) => {
   // Check for bad request
@@ -26,7 +27,6 @@ exports.createReview = async (review, id) => {
 
 exports.findUserReviews = async (id) => {
   const user = await User.findById(id);
-
   // Handle 404s
   if (!user) {
     return Promise.reject({ status: 404, msg: "Content not found" });
@@ -36,14 +36,16 @@ exports.findUserReviews = async (id) => {
 };
 
 exports.updateUserReview = async (user_id, review_id, updates) => {
+  const { rating, reviewBody } = updates;
 
- const { rating, reviewBody } = updates;
-  const dataToBeUpdated = {rating: rating, reviewBody: reviewBody}
+  const user = await User.findById(user_id);
 
-  const userReview = await User.findOneAndUpdate({[`reviews._id`]: review_id}, { $set: {"reviews.$": dataToBeUpdated}});
 
-  console.log(userReview);
+  // Handle 404s
+  if (!user) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
 
-  // { $set: {[`reviews.${review_id}`]: updates}}
-
+  await User.findOneAndUpdate({'_id' : user_id}, { $set: {"reviews.$[elem].rating": rating, 'reviews.$[elem].reviewBody': reviewBody}}, {arrayFilters: [ {"elem._id": {$eq: review_id} }]})
+  return await User.findById({_id: user_id});
 };

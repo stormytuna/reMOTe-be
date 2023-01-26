@@ -33,9 +33,10 @@ app.post("/api/users/:user_id/reviews", postReview);
 app.get("/api/users/:user_id/reviews", getUserReviews);
 app.patch("/api/users/:user_id/reviews/:review_id", patchUserReview);
 
-app.all("*", handle404s);
+
 app.use(handleCustomErrors);
 app.use(handleMongoDBErrors);
+app.all("*", handle404s);
 app.use(handle500s);
 
 module.exports = app;

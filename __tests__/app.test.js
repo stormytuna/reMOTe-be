@@ -546,22 +546,42 @@ describe("POST /api/users/:user_id/reviews", () => {
 });
 
 
-describe.only('PATCH /api/users/:user_id/reviews/:review_id', () => {
+describe('PATCH /api/users/:user_id/reviews/:review_id', () => {
   const patchData = {
     "reviewBody": "Very good to service :), needs to clean their boot out though! it's full of clothes!",
-    "rating": 5,
+    "rating": 7,
     "reviewedBy": "63ce75449ae462be0adad72d",
     "_id": "63ce75449ae462be0adae13a"
   }
-  // test('should respond with a 200, accept a review object, update the review, and return it', () => {
-  //   return request(app)
-  //   .patch("/api/users/63ce75449ae462be0adad98e/reviews/63ce75449ae462be0adae13a")
-  //   .send(patchData)
-  //   .expect(200)
-  //   .then(({ body }) => {
-  //     const { review } = body;
-  //     expect(review._id).toEqual("63ce75449ae462be0adae13a");
-  //     expect(review.reviewBody).toEqual('Very good to service :), needs to clean their boot out though! it\'s full of clothes!')
-  //   });
-  // });
+  test('should respond with a 200, accept a review object, update the review, and return it', () => {
+    return request(app)
+    .patch("/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a")
+    .send(patchData)
+    .expect(200)
+    .then(({ body }) => {
+      const { review } = body;
+      expect(review._id).toEqual("63ce75449ae462be0adad72e");
+      let result = '';
+      review.reviews.forEach((review) => {
+      if (review.reviewBody === patchData.reviewBody) return result = true 
+      return result = false })
+      expect(result).toBe(true)
+    });
+  });
+  test("Should respond with a 400 when given invalid data which does not match the schema", () => {
+    const patchData = {
+      "reviewBody": true,
+      "rating": 'a string',
+      "reviewedBy": "63ce75449ae462be0adad72d",
+      "_id": "63ce75449ae462be0adae13a"
+    }
+    return request(app)
+      .patch("/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a")
+      .send(patchData)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
 });
