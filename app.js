@@ -16,7 +16,9 @@ const {
   patchTechnician
 } = require("./controllers/controllers.technicians");
 
-const { postReview, getUserReviews, postUser, removeReview, patchUserReview } = require("./controllers/controllers.users");
+
+const { postReview, getUserReviews, postUser, removeReview, patchUserReview, deleteUser } = require("./controllers/controllers.users");
+
 
 const app = express();
 
@@ -36,6 +38,7 @@ app.get("/api/users/:user_id/reviews", getUserReviews);
 app.patch("/api/users/:user_id/reviews/:review_id", patchUserReview);
 
 app.post("/api/users", postUser);
+app.delete("/api/users/:user_id", deleteUser);
 
 app.delete("/api/:user_id/reviews/:review_id", removeReview);
 

@@ -68,7 +68,6 @@ exports.createUser = async (user) => {
     return Promise.reject({ status: 400, msg: "Bad request" });
   }
   const newUser = await User.create(user);
-  console.log(newUser)
   return newUser;
 };
 exports.deleteReview = async (user_id, review_id) => {
@@ -79,7 +78,15 @@ exports.deleteReview = async (user_id, review_id) => {
   if (!user || !review) {
     return Promise.reject({ status: 404, msg: "Content not found" });
   }
-  
-
   await User.findOneAndUpdate({ _id: user_id }, { $pull: { "reviews": { _id: review_id } } });
+}
+exports.removeUser = async (user_id) => {
+
+  const user = await User.findById(user_id);
+
+  if (!user) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+
+  await User.remove({ _id: user_id})
 }
