@@ -16,7 +16,7 @@ const {
   patchTechnician,
 } = require("./controllers/controllers.technicians");
 
-const { postReview, getUserReviews, postUser, removeReview } = require("./controllers/controllers.users");
+const { postReview, getUserReviews, postUser, removeReview, getUserOrders } = require("./controllers/controllers.users");
 
 const app = express();
 
@@ -36,6 +36,8 @@ app.get("/api/users/:user_id/reviews", getUserReviews);
 app.post("/api/users", postUser);
 
 app.delete("/api/:user_id/reviews/:review_id", removeReview);
+
+app.get("/api/users/:user_id/orders", getUserOrders)
 
 app.all("*", handle404s);
 app.use(handleCustomErrors);
