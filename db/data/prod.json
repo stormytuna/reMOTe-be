@@ -1,0 +1,149 @@
+[
+  {
+    "_id": "63ce75449ae462be0adad72a",
+    "username": "test-user-01",
+    "firstName": "David",
+    "lastName": "Smith",
+    "address": {
+      "addressLine": "123 Somewhere Street",
+      "postcode": "AB12 3CD"
+    },
+    "contact": {
+      "phoneNumber": "123456789",
+      "email": "davidsmith@company.com"
+    },
+    "reviews": [
+      {
+        "reviewBody": "Very good to service :)",
+        "rating": 5,
+        "reviewedBy": "63ce75449ae462be0adad72d"
+      }
+    ],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "63ce75449ae462be0adad72b",
+    "username": "test-user-02",
+    "firstName": "John",
+    "lastName": "Swash",
+    "address": {
+      "addressLine": "153 Place Blvd",
+      "postcode": "GD13 3IK"
+    },
+    "contact": {
+      "phoneNumber": "4567890123",
+      "email": "johnswash@company.com"
+    },
+    "reviews": [],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "63ce75449ae462be0adad72c",
+    "username": "test-user-03",
+    "firstName": "Alex",
+    "lastName": "Something",
+    "address": {
+      "addressLine": "233 Somewhere Street",
+      "postcode": "AB12 3CF"
+    },
+    "contact": {
+      "phoneNumber": "32985262132",
+      "email": "alexsomething@company.com"
+    },
+    "reviews": [],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "63ce75449ae462be0adad72d",
+    "username": "test-tech-01",
+    "firstName": "James",
+    "lastName": "Wright",
+    "address": {
+      "addressLine": "12 Random Place",
+      "postcode": "KF76 9LM"
+    },
+    "contact": {
+      "phoneNumber": "32985262911",
+      "email": "jameswright@company.com"
+    },
+    "technician": {
+      "services": [
+        {
+          "name": "Clutch repairs",
+          "price": 100
+        },
+        {
+          "name": "Breakdown and recovery",
+          "price": 1000
+        },
+        {
+          "name": "Tyres, wheels and tracking",
+          "price": 10000
+        }
+      ],
+      "reviews": [
+        {
+          "reviewBody": "Very good services :)",
+          "rating": 4,
+          "reviewedBy": 1
+        },
+        {
+          "reviewBody": "Bad >:(",
+          "rating": 1,
+          "reviewedBy": "63ce75449ae462be0adad72a"
+        }
+      ]
+    },
+    "reviews": [],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "63ce75449ae462be0adad72e",
+    "username": "test-tech-02",
+    "firstName": "Marie",
+    "lastName": "Smith",
+    "address": {
+      "addressLine": "554 Some Street",
+      "postcode": "KJ73 1LN"
+    },
+    "contact": {
+      "phoneNumber": "32911162985",
+      "email": "mariesmith@company.com"
+    },
+    "technician": {
+      "services": [
+        {
+          "name": "Servicing and MOT",
+          "price": 100
+        },
+        {
+          "name": "Clutch repairs",
+          "price": 1000
+        },
+        {
+          "name": "Breakdown and recovery",
+          "price": 10000
+        },
+        {
+          "name": "Tyres, wheels and tracking",
+          "price": 100000
+        }
+      ],
+      "reviews": [
+        {
+          "reviewBody": "Very good services :)",
+          "rating": 5,
+          "reviewedBy": "63ce75449ae462be0adad72a"
+        }
+      ]
+    },
+    "reviews": [
+      {
+        "reviewBody": "Very good to service :)",
+        "rating": 5,
+        "reviewedBy": "63ce75449ae462be0adad72d"
+      }
+    ],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  }
+]

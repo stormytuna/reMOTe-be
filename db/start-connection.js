@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
 const { username, password } = require("./mongodb-uri.json");
+const dbUri =
+  process.env.DATABASE_URI ||
+  `mongodb+srv://${username}:${password}@test.cpnpkbx.mongodb.net/test`;
 
 exports.connect = () => {
-  mongoose.set('strictQuery', false);
+  mongoose.set("strictQuery", false);
   mongoose.connect(
-    `mongodb+srv://${username}:${password}@test.cpnpkbx.mongodb.net/test`,
+    dbUri,
     () => {
       console.log("Successfully connected!");
     },

@@ -1,12 +1,14 @@
 const User = require("./data/users");
 const { disconnect } = require("./end-connection");
 const { connect } = require("./start-connection");
-const testData = require("./data/test.json");
+const prodData = require("./data/prod.json");
 
-exports.seedTest = async () => {
+exports.seedProd = async () => {
   try {
+    connect();
     await User.deleteMany({});
-    await User.insertMany(testData);
+    await User.insertMany(prodData);
+    disconnect();
   } catch (e) {
     console.error(e.message);
   }

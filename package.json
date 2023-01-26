@@ -16,8 +16,9 @@
   "main": "app.js",
   "scripts": {
     "test": "jest --detectOpenHandles",
-    "start": "nodemon ./app.js",
-    "seed": "node ./db/seed-all.js",
+    "start": "nodemon ./listen.js",
+    "seed-test": "node ./db/seed-test.js",
+    "seed-prod": "node ./db/seed-prod.js",
     "prepare": "husky install"
   },
   "repository": {

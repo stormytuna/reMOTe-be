@@ -4,14 +4,14 @@ const request = require("supertest");
 const app = require("../app");
 const { connect } = require("../db/start-connection");
 const { disconnect } = require("../db/end-connection");
-const { seed } = require("../db/seed-test");
+const { seedTest } = require("../db/seed-test");
 
 beforeAll(() => {
   return connect();
 });
 
 beforeEach(() => {
-  return seed(userData);
+  return seedTest(userData);
 });
 
 afterAll(() => {
