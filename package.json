@@ -19,7 +19,8 @@
     "start": "nodemon ./listen.js",
     "seed-test": "node ./db/seed-test.js",
     "seed-prod": "node ./db/seed-prod.js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "clear_jest": "jest --clearCache"
   },
   "repository": {
     "type": "git",
