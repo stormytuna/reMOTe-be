@@ -50,13 +50,11 @@ const userSchema = new mongoose.Schema({
       },
       reviews: [
         {
-          type: {
-            reviewBody: { type: String, required: true },
-            rating: { type: Number, required: true, min: 0, max: 5 },
-            reviewedBy: {
-              type: String,
-              required: true,
-            },
+          reviewBody: { type: String, required: true },
+          rating: { type: Number, required: true, min: 0, max: 5 },
+          reviewedBy: {
+            type: mongoose.Types.ObjectId,
+            required: true,
           },
         },
       ],
@@ -68,7 +66,10 @@ const userSchema = new mongoose.Schema({
     {
       reviewBody: { type: String, required: true },
       rating: { type: Number, required: true, min: 0, max: 5 },
-      reviewedBy: { type: String, required: true },
+      reviewedBy: {
+        type: mongoose.Types.ObjectId,
+        required: true,
+      },
     },
   ],
   orders: {
@@ -91,7 +92,7 @@ const userSchema = new mongoose.Schema({
           required: true,
           default: null,
         },
-        servicedBy: { type: String, required: true },
+        servicedBy: { type: mongoose.Types.ObjectId, required: true },
       },
     ],
   },
