@@ -13,10 +13,9 @@ const {
   deleteTechnician,
   createReviewforTech,
   patchTechnician,
-  removeReview
 } = require("./controllers/controllers.technicians");
 
-const { getUserReviews } = require("./controllers/controllers.users");
+const { getUserReviews, removeReview } = require("./controllers/controllers.users");
 
 const app = express();
 
