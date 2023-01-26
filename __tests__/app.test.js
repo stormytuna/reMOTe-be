@@ -921,3 +921,36 @@ describe("DELETE /api/users/:user_id", () => {
       });
   });
 });
+
+describe('DELETE /api/technicians/:user_id/reviews/:review_id', () => {
+  test('should delete a review when provided a valid review id', () => {
+    return request(app)
+    .delete("/api/technicians/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae55a")
+    .expect(204);
+  });
+  test("should return a 404 when provided an non-existant user_id", () => {
+    return request(app)
+      .delete("/api/technicians/63ce75449ae462be0adad95e/reviews/63ce75449ae462be0adae55a")
+      .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Content not found");
+      });
+  });
+  test("should return a 404 when provided an non-existant review_id", () => {
+    return request(app)
+      .delete("/api/technicians/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae66a")
+      .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Content not found");
+      });
+  });
+  test("should return a 400 when given an invalid user ID", () => {
+    return request(app)
+      .delete("/api/technicians/fake-id/reviews/63ce75449ae462be0adae55a")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+});

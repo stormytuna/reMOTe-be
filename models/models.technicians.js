@@ -81,3 +81,24 @@ exports.updateTechnician = async (id, updates) => {
 
   return technician;
 };
+
+exports.removeTechReview = async (user_id, review_id) => {
+  
+  const user = await User.findById(user_id);
+  
+  if (!user) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+  
+
+  const review = await User.find({"technician.reviews": { $elemMatch: {"_id": review_id} } })
+  
+  if(review.length === 0) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+  
+  await User.findOneAndUpdate({ _id: user_id }, { "technician.reviews": { $pull: { "_id": review_id } } });
+
+  const updatedUser = await User.findById(user_id);
+  return updatedUser.technician.reviews
+}

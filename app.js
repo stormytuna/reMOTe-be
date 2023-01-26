@@ -13,7 +13,8 @@ const {
   getTechnician,
   deleteTechnician,
   createReviewforTech,
-  patchTechnician
+  patchTechnician,
+  removeTechReview
 } = require("./controllers/controllers.technicians");
 
 
@@ -41,6 +42,10 @@ app.post("/api/users", postUser);
 app.delete("/api/users/:user_id", deleteUser);
 
 app.delete("/api/:user_id/reviews/:review_id", removeReview);
+
+
+
+app.delete("/api/technicians/:user_id/reviews/:review_id", removeTechReview)
 
 app.use(handleCustomErrors);
 app.use(handleMongoDBErrors);
