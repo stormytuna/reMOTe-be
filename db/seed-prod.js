@@ -13,4 +13,4 @@ exports.seedProd = async () => {
     console.error(e.message);
   }
 };
-seedProd();
+this.seedProd();
