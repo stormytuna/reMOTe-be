@@ -698,7 +698,7 @@ describe("POST /api/users", () => {
       });
   });
 });
-describe.only("DELETE /api/users/:user_id", () => {
+describe("DELETE /api/users/:user_id", () => {
   test("should delete a review using review_id", () => {
     return request(app)
       .delete("/api/users/63ce75449ae462be0adad72a")
