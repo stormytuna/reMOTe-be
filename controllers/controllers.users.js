@@ -1,4 +1,4 @@
-const { createReview, findUserReviews, createUser, deleteReview, updateUserReview, removeUser } = require("../models/models.users");
+const { createReview, findUserReviews, createUser, deleteReview, updateUserReview, removeUser, removeOrder } = require("../models/models.users");
 
 exports.postReview = async (req, res, next) => {
   try {
@@ -54,3 +54,11 @@ exports.deleteUser = async (req, res, next) => {
   }
 };
 
+exports.removeOrder = async (req, res, next) => {
+  try {
+    await removeOrder(req.params.user_id, req.params.order_id);
+    res.status(204).send();
+  } catch (e) {
+    next(e);
+  }
+}
