@@ -1,4 +1,5 @@
 const express = require("express");
+const { getApi } = require("./controllers/controllers.api");
 const {
   handle404s,
   handleMongoDBErrors,
@@ -21,6 +22,8 @@ const { getUserReviews, removeReview } = require("./controllers/controllers.user
 const app = express();
 
 app.use(express.json());
+
+app.get("/api", getApi);
 
 app.get("/api/technicians", getTechnicians);
 app.get("/api/technicians/:user_id", getTechnician);

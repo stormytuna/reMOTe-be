@@ -242,6 +242,7 @@ describe("GET /api/technicians/:user_id", () => {
       });
   });
 });
+
 describe("PATCH /api/technicians/:user_id", () => {
   const patchData = { name: "Tyre Replacement", price: 50 };
   test("status:200, should accept an object of services, update the technician, and return it", () => {
