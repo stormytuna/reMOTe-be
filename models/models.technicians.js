@@ -12,7 +12,6 @@ exports.findTechnician = async (id) => {
   return technician;
 };
 
-
 exports.postTechnician = async (technician) => {
   if (technician.technician === null) {
     return Promise.reject({ status: 400, msg: "Bad request" });
@@ -56,7 +55,7 @@ exports.postReviewForTech = async (id, review) => {
     Object.keys(rest).length > 0 ||
     typeof reviewBody !== "string" ||
     typeof rating !== "number" ||
-    typeof reviewedBy !== "number"
+    typeof reviewedBy !== "string"
   ) {
     return Promise.reject({ status: 400, msg: "Bad request" });
   }

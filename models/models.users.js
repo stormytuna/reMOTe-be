@@ -35,6 +35,7 @@ exports.findUserReviews = async (id) => {
   return user.reviews;
 };
 
+
 exports.updateUserReview = async (user_id, review_id, updates) => {
   const { rating, reviewBody } = updates;
   const expectedKeys = ["reviewBody", "rating", "reviewedBy", "_id"]
@@ -44,10 +45,6 @@ exports.updateUserReview = async (user_id, review_id, updates) => {
   const review = await User.find({'reviews': {$elemMatch: {_id: review_id}}})
 
   // Handle 404s
-  if (!user) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
-  }
-
   if (review.length === 0) {
     return Promise.reject({ status: 404, msg: "Content not found" });
   }
@@ -56,6 +53,39 @@ exports.updateUserReview = async (user_id, review_id, updates) => {
     return Promise.reject({ status: 400, msg: "Bad request" });
   }
 
+  if (!user) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+
   await User.findOneAndUpdate({'_id' : user_id}, { $set: {"reviews.$[elem].rating": rating, 'reviews.$[elem].reviewBody': reviewBody}}, {arrayFilters: [ {"elem._id": {$eq: review_id} }]})
   return await User.findById({_id: user_id});
 };
+
+exports.createUser = async (user) => {
+  
+  if (user.user === null) {
+    return Promise.reject({ status: 400, msg: "Bad request" });
+  }
+  const newUser = await User.create(user);
+  return newUser;
+};
+exports.deleteReview = async (user_id, review_id) => {
+
+  const user = await User.findById(user_id);
+  const review = await User.findOne({[`reviews._id`]: review_id}, {'reviews._id': 1})
+
+  if (!user || !review) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+  await User.findOneAndUpdate({ _id: user_id }, { $pull: { "reviews": { _id: review_id } } });
+}
+exports.removeUser = async (user_id) => {
+
+  const user = await User.findById(user_id);
+
+  if (!user) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+
+  await User.remove({ _id: user_id})
+}
