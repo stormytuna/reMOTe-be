@@ -699,7 +699,7 @@ describe("DELETE /api/user_id/reviews/:review_id", () => {
   });
 });
 
-describe.only('GET /api/users/:user_id/orders', () => {
+describe('GET /api/users/:user_id/orders', () => {
   const ordersData = [
     {
       "services": [{"name": "Servicing and MOT", "price": 120, "description": "Serviced and MOTed. Requires clutch repairs" }, {"name": "Clutch repairs", "price": 200, "description": "clutch repairs to pass MOT" }],
