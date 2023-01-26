@@ -4,7 +4,7 @@ const {
   findTechnician,
   updateTechnicianProp,
   postReviewForTech,
-  updateTechnician,
+  updateTechnician
 } = require("../models/models.technicians");
 
 exports.getTechnicians = async (req, res, next) => {

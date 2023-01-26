@@ -5,6 +5,7 @@ const app = require("../app");
 const { connect } = require("../db/start-connection");
 const { disconnect } = require("../db/end-connection");
 const { seed } = require("../db/seed-test");
+const { default: mongoose } = require("mongoose");
 
 beforeAll(() => {
   return connect();
@@ -242,6 +243,7 @@ describe("GET /api/technicians/:user_id", () => {
       });
   });
 });
+
 describe("PATCH /api/technicians/:user_id", () => {
   const patchData = { name: "Tyre Replacement", price: 50 };
   test("status:200, should accept an object of services, update the technician, and return it", () => {
@@ -301,7 +303,7 @@ describe("POST /api/technicians/:user_id/reviews", () => {
     const newReview = {
       reviewBody: "This man is a car maniac! 5/7",
       rating: 4,
-      reviewedBy: 1,
+      reviewedBy: new mongoose.Types.ObjectId("63ce75449ae462be0adad72b"),
     };
     return request(app)
       .post("/api/technicians/63ce75449ae462be0adad72d/reviews")
@@ -314,7 +316,7 @@ describe("POST /api/technicians/:user_id/reviews", () => {
         expect(technician.technician.reviews[2]).toMatchObject({
           reviewBody: "This man is a car maniac! 5/7",
           rating: 4,
-          reviewedBy: "1",
+          reviewedBy: "63ce75449ae462be0adad72b",
         });
       });
   });
@@ -399,7 +401,7 @@ describe("DELETE /api/technicians/:user_id", () => {
       .delete(`/api/technicians/63ce75449ae462be0adad72d`)
       .expect(200)
       .then(({ body: { user } }) => {
-        expect(user).toEqual(newUser);
+        expect(user).toMatchObject(newUser);
       });
   });
 
@@ -462,86 +464,238 @@ describe("GET /api/users/:user_id/reviews", () => {
   });
 });
 
-describe("POST /api/users/:user_id/reviews", () => {
-  test("status:201, responds with the newly updated user", () => {
+describe("DELETE /api/user_id/reviews/:review_id", () => {
+  test("should delete a review using review_id", () => {
     return request(app)
-      .post("/api/users/63ce75449ae462be0adad72a/reviews")
-      .send({
-        reviewBody: "This is a test review",
-        rating: 3,
-        reviewedBy: "15",
-      })
-      .expect(201)
-      .then(({ body }) => {
-        const { user } = body;
-        expect(user._id).toEqual("63ce75449ae462be0adad72a");
-        expect(user.reviews).toHaveLength(2);
-        expect(user.reviews[1]).toMatchObject({
-          reviewBody: "This is a test review",
-          rating: 3,
-          reviewedBy: "15",
-        });
+      .delete("/api/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a")
+      .expect(204);
+  });
+  test("should return a 404 when provided an non-existant user_id", () => {
+    return request(app)
+      .delete("/api/63ce75449ae462be0adad98e/reviews/63ce75449ae462be0adae13a")
+      .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Content not found");
       });
   });
-
-  test("status:400, responds with an appropriate error message when given a malformed body", () => {
+  test("should a 404 when provided an non-existant review_id", () => {
     return request(app)
-      .post("/api/users/63ce75449ae462be0adad72a/reviews")
-      .send({
-        abnisfn: "This is a test review",
-        regegegg: 3,
-        sarfawsrse: "15",
-      })
-      .expect(400)
-      .then(({ body }) => {
-        const { msg } = body;
-        expect(msg).toBe("Bad request");
+      .delete("/api/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae57a")
+      .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Content not found");
       });
   });
-
-  test("status:400, responds with an appropriate error message when given a review that fails schema validation", () => {
+  test("should return a 400 when given an invalid user ID", () => {
     return request(app)
-      .post("/api/users/63ce75449ae462be0adad72a/reviews")
-      .send({
-        reviewBody: "This is a test review",
-        rating: "aaa",
-        reviewedBy: "15",
-      })
-      .expect(400)
-      .then(({ body }) => {
-        const { msg } = body;
-        expect(msg).toBe("Bad request");
-      });
-  });
-
-  test("status:400, responds with an appropriate error message when our given user ID isn't valid", () => {
-    return request(app)
-      .post("/api/users/totally-a-real-user/reviews")
-      .send({
-        reviewBody: "This is a test review",
-        rating: 3,
-        reviewedBy: "15",
-      })
-      .expect(400)
-      .then(({ body }) => {
-        const { msg } = body;
-        expect(msg).toBe("Bad request");
-      });
-  });
-
-  test("status:404, responds with an appropriate error message when our given user ID doesn't exist", () => {
-    return request(app)
-      .post("/api/users/63ce75449ae462baaaaad72e/reviews")
-      .send({
-        reviewBody: "This is a test review",
-        rating: 3,
-        reviewedBy: "15",
-      })
+      .delete("/api/fake-user-ID/reviews/63ce75449ae462be0adae13a")
       .expect(404)
       .then(({ body }) => {
         const { msg } = body;
         expect(msg).toBe("Content not found");
       });
+  });
+  describe("POST /api/users/:user_id/reviews", () => {
+    test("status:201, responds with the newly updated user", () => {
+      return request(app)
+        .post("/api/users/63ce75449ae462be0adad72a/reviews")
+        .send({
+          reviewBody: "This is a test review",
+          rating: 3,
+          reviewedBy: new mongoose.Types.ObjectId("63ce75449ae462be0adad72b"),
+        })
+        .expect(201)
+        .then(({ body }) => {
+          const { user } = body;
+          expect(user._id).toEqual("63ce75449ae462be0adad72a");
+          expect(user.reviews).toHaveLength(2);
+          expect(user.reviews[1]).toMatchObject({
+            reviewBody: "This is a test review",
+            rating: 3,
+            reviewedBy: "63ce75449ae462be0adad72b",
+          });
+        });
+    });
+
+    test("status:400, responds with an appropriate error message when given a malformed body", () => {
+      return request(app)
+        .post("/api/users/63ce75449ae462be0adad72a/reviews")
+        .send({
+          abnisfn: "This is a test review",
+          regegegg: 3,
+          sarfawsrse: "15",
+        })
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Bad request");
+        });
+    });
+
+    test("status:400, responds with an appropriate error message when given a review that fails schema validation", () => {
+      return request(app)
+        .post("/api/users/63ce75449ae462be0adad72a/reviews")
+        .send({
+          reviewBody: "This is a test review",
+          rating: "aaa",
+          reviewedBy: "15",
+        })
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Bad request");
+        });
+    });
+
+    test("status:400, responds with an appropriate error message when our given user ID isn't valid", () => {
+      return request(app)
+        .post("/api/users/totally-a-real-user/reviews")
+        .send({
+          reviewBody: "This is a test review",
+          rating: 3,
+          reviewedBy: "15",
+        })
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Bad request");
+        });
+    });
+
+    test("status:404, responds with an appropriate error message when our given user ID doesn't exist", () => {
+      return request(app)
+        .post("/api/users/63ce75449ae462baaaaad72e/reviews")
+        .send({
+          reviewBody: "This is a test review",
+          rating: 3,
+          reviewedBy: new mongoose.Types.ObjectId("63ce75449ae462be0adad72b"),
+        })
+
+        .expect(404)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Content not found");
+        });
+    });
+  });
+  describe("POST /api/users", () => {
+    test("status:200, responds with the new user object", () => {
+      const newUser = {
+        username: "totally-not-batman-btw",
+        firstName: "Bruce",
+        lastName: "Wayne",
+        address: {
+          addressLine: "153 Gotham Avenue",
+          postcode: "GT52 12P",
+        },
+        contact: {
+          phoneNumber: "52452852152",
+          email: "b_wayne@wayne-tech.com",
+        },
+        avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
+      };
+      return request(app)
+        .post("/api/users")
+        .send(newUser)
+        .expect(201)
+        .then(({ body }) => {
+          const { user } = body;
+          expect(user).toMatchObject({
+            _id: expect.any(String),
+            __v: expect.any(Number),
+            username: "totally-not-batman-btw",
+            firstName: "Bruce",
+            lastName: "Wayne",
+            address: {
+              addressLine: "153 Gotham Avenue",
+              postcode: "GT52 12P",
+            },
+            contact: {
+              phoneNumber: "52452852152",
+              email: "b_wayne@wayne-tech.com",
+            },
+            reviews: [],
+            avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
+          });
+        });
+    });
+
+    test("status:400, responds with an appropriate error message when given a malformed body", () => {
+      const newUser = {
+        userdddname: "totally-not-batman-btw",
+        firstName: "Bruce",
+        lastdddName: "Wayne",
+        addrdddddess: {
+          addressLine: "153 Gotham Avenue",
+          postcode: "GT52 12P",
+        },
+        contact: {
+          phoneNumber: "52452852152",
+          email: "b_wayne@wayne-tech.com",
+        },
+        reviews: [],
+        avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
+      };
+
+      return request(app)
+        .post("/api/users")
+        .send(newUser)
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Bad request");
+        });
+    });
+
+    test("status:400, responds with an appropriate error message when given a body that fails schema validation", () => {
+      const newUser = {
+        username: "totally-not-batman-btw",
+
+        address: {
+          addressLine: "153 Gotham Avenue",
+        },
+        contact: {
+          email: "b_wayne@wayne-tech.com",
+        },
+        avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
+      };
+
+      return request(app)
+        .post("/api/users")
+        .send(newUser)
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Bad request");
+        });
+    });
+
+    test("status:400, responds with an appropriate error message when given a body with a null properties", () => {
+      const newUser = {
+        userdddname: "totally-not-batman-btw",
+        firstName: null,
+        lastdddName: "Wayne",
+        addrdddddess: {
+          addressLine: "153 Gotham Avenue",
+          postcode: "GT52 12P",
+        },
+        contact: {
+          phoneNumber: "52452852152",
+          email: "b_wayne@wayne-tech.com",
+        },
+        reviews: [],
+        avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
+      };
+
+      return request(app)
+        .post("/api/users")
+        .send(newUser)
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Bad request");
+        });
+    });
   });
 });
 
