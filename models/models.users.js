@@ -37,13 +37,23 @@ exports.findUserReviews = async (id) => {
 
 exports.updateUserReview = async (user_id, review_id, updates) => {
   const { rating, reviewBody } = updates;
+  const expectedKeys = ["reviewBody", "rating", "reviewedBy", "_id"]
+  const receivedKeys = Object.keys(updates);
 
-  const user = await User.findById(user_id);
-
+  const user = await User.findById({_id: user_id});
+  const review = await User.find({'reviews': {$elemMatch: {_id: review_id}}})
 
   // Handle 404s
   if (!user) {
     return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+
+  if (review.length === 0) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+
+  if (!patchKeysAreEqual(receivedKeys, expectedKeys)) {
+    return Promise.reject({ status: 400, msg: "Bad request" });
   }
 
   await User.findOneAndUpdate({'_id' : user_id}, { $set: {"reviews.$[elem].rating": rating, 'reviews.$[elem].reviewBody': reviewBody}}, {arrayFilters: [ {"elem._id": {$eq: review_id} }]})

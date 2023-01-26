@@ -584,4 +584,46 @@ describe('PATCH /api/users/:user_id/reviews/:review_id', () => {
         expect(msg).toBe("Bad request");
       });
   });
+  test('should respond with a 400 when given an invalid patch object', () => {
+      const patchData = {
+        "revBody": "Very good to service :), needs to clean their boot out though! it's full of clothes!",
+        "rate": 7,
+        "reviewedBy": "63ce75449ae462be0adad72d",
+        "_id": "63ce75449ae462be0adae13a"
+      }
+      return request(app)
+        .patch("/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a")
+        .send(patchData)
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Bad request");
+        });
+    });
+  test('should return a 404 when given an invalid user id', () => {
+    return request(app)
+    .patch("/api/users/63ce75449ae462be0adad84e/reviews/63ce75449ae462be0adae13a")
+    .send(patchData)
+    .expect(404)
+    .then(({ body }) => {
+      const { msg } = body;
+      expect(msg).toBe("Content not found");
+    });
+  });
+  test('should return a 404 when given an invalid review id', () => {
+    const patchData = {
+      "reviewBody": "Very good to service :), needs to clean their boot out though! it's full of clothes!",
+      "rating": 7,
+      "reviewedBy": "63ce75449ae462be0adad72d",
+      "_id": "63ce75449ae462be0adae20a"
+    }
+    return request(app)
+    .patch("/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae20a")
+    .send(patchData)
+    .expect(404)
+    .then(({ body }) => {
+      const { msg } = body;
+      expect(msg).toBe("Content not found");
+    });
+  });
 });
