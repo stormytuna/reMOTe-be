@@ -953,4 +953,13 @@ describe('DELETE /api/technicians/:user_id/reviews/:review_id', () => {
         expect(msg).toBe("Bad request");
       });
   });
+  test("should return a 400 when given an invalid review ID", () => {
+    return request(app)
+      .delete("/api/technicians/63ce75449ae462be0adad72e/reviews/not-a-valid-review-id")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
 });

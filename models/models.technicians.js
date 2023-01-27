@@ -98,7 +98,4 @@ exports.removeTechReview = async (user_id, review_id) => {
   }
   
   await User.findOneAndUpdate({ _id: user_id }, { "technician.reviews": { $pull: { "_id": review_id } } });
-
-  const updatedUser = await User.findById(user_id);
-  return updatedUser.technician.reviews
 }
