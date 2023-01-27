@@ -7,8 +7,8 @@ const { disconnect } = require("../db/end-connection");
 const { seedTest } = require("../db/seed-test");
 const mongoose = require("mongoose");
 
-beforeAll(() => {
-  return connect();
+beforeAll(async () => {
+  return await connect();
 });
 
 beforeEach(async () => {
