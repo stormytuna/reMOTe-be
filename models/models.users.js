@@ -79,13 +79,24 @@ exports.deleteReview = async (user_id, review_id) => {
   }
   await User.findOneAndUpdate({ _id: user_id }, { $pull: { "reviews": { _id: review_id } } });
 }
-exports.removeUser = async (user_id) => {
 
+
+exports.findUserOrders = async (user_id) => {
   const user = await User.findById(user_id);
 
   if (!user) {
     return Promise.reject({ status: 404, msg: "Content not found" });
   }
+    return user.orders;
+};
 
+
+exports.removeUser = async (user_id) => {
+  const user = await User.findById(user_id);
+  
+  if (!user) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+  
   await User.remove({ _id: user_id})
 }
