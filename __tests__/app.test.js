@@ -922,6 +922,48 @@ describe("DELETE /api/users/:user_id", () => {
   });
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ----------------------------------------------------
 describe('DELETE /api/technicians/:user_id/reviews/:review_id', () => {
   test('should delete a review when provided a valid review id', () => {
     return request(app)
