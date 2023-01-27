@@ -79,16 +79,46 @@ exports.deleteReview = async (user_id, review_id) => {
   }
   await User.findOneAndUpdate({ _id: user_id }, { $pull: { "reviews": { _id: review_id } } });
 }
-exports.removeUser = async (user_id) => {
 
+
+exports.findUserOrders = async (user_id) => {
   const user = await User.findById(user_id);
 
   if (!user) {
     return Promise.reject({ status: 404, msg: "Content not found" });
   }
+    return user.orders;
+};
 
+
+exports.removeUser = async (user_id) => {
+  const user = await User.findById(user_id);
+  
+  if (!user) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+  
   await User.remove({ _id: user_id})
 }
+
+exports.createOrder = async (user_id, order) => {
+  const expectedKeys = ['services', 'createdAt', 'fulfilledAt', 'servicedBy']
+  const receivedKeys = Object.keys(order)
+
+    if (!patchKeysAreEqual(receivedKeys, expectedKeys)){
+      return Promise.reject({ status: 400, msg: "Bad request" });
+    }
+
+    await User.findOneAndUpdate({ _id: user_id }, { $push: { orders: order } });
+    
+    const updatedUser = await User.findById({ _id: user_id });
+   
+    if (!updatedUser) {
+      return Promise.reject({ status: 404, msg: "Content not found" });
+    }
+    
+    return updatedUser.orders;
+};
 
 exports.updateOrder = async (user_id, order_id, updates) => {
   const { services } = updates;
@@ -114,5 +144,3 @@ exports.updateOrder = async (user_id, order_id, updates) => {
 
   return user.orders;
 };
-
-
