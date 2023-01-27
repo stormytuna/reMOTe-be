@@ -19,6 +19,7 @@
         "reviewedBy": "63ce75449ae462be0adad72d"
       }
     ],
+    "orders": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
   {
@@ -35,6 +36,7 @@
       "email": "johnswash@company.com"
     },
     "reviews": [],
+    "orders": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
   {
@@ -51,7 +53,6 @@
       "email": "alexsomething@company.com"
     },
     "reviews": [],
-    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg",
     "orders": [
       {
         "services": [{"name": "Servicing and MOT", "price": 120, "description": "Serviced and MOTed. Requires clutch repairs" }, {"name": "Clutch repairs", "price": 200, "description": "clutch repairs to pass MOT" }],
@@ -65,8 +66,10 @@
         "fulfilledAt": "2021-08-18T14:13:30Z",
         "servicedBy": "63ce75449ae462be0adad72e"
       }
-    ]
+    ],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
+
   {
     "_id": "63ce75449ae462be0adad72d",
     "username": "test-tech-01",
@@ -106,10 +109,10 @@
           "rating": 1,
           "reviewedBy": "63ce75449ae462be0adad72a"
         }
-      ],
-      "company": "James the Technician"
+      ]
     },
     "reviews": [],
+    "orders": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
   {
@@ -150,8 +153,7 @@
           "rating": 5,
           "reviewedBy": "63ce75449ae462be0adad72a"
         }
-      ],
-      "company": "James the Technician"
+      ]
     },
     "reviews": [
       {
@@ -161,6 +163,7 @@
         "_id": "63ce75449ae462be0adae13a"
       }
     ],
+    "orders": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   }
 ]

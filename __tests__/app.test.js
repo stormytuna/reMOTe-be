@@ -7,12 +7,12 @@ const { disconnect } = require("../db/end-connection");
 const { seedTest } = require("../db/seed-test");
 const mongoose = require("mongoose");
 
-beforeAll(async () => {
-  return await connect();
+beforeAll(() => {
+  return connect();
 });
 
-beforeEach(async () => {
-  return await seedTest();
+beforeEach(() => {
+  return seedTest(userData);
 });
 
 afterAll(() => {
@@ -66,7 +66,6 @@ describe("POST /api/technicians", () => {
           { name: "Servicing and MOT", price: 45 },
           { name: "clutch repair", price: 100 },
         ],
-        company: "Ahmed's Repairs",
       },
       avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
     };
@@ -971,6 +970,96 @@ describe("DELETE /api/users/:user_id", () => {
         const { msg } = body;
         expect(msg).toBe("Content not found");
       });
+  });
+  });
+
+
+describe('POST /api/users/:user_id/orders', () => {
+  const newOrder = {"services": [{"name": "Tyres, wheels and tracking", "price": 100, "description": "Tracking was causing car to veer left which had worn tires out on right side, needed replacing"}], 
+  "createdAt": "2023-01-18T14:12:30Z",
+  "fulfilledAt": Date.now(),
+  "servicedBy": "63ce75449ae462be0adad72e"}
+  test('should respond with a 201 and post a new order', () => {
+    const expected = [
+      {
+        "services": [{"name": "Servicing and MOT", "price": 120, "description": "Serviced and MOTed. Requires clutch repairs" }, {"name": "Clutch repairs", "price": 200, "description": "clutch repairs to pass MOT" }],
+        "createdAt": "2020-05-18T14:10:30.000Z",
+        "fulfilledAt": "2020-05-28T14:09:10.000Z",
+        "servicedBy": "63ce75449ae462be0adad72e"
+      },
+      {
+        "services": [{ "name": "Breakdown and recovery", "price": 150, "description": "Ran out of fuel causing engine to stall and battery to die"}],
+        "createdAt": "2021-08-18T14:12:30.000Z",
+        "fulfilledAt": "2021-08-18T14:13:30.000Z",
+        "servicedBy": "63ce75449ae462be0adad72e"
+      }, 
+      {
+        "services":[{"name": "Tyres, wheels and tracking", "price": 100, "description": "Tracking was causing car to veer left which had worn tires out on right side, needed replacing"}],
+        "createdAt": expect.any(String),
+        "fulfilledAt": expect.any(String),
+        "servicedBy": "63ce75449ae462be0adad72e"
+      }
+    ]
+    return request(app)
+      .post("/api/users/63ce75449ae462be0adad72c/orders")
+      .send(newOrder)
+      .expect(201)
+      .then(({ body }) => {
+        const { orders } = body;
+        expect(orders).toMatchObject(expected);
+      });
+  });
+
+
+  test("should respond with a 404 when given a malformed order", () => {
+    const badData = {"servs": [{"name": "Tyres, wheels and tracking", "price": 100, "description": "Tracking was causing car to veer left which had worn tires out on right side, needed replacing"}], 
+    "creaasdtedAt": "2023-01-18T14:12:30Z",
+    "fudAt": Date.now(),
+    "serdBy": "63ce75449ae462be0adad72e"};
+    return request(app)
+      .post("/api/users/63ce75449ae462be0adad72c/orders")
+      .send(badData)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("should respond with a 400 when provided with an invalid schema", () => {
+    const terribleData = {"services": {"name": "Tyres, wheels and tracking", "price": 100, "description": "Tracking was causing car to veer left which had worn tires out on right side, needed replacing"}, 
+    "createdAt": 40,
+    "fulfilledAt": Date.now(),
+    "servicedBy": true};
+    return request(app)
+      .post("/api/users/63ce75449ae462be0adad72c/orders")
+      .send(terribleData)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("should respond with a 404 when provided with a user_id that does not exist", () => {
+    return request(app)
+      .post("/api/users/63ce7544aaaaa2be0adad72f/orders")
+      .send(newOrder)
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
+  });
+
+  test("should respond with a 404 when provided with an invalid user_id", () => {
+    return request(app)
+      .post("/api/users/not-a-user-id/orders")
+      .send(newOrder)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request")
   });
   });
 });
