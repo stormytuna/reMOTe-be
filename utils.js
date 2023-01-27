@@ -30,3 +30,11 @@ exports.isValidId = (id) => {
   const regex = /^[a-f0-9]{24}$/;
   return regex.test(id);
 };
+
+exports.badRequestError = () => {
+  return Promise.reject({ status: 400, msg: "Bad request" });
+};
+
+exports.contentNotFoundError = () => {
+  return Promise.reject({ status: 404, msg: "Content not found" });
+};

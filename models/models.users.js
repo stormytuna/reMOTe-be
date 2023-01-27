@@ -1,5 +1,10 @@
 const User = require("../db/data/users");
-const { patchKeysAreEqual, isValidId } = require("../utils");
+const {
+  patchKeysAreEqual,
+  isValidId,
+  badRequestError,
+  contentNotFoundError,
+} = require("../utils");
 
 exports.createReview = async (review, id) => {
   // Check for bad request
@@ -10,7 +15,7 @@ exports.createReview = async (review, id) => {
     typeof rating !== "number" ||
     typeof reviewedBy !== "string"
   ) {
-    return Promise.reject({ status: 400, msg: "Bad request" });
+    return badRequestError();
   }
 
   // Actually do our patch
@@ -19,7 +24,7 @@ exports.createReview = async (review, id) => {
 
   // Check for a 404
   if (!updatedUser) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+    return contentNotFoundError();
   }
 
   return updatedUser;
@@ -29,7 +34,7 @@ exports.findUserReviews = async (id) => {
   const user = await User.findById(id);
   // Handle 404s
   if (!user) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+    return contentNotFoundError();
   }
 
   return user.reviews;
@@ -47,15 +52,15 @@ exports.updateUserReview = async (user_id, review_id, updates) => {
 
   // Handle 404s
   if (!user) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+    return contentNotFoundError();
   }
 
   if (review.length === 0) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+    return contentNotFoundError();
   }
 
   if (!patchKeysAreEqual(receivedKeys, expectedKeys)) {
-    return Promise.reject({ status: 400, msg: "Bad request" });
+    return badRequestError();
   }
 
   await User.findOneAndUpdate(
@@ -73,7 +78,7 @@ exports.updateUserReview = async (user_id, review_id, updates) => {
 
 exports.createUser = async (user) => {
   if (user.user === null) {
-    return Promise.reject({ status: 400, msg: "Bad request" });
+    return badRequestError();
   }
   const newUser = await User.create(user);
   return newUser;
@@ -86,7 +91,7 @@ exports.deleteReview = async (user_id, review_id) => {
   );
 
   if (!user || !review) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+    return contentNotFoundError();
   }
   await User.findOneAndUpdate(
     { _id: user_id },
@@ -98,7 +103,7 @@ exports.findUserOrders = async (user_id) => {
   const user = await User.findById(user_id);
 
   if (!user) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+    return contentNotFoundError();
   }
   return user.orders;
 };
@@ -107,11 +112,11 @@ exports.removeUser = async (user_id) => {
   const user = await User.findById({ _id: user_id });
 
   if (!isValidId(user_id)) {
-    return Promise.reject({ status: 400, msg: "Bad request" });
+    return badRequestError();
   }
 
   if (!user) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+    return contentNotFoundError();
   }
 
   await User.remove({ _id: user_id });
@@ -122,7 +127,7 @@ exports.createOrder = async (user_id, order) => {
   const receivedKeys = Object.keys(order);
 
   if (!patchKeysAreEqual(receivedKeys, expectedKeys)) {
-    return Promise.reject({ status: 400, msg: "Bad request" });
+    return badRequestError();
   }
 
   await User.findOneAndUpdate({ _id: user_id }, { $push: { orders: order } });
@@ -130,7 +135,7 @@ exports.createOrder = async (user_id, order) => {
   const updatedUser = await User.findById({ _id: user_id });
 
   if (!updatedUser) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+    return contentNotFoundError();
   }
 
   return updatedUser.orders;
@@ -142,7 +147,7 @@ exports.updateOrder = async (user_id, order_id, updates) => {
   const receivedKeys = Object.keys(updates);
 
   if (!patchKeysAreEqual(expectedKeys, receivedKeys)) {
-    return Promise.reject({ status: 400, msg: "Bad request" });
+    return badRequestError();
   }
 
   await User.findOneAndUpdate(
@@ -153,13 +158,13 @@ exports.updateOrder = async (user_id, order_id, updates) => {
   const user = await User.findById({ _id: user_id });
 
   if (!user) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+    return contentNotFoundError();
   }
 
   const order = await User.find({ orders: { $elemMatch: { _id: order_id } } });
 
   if (order.length === 0) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+    return contentNotFoundError();
   }
 
   return user.orders;
@@ -169,7 +174,7 @@ exports.removeOrder = async (user_id, order_id) => {
   const order = await User.find({ orders: { $elemMatch: { _id: order_id } } });
 
   if (order.length === 0) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+    return contentNotFoundError();
   }
 
   await User.findOneAndUpdate(
@@ -180,7 +185,7 @@ exports.removeOrder = async (user_id, order_id) => {
   const user = await User.findById(user_id);
 
   if (!user) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+    return contentNotFoundError();
   }
 
   return user.orders;

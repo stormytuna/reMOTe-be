@@ -1,5 +1,9 @@
 const User = require("../db/data/users");
-const { patchKeysAreEqual } = require("../utils");
+const {
+  patchKeysAreEqual,
+  badRequestError,
+  contentNotFoundError,
+} = require("../utils");
 
 exports.findTechnicians = async () => {
   const technicians = await User.find({
@@ -15,7 +19,7 @@ exports.findTechnician = async (id) => {
 
 exports.postTechnician = async (technician) => {
   if (technician.technician === null) {
-    return Promise.reject({ status: 400, msg: "Bad request" });
+    return badRequestError();
   }
 
   const newTechnician = await User.create(technician);
@@ -27,7 +31,7 @@ exports.findTechnician = async (id) => {
 
   // Check 404s
   if (!technician) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+    return contentNotFoundError();
   }
 
   return technician;
@@ -44,7 +48,7 @@ exports.updateTechnicianProp = async (technicianID) => {
   const user = await User.findById(technicianID);
   // Handle 404s
   if (!user) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+    return contentNotFoundError();
   }
 
   return user;
@@ -58,7 +62,7 @@ exports.postReviewForTech = async (id, review) => {
     typeof rating !== "number" ||
     typeof reviewedBy !== "string"
   ) {
-    return Promise.reject({ status: 400, msg: "Bad request" });
+    return badRequestError();
   }
 
   await User.findOneAndUpdate(
@@ -71,7 +75,7 @@ exports.postReviewForTech = async (id, review) => {
 exports.updateTechnician = async (id, updates) => {
   // Handles 400s
   if (!patchKeysAreEqual(Object.keys(updates), ["name", "price"])) {
-    return Promise.reject({ status: 400, msg: "Bad request" });
+    return badRequestError();
   }
 
   const aa = await User.findOneAndUpdate(
@@ -82,7 +86,7 @@ exports.updateTechnician = async (id, updates) => {
 
   // Handles 404s
   if (!technician) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+    return contentNotFoundError();
   }
 
   return technician;
@@ -92,7 +96,7 @@ exports.removeTechReview = async (user_id, review_id) => {
   const user = await User.findById(user_id);
 
   if (!user) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+    return contentNotFoundError();
   }
 
   const review = await User.find({
@@ -100,7 +104,7 @@ exports.removeTechReview = async (user_id, review_id) => {
   });
 
   if (review.length === 0) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+    return contentNotFoundError();
   }
 
   await User.findOneAndUpdate(
