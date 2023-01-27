@@ -14,6 +14,7 @@ const {
   deleteTechnician,
   createReviewforTech,
   patchTechnician,
+  removeTechReview
 } = require("./controllers/controllers.technicians");
 
 const cors = require("cors");
@@ -50,6 +51,10 @@ app.patch("/api/users/:user_id/orders/:order_id", patchOrder)
 
 
 app.delete("/api/users/:user_id/orders/:order_id", removeOrder)
+
+
+
+app.delete("/api/technicians/:user_id/reviews/:review_id", removeTechReview)
 
 app.use(handleCustomErrors);
 app.use(handleMongoDBErrors);

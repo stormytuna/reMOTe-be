@@ -1124,6 +1124,48 @@ describe('PATCH /api/users/:user_id/orders/:order_id', () => {
   });
   });
 
+describe('DELETE /api/technicians/:user_id/reviews/:review_id', () => {
+  test('should delete a review when provided a valid review id', () => {
+    return request(app)
+    .delete("/api/technicians/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae55a")
+    .expect(204);
+  });
+    test("should return a 404 when provided an non-existant user_id", () => {
+    return request(app)
+    .delete("/api/technicians/63ce75449ae462be0adad95e/reviews/63ce75449ae462be0adae55a")
+    .expect(404)
+    .then(({ body: { msg } }) => {
+    expect(msg).toBe("Content not found");
+      });
+  });
+  test("should return a 404 when provided an non-existant review_id", () => {
+  return request(app)
+  .delete("/api/technicians/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae66a")
+  .expect(404)
+  .then(({ body: { msg } }) => {
+   expect(msg).toBe("Content not found");
+      });
+  });
+    test("should return a 400 when given an invalid user ID", () => {
+    return request(app)
+      .delete("/api/technicians/fake-id/reviews/63ce75449ae462be0adae55a")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+  test("should return a 400 when given an invalid review ID", () => {
+    return request(app)
+      .delete("/api/technicians/63ce75449ae462be0adad72e/reviews/not-a-valid-review-id")
+       .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+});
+
 describe('DELETE /api/users/:user_id/orders/:order_id', () => {
   test('should delete an order using order_id', () => {
     return request(app)
@@ -1132,10 +1174,10 @@ describe('DELETE /api/users/:user_id/orders/:order_id', () => {
   });
   test("should return a 404 when provided an non-existant user_id", () => {
     return request(app)
-      .delete("/api/users/63ce75449ae462be0adad17c/orders/63ce75449ae462be0adad23a")
-      .expect(404)
-      .then(({ body: { msg } }) => {
-        expect(msg).toBe("Content not found");
+    .delete("/api/users/63ce75449ae462be0adad17c/orders/63ce75449ae462be0adad23a")
+    .expect(404)
+    .then(({ body: { msg } }) => {
+    expect(msg).toBe("Content not found");
       });
   });
   test("should return a 404 when provided an non-existant order_id", () => {
@@ -1146,6 +1188,7 @@ describe('DELETE /api/users/:user_id/orders/:order_id', () => {
         expect(msg).toBe("Content not found");
       });
   });
+
   test("should return a 404 when given an invalid user ID", () => {
     return request(app)
       .delete("/api/users/fake-user-ID/orders/63ce75449ae462be0adad23a")
