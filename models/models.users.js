@@ -171,6 +171,10 @@ exports.updateOrder = async (user_id, order_id, updates) => {
 };
 
 exports.removeOrder = async (user_id, order_id) => {
+  if (!isValidId(user_id) || !isValidId(order_id)) {
+    return badRequestError();
+  }
+
   const order = await User.find({ orders: { $elemMatch: { _id: order_id } } });
 
   if (order.length === 0) {

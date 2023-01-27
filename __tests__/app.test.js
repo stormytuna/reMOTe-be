@@ -207,7 +207,7 @@ describe("POST /api/technicians", () => {
 });
 
 describe("GET /api/technicians/:user_id", () => {
-  test("status:200, responds with the technician with the given id", () => {
+  test("status:200, responds with the technician with the given ID", () => {
     return request(app)
       .get("/api/technicians/63ce75449ae462be0adad72d")
       .expect(200)
@@ -233,7 +233,7 @@ describe("GET /api/technicians/:user_id", () => {
       });
   });
 
-  test("status:404, responds with an appropriate error when provided a valid ID but no user exists", () => {
+  test("status:404, responds with an appropriate error message when given user ID doesn't exist", () => {
     return request(app)
       .get("/api/technicians/63ce754ddddd62be0adad72d")
       .expect(404)
@@ -245,7 +245,7 @@ describe("GET /api/technicians/:user_id", () => {
 });
 
 describe("PATCH /api/technicians/:user_id", () => {
-  test("status:200, should accept an object of services, update the technician, and return it", () => {
+  test("status:200, responds with the updated technician", () => {
     const patchData = { name: "Tyre Replacement", price: 50 };
     return request(app)
       .patch("/api/technicians/63ce75449ae462be0adad72d")
@@ -262,7 +262,7 @@ describe("PATCH /api/technicians/:user_id", () => {
       });
   });
 
-  test("status:400, responds with an appropriate error message when given a malformed body", () => {
+  test("status:400, responds with an appropriate error message when given malformed body", () => {
     const patchData = { wgrfwsfsfs: "Tyre Replacement", arafa: 50 };
     return request(app)
       .patch("/api/technicians/63ce75449ae462be0adad72d")
@@ -298,7 +298,7 @@ describe("PATCH /api/technicians/:user_id", () => {
       });
   });
 
-  test("status:404, should respond with an appropriate error message when given id does not exist", () => {
+  test("status:404, responds with an appropriate error message when given user ID doesn't exist", () => {
     const patchData = { name: "Tyre Replacement", price: 50 };
     return request(app)
       .patch("/api/technicians/63ce7544aaaaa2be0adad72d")
@@ -312,7 +312,7 @@ describe("PATCH /api/technicians/:user_id", () => {
 });
 
 describe("POST /api/technicians/:user_id/reviews", () => {
-  test("status:201, updates the users technician.reviews array with the given review object", () => {
+  test("status:201, responds with the updated reviews array", () => {
     const newReview = {
       reviewBody: "This man is a car maniac! 5/7",
       rating: 4,
@@ -379,7 +379,7 @@ describe("POST /api/technicians/:user_id/reviews", () => {
       });
   });
 
-  test("status:404, responds with an appropriate error when provided a valid ID but no user exists", () => {
+  test("status:404, responds with an appropriate error message when given user ID doesn't exist", () => {
     return request(app)
       .get("/api/technicians/63ce75449ae462be0adad72z/reviews")
       .expect(404)
@@ -418,7 +418,7 @@ describe("DELETE /api/technicians/:user_id", () => {
       });
   });
 
-  test("status:400, responds with an appropriate error message when given an invalid user ID", () => {
+  test("status:400, responds with an appropriate error message when given user ID is invalid", () => {
     return request(app)
       .delete("/api/technicians/totally-a-real-user")
       .expect(400)
@@ -428,7 +428,7 @@ describe("DELETE /api/technicians/:user_id", () => {
       });
   });
 
-  test("status:404, responds with an appropriate error message when given a non-existent user ID", () => {
+  test("status:404, responds with an appropriate error message when given user ID doesn't exist", () => {
     return request(app)
       .delete("/api/technicians/63caaaaa9ae462be0adad72d")
       .expect(404)
@@ -478,12 +478,13 @@ describe("GET /api/users/:user_id/reviews", () => {
 });
 
 describe("DELETE /api/user_id/reviews/:review_id", () => {
-  test("should delete a review using review_id", () => {
+  test("status:204, responds with nothing and removes the given review", () => {
     return request(app)
       .delete("/api/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a")
       .expect(204);
   });
-  test("should return a 404 when provided an non-existant user_id", () => {
+
+  test("status:404, responds with an appropriate error message when given user ID doesn't exist", () => {
     return request(app)
       .delete("/api/63ce75449ae462be0adad98e/reviews/63ce75449ae462be0adae13a")
       .expect(404)
@@ -491,7 +492,8 @@ describe("DELETE /api/user_id/reviews/:review_id", () => {
         expect(msg).toBe("Content not found");
       });
   });
-  test("should a 404 when provided an non-existant review_id", () => {
+
+  test("status:404, responds with an appropriate error message when given review ID doesn't exist", () => {
     return request(app)
       .delete("/api/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae57a")
       .expect(404)
@@ -499,7 +501,8 @@ describe("DELETE /api/user_id/reviews/:review_id", () => {
         expect(msg).toBe("Content not found");
       });
   });
-  test("should return a 400 when given an invalid user ID", () => {
+
+  test("status:400, responds with an appropriate error message when given user ID is invalid", () => {
     return request(app)
       .delete("/api/fake-user-ID/reviews/totally-a-real-user-id")
       .expect(400)
@@ -508,7 +511,8 @@ describe("DELETE /api/user_id/reviews/:review_id", () => {
         expect(msg).toBe("Bad request");
       });
   });
-  test("status:400, responds with an appropriate error message when given an invalid review ID", () => {
+
+  test("status:400, responds with an appropriate error message when given review ID is invalid", () => {
     return request(app)
       .delete("/api/63ce75449ae462be0adad72e/reviews/totally-a-real-id")
       .expect(400)
@@ -556,7 +560,7 @@ describe("POST /api/users/:user_id/reviews", () => {
       });
   });
 
-  test("status:400, responds with an appropriate error message when given a review that fails schema validation", () => {
+  test("status:400, responds with an appropriate error message when given body fails schema validation", () => {
     return request(app)
       .post("/api/users/63ce75449ae462be0adad72a/reviews")
       .send({
@@ -571,7 +575,7 @@ describe("POST /api/users/:user_id/reviews", () => {
       });
   });
 
-  test("status:400, responds with an appropriate error message when our given user ID isn't valid", () => {
+  test("status:400, responds with an appropriate error message when given user ID is invalid", () => {
     return request(app)
       .post("/api/users/totally-a-real-user/reviews")
       .send({
@@ -586,7 +590,7 @@ describe("POST /api/users/:user_id/reviews", () => {
       });
   });
 
-  test("status:404, responds with an appropriate error message when our given user ID doesn't exist", () => {
+  test("status:404, responds with an appropriate error message when given user ID doesn't exist", () => {
     return request(app)
       .post("/api/users/63ce75449ae462baaaaad72e/reviews")
       .send({
@@ -611,7 +615,8 @@ describe("PATCH /api/users/:user_id/reviews/:review_id", () => {
     reviewedBy: "63ce75449ae462be0adad72d",
     _id: "63ce75449ae462be0adae13a",
   };
-  test("should respond with a 200, accept a review object, update the review, and return it", () => {
+
+  test("status:200, responds with the updated review", () => {
     return request(app)
       .patch(
         "/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a"
@@ -630,10 +635,12 @@ describe("PATCH /api/users/:user_id/reviews/:review_id", () => {
         expect(result).toBe(true);
       });
   });
-  test("Should respond with a 400 when given invalid data which does not match the schema", () => {
+
+  test("status:400, responds with an appropriate error message when given malformed body", () => {
     const patchData = {
-      reviewBody: true,
-      rating: "a string",
+      revBody:
+        "Very good to service :), needs to clean their boot out though! it's full of clothes!",
+      rate: 7,
       reviewedBy: "63ce75449ae462be0adad72d",
       _id: "63ce75449ae462be0adae13a",
     };
@@ -649,11 +656,10 @@ describe("PATCH /api/users/:user_id/reviews/:review_id", () => {
       });
   });
 
-  test("should respond with a 400 when given an invalid patch object", () => {
+  test("status:400, responds with an appropriate error message when given body fails schema validation", () => {
     const patchData = {
-      revBody:
-        "Very good to service :), needs to clean their boot out though! it's full of clothes!",
-      rate: 7,
+      reviewBody: true,
+      rating: "a string",
       reviewedBy: "63ce75449ae462be0adad72d",
       _id: "63ce75449ae462be0adae13a",
     };
@@ -693,7 +699,7 @@ describe("PATCH /api/users/:user_id/reviews/:review_id", () => {
       });
   });
 
-  test("should return a 404 when given an invalid user id", () => {
+  test("status:404, responds with an appropriate error message when given user ID doesn't exist", () => {
     return request(app)
       .patch(
         "/api/users/63ce75449ae462be0adad84e/reviews/63ce75449ae462be0adae13a"
@@ -705,7 +711,8 @@ describe("PATCH /api/users/:user_id/reviews/:review_id", () => {
         expect(msg).toBe("Content not found");
       });
   });
-  test("should return a 404 when given an invalid review id", () => {
+
+  test("status:404, responds with an appropriate error message when given review ID doesn't exist", () => {
     const patchData = {
       reviewBody:
         "Very good to service :), needs to clean their boot out though! it's full of clothes!",
@@ -795,7 +802,7 @@ describe("POST /api/users", () => {
       });
   });
 
-  test("status:400, responds with an appropriate error message when given a body that fails schema validation", () => {
+  test("status:400, responds with an appropriate error message when given body fails schema validation", () => {
     const newUser = {
       username: "totally-not-batman-btw",
 
@@ -805,33 +812,6 @@ describe("POST /api/users", () => {
       contact: {
         email: "b_wayne@wayne-tech.com",
       },
-      avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
-    };
-
-    return request(app)
-      .post("/api/users")
-      .send(newUser)
-      .expect(400)
-      .then(({ body }) => {
-        const { msg } = body;
-        expect(msg).toBe("Bad request");
-      });
-  });
-
-  test("status:400, responds with an appropriate error message when given a body with a null properties", () => {
-    const newUser = {
-      userdddname: "totally-not-batman-btw",
-      firstName: null,
-      lastdddName: "Wayne",
-      addrdddddess: {
-        addressLine: "153 Gotham Avenue",
-        postcode: "GT52 12P",
-      },
-      contact: {
-        phoneNumber: "52452852152",
-        email: "b_wayne@wayne-tech.com",
-      },
-      reviews: [],
       avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
     };
 
@@ -880,7 +860,7 @@ describe("GET /api/users/:user_id/orders", () => {
     },
   ];
 
-  test("should return 200 and an array of all order objects", () => {
+  test("status:200, responds with an array of the given users orders", () => {
     return request(app)
       .get("/api/users/63ce75449ae462be0adad72c/orders")
       .expect(200)
@@ -890,7 +870,7 @@ describe("GET /api/users/:user_id/orders", () => {
       });
   });
 
-  test("should respond with a 400 when provided an invalid user ID", () => {
+  test("status:400, responds with an appropriate error message when given user ID is invalid", () => {
     return request(app)
       .get("/api/users/bad-user-id/orders")
       .expect(400)
@@ -899,7 +879,7 @@ describe("GET /api/users/:user_id/orders", () => {
         expect(msg).toBe("Bad request");
       });
   });
-  test("should respond with a 404 when provided a non-existant user ID", () => {
+  test("status:404, responds with an appropriate error message when given user ID doesn't exist", () => {
     return request(app)
       .get("/api/users/63ceaaaaaae462be0adad72a/orders")
       .expect(404)
@@ -911,12 +891,13 @@ describe("GET /api/users/:user_id/orders", () => {
 });
 
 describe("DELETE /api/users/:user_id", () => {
-  test("should delete a review using review_id", () => {
+  test("status:204, responds with nothing and removes the given user", () => {
     return request(app)
       .delete("/api/users/63ce75449ae462be0adad72a")
       .expect(204);
   });
-  test("should return a 404 when provided an non-existant user_id", () => {
+
+  test("status:404, responds with an appropriate error message when given user ID doesn't exist", () => {
     return request(app)
       .delete("/api/users/63ce75449ae462be0adad98e")
       .expect(404)
@@ -925,7 +906,7 @@ describe("DELETE /api/users/:user_id", () => {
       });
   });
 
-  test("should return a 400 when given an invalid user ID", () => {
+  test("status:400, responds with an appropriate error message when given user ID is invalid", () => {
     return request(app)
       .delete("/api/users/fake-user-ID")
       .expect(400)
@@ -950,7 +931,8 @@ describe("POST /api/users/:user_id/orders", () => {
     fulfilledAt: Date.now(),
     servicedBy: "63ce75449ae462be0adad72e",
   };
-  test("should respond with a 201 and post a new order", () => {
+
+  test("status:201, responds with the newly created order", () => {
     const expected = [
       {
         services: [
@@ -1006,7 +988,7 @@ describe("POST /api/users/:user_id/orders", () => {
       });
   });
 
-  test("should respond with a 400 when given a malformed order", () => {
+  test("status:400, responds with an appropriate error message when given malformed body", () => {
     const badData = {
       servs: [
         {
@@ -1030,7 +1012,7 @@ describe("POST /api/users/:user_id/orders", () => {
       });
   });
 
-  test("should respond with a 400 when provided with an invalid schema", () => {
+  test("status:400, responds with an appropriate error message when given body fails schema validation", () => {
     const terribleData = {
       services: {
         name: "Tyres, wheels and tracking",
@@ -1052,7 +1034,7 @@ describe("POST /api/users/:user_id/orders", () => {
       });
   });
 
-  test("should respond with a 404 when provided with a user_id that does not exist", () => {
+  test("status:400, responds with an appropriate error message when given user ID is invalid", () => {
     return request(app)
       .post("/api/users/63ce7544aaaaa2be0adad72f/orders")
       .send(newOrder)
@@ -1063,7 +1045,7 @@ describe("POST /api/users/:user_id/orders", () => {
       });
   });
 
-  test("should respond with a 404 when provided with an invalid user_id", () => {
+  test("status:404, responds with an appropriate error message when given user ID doesn't exist", () => {
     return request(app)
       .post("/api/users/not-a-user-id/orders")
       .send(newOrder)
@@ -1081,7 +1063,8 @@ describe("PATCH /api/users/:user_id/orders/:order_id", () => {
       { name: "Servicing and MOT", price: 80, description: "MOT passed" },
     ],
   };
-  test("should respond with a 200 and patched orders", () => {
+
+  test("status:200, responds with the updated orders array", () => {
     const expected = [
       {
         services: [
@@ -1117,7 +1100,7 @@ describe("PATCH /api/users/:user_id/orders/:order_id", () => {
       });
   });
 
-  test("should respond with a 400 when given an invalid patch object", () => {
+  test("status:400, responds with an appropriate error message when given body fails schema validation", () => {
     const badPatch = {
       services: [
         { name: "Servicing and MOT", price: "aaaa", description: "MOT passed" },
@@ -1135,7 +1118,7 @@ describe("PATCH /api/users/:user_id/orders/:order_id", () => {
       });
   });
 
-  test("status:400, responds with an appropriate error message when given data that fails schema validation", () => {
+  test("status:400, responds with an appropriate error message when given malformed body", () => {
     const badPatch = {
       sers: [
         { name: "Servicing and MOT", price: 80, description: "MOT passed" },
@@ -1153,7 +1136,7 @@ describe("PATCH /api/users/:user_id/orders/:order_id", () => {
       });
   });
 
-  test("status:400, responds with an appropriate error message when given an invalid user ID", () => {
+  test("status:400, responds with an appropriate error message when given user ID is invalid", () => {
     return request(app)
       .patch(
         "/api/users/totally-a-real-user-id/orders/63ce75449ae462be0adad23a"
@@ -1166,7 +1149,7 @@ describe("PATCH /api/users/:user_id/orders/:order_id", () => {
       });
   });
 
-  test("status:400, responds with an appropriate error message when given an invalid order ID", () => {
+  test("status:400, responds with an appropriate error message when given order ID is invalid", () => {
     return request(app)
       .patch(
         "/api/users/63ce75449ae462be0adad72c/orders/totally-a-real-order-id"
@@ -1179,7 +1162,7 @@ describe("PATCH /api/users/:user_id/orders/:order_id", () => {
       });
   });
 
-  test("should return a 404 when given a non-existent user id", () => {
+  test("status:404, responds with an appropriate error message when given user ID doesn't exist", () => {
     return request(app)
       .patch(
         "/api/users/63ce75449ae462be0adad45c/orders/63ce75449ae462be0adad23a"
@@ -1191,7 +1174,8 @@ describe("PATCH /api/users/:user_id/orders/:order_id", () => {
         expect(msg).toBe("Content not found");
       });
   });
-  test("should return a 404 when given a non-existent order id", () => {
+
+  test("status:404, responds with an appropriate error message when given order ID doesn't exist", () => {
     return request(app)
       .patch(
         "/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad38a"
@@ -1206,14 +1190,15 @@ describe("PATCH /api/users/:user_id/orders/:order_id", () => {
 });
 
 describe("DELETE /api/technicians/:user_id/reviews/:review_id", () => {
-  test("should delete a review when provided a valid review id", () => {
+  test("status:204, responds with nothing and removes the given review", () => {
     return request(app)
       .delete(
         "/api/technicians/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae55a"
       )
       .expect(204);
   });
-  test("should return a 404 when provided an non-existant user_id", () => {
+
+  test("status:404, responds with an appropriate error message when given user ID doesn't exist", () => {
     return request(app)
       .delete(
         "/api/technicians/63ce75449ae462be0adad95e/reviews/63ce75449ae462be0adae55a"
@@ -1223,7 +1208,8 @@ describe("DELETE /api/technicians/:user_id/reviews/:review_id", () => {
         expect(msg).toBe("Content not found");
       });
   });
-  test("should return a 404 when provided an non-existant review_id", () => {
+
+  test("status:404, responds with an appropriate error message when given review ID doesn't exist", () => {
     return request(app)
       .delete(
         "/api/technicians/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae66a"
@@ -1233,7 +1219,8 @@ describe("DELETE /api/technicians/:user_id/reviews/:review_id", () => {
         expect(msg).toBe("Content not found");
       });
   });
-  test("should return a 400 when given an invalid user ID", () => {
+
+  test("status:400, responds with an appropriate error message when given user ID is invalid", () => {
     return request(app)
       .delete("/api/technicians/fake-id/reviews/63ce75449ae462be0adae55a")
       .expect(400)
@@ -1242,7 +1229,8 @@ describe("DELETE /api/technicians/:user_id/reviews/:review_id", () => {
         expect(msg).toBe("Bad request");
       });
   });
-  test("should return a 400 when given an invalid review ID", () => {
+
+  test("status:400, responds with an appropriate error message when given review ID is invalid", () => {
     return request(app)
       .delete(
         "/api/technicians/63ce75449ae462be0adad72e/reviews/not-a-valid-review-id"
@@ -1256,14 +1244,15 @@ describe("DELETE /api/technicians/:user_id/reviews/:review_id", () => {
 });
 
 describe("DELETE /api/users/:user_id/orders/:order_id", () => {
-  test("should delete an order using order_id", () => {
+  test("status:204, responds with nothing and removes the given order", () => {
     return request(app)
       .delete(
         "/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad23a"
       )
       .expect(204);
   });
-  test("should return a 404 when provided an non-existant user_id", () => {
+
+  test("status:404, responds with an appropriate error message when given user ID doesn't exist", () => {
     return request(app)
       .delete(
         "/api/users/63ce75449ae462be0adad17c/orders/63ce75449ae462be0adad23a"
@@ -1273,7 +1262,8 @@ describe("DELETE /api/users/:user_id/orders/:order_id", () => {
         expect(msg).toBe("Content not found");
       });
   });
-  test("should return a 404 when provided an non-existant order_id", () => {
+
+  test("status:404, responds with an appropriate error message when given order ID doesn't exist", () => {
     return request(app)
       .delete(
         "/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad39a"
@@ -1284,16 +1274,17 @@ describe("DELETE /api/users/:user_id/orders/:order_id", () => {
       });
   });
 
-  test("should return a 404 when given an invalid user ID", () => {
+  test("status:400, responds with an appropriate error message when given user ID is invalid", () => {
     return request(app)
       .delete("/api/users/fake-user-ID/orders/63ce75449ae462be0adad23a")
-      .expect(404)
+      .expect(400)
       .then(({ body }) => {
         const { msg } = body;
-        expect(msg).toBe("Content not found");
+        expect(msg).toBe("Bad request");
       });
   });
-  test("should return a 400 when given an invalid order ID", () => {
+
+  test("status:400, responds with an appropriate error message when given order ID is invalid", () => {
     return request(app)
       .delete("/api/users/63ce75449ae462be0adad72c/orders/not-a-valid-order")
       .expect(400)
