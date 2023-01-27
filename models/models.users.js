@@ -106,6 +106,6 @@ exports.createOrder = async (user_id, order) => {
     if (!updatedUser) {
       return Promise.reject({ status: 404, msg: "Content not found" });
     }
-
+    
     return updatedUser.orders;
 };
