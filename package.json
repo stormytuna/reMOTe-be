@@ -17,7 +17,8 @@
   "scripts": {
     "test": "jest --detectOpenHandles",
     "start": "nodemon ./listen.js",
-    "seed": "node ./db/seed-all.js",
+    "seed-test": "node ./db/seed-test.js",
+    "seed-prod": "node ./db/seed-prod.js",
     "prepare": "husky install",
     "clear_jest": "jest --clearCache"
   },

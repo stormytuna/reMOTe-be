@@ -4,15 +4,15 @@ const request = require("supertest");
 const app = require("../app");
 const { connect } = require("../db/start-connection");
 const { disconnect } = require("../db/end-connection");
-const { seed } = require("../db/seed-test");
-const { default: mongoose } = require("mongoose");
+const { seedTest } = require("../db/seed-test");
+const mongoose = require("mongoose");
 
 beforeAll(() => {
   return connect();
 });
 
 beforeEach(() => {
-  return seed(userData);
+  return seedTest(userData);
 });
 
 afterAll(() => {
@@ -496,6 +496,7 @@ describe("DELETE /api/user_id/reviews/:review_id", () => {
       });
   });
 });
+
 describe("POST /api/users/:user_id/reviews", () => {
   test("status:201, responds with the newly updated user", () => {
     return request(app)
@@ -580,37 +581,44 @@ describe("POST /api/users/:user_id/reviews", () => {
   });
 });
 
-describe('PATCH /api/users/:user_id/reviews/:review_id', () => {
+describe("PATCH /api/users/:user_id/reviews/:review_id", () => {
   const patchData = {
-    "reviewBody": "Very good to service :), needs to clean their boot out though! it's full of clothes!",
-    "rating": 7,
-    "reviewedBy": "63ce75449ae462be0adad72d",
-    "_id": "63ce75449ae462be0adae13a"
-  }
-  test('should respond with a 200, accept a review object, update the review, and return it', () => {
+    reviewBody:
+      "Very good to service :), needs to clean their boot out though! it's full of clothes!",
+    rating: 7,
+    reviewedBy: "63ce75449ae462be0adad72d",
+    _id: "63ce75449ae462be0adae13a",
+  };
+  test("should respond with a 200, accept a review object, update the review, and return it", () => {
     return request(app)
-    .patch("/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a")
-    .send(patchData)
-    .expect(200)
-    .then(({ body }) => {
-      const { review } = body;
-      expect(review._id).toEqual("63ce75449ae462be0adad72e");
-      let result = '';
-      review.reviews.forEach((review) => {
-      if (review.reviewBody === patchData.reviewBody) return result = true 
-      return result = false })
-      expect(result).toBe(true)
-    });
+      .patch(
+        "/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a"
+      )
+      .send(patchData)
+      .expect(200)
+      .then(({ body }) => {
+        const { review } = body;
+        expect(review._id).toEqual("63ce75449ae462be0adad72e");
+        let result = "";
+        review.reviews.forEach((review) => {
+          if (review.reviewBody === patchData.reviewBody)
+            return (result = true);
+          return (result = false);
+        });
+        expect(result).toBe(true);
+      });
   });
   test("Should respond with a 400 when given invalid data which does not match the schema", () => {
     const patchData = {
-      "reviewBody": true,
-      "rating": 'a string',
-      "reviewedBy": "63ce75449ae462be0adad72d",
-      "_id": "63ce75449ae462be0adae13a"
-    }
+      reviewBody: true,
+      rating: "a string",
+      reviewedBy: "63ce75449ae462be0adad72d",
+      _id: "63ce75449ae462be0adae13a",
+    };
     return request(app)
-      .patch("/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a")
+      .patch(
+        "/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a"
+      )
       .send(patchData)
       .expect(400)
       .then(({ body }) => {
@@ -619,47 +627,55 @@ describe('PATCH /api/users/:user_id/reviews/:review_id', () => {
       });
   });
 
-  test('should respond with a 400 when given an invalid patch object', () => {
-      const patchData = {
-        "revBody": "Very good to service :), needs to clean their boot out though! it's full of clothes!",
-        "rate": 7,
-        "reviewedBy": "63ce75449ae462be0adad72d",
-        "_id": "63ce75449ae462be0adae13a"
-      }
-      return request(app)
-        .patch("/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a")
-        .send(patchData)
-        .expect(400)
-        .then(({ body }) => {
-          const { msg } = body;
-          expect(msg).toBe("Bad request");
-        });
-    });
-  test('should return a 404 when given an invalid user id', () => {
-    return request(app)
-    .patch("/api/users/63ce75449ae462be0adad84e/reviews/63ce75449ae462be0adae13a")
-    .send(patchData)
-    .expect(404)
-    .then(({ body }) => {
-      const { msg } = body;
-      expect(msg).toBe("Content not found");
-    });
-  });
-  test('should return a 404 when given an invalid review id', () => {
+  test("should respond with a 400 when given an invalid patch object", () => {
     const patchData = {
-      "reviewBody": "Very good to service :), needs to clean their boot out though! it's full of clothes!",
-      "rating": 7,
-      "reviewedBy": "63ce75449ae462be0adad72d",
-      "_id": "63ce75449ae462be0adae20a"
-    }
+      revBody:
+        "Very good to service :), needs to clean their boot out though! it's full of clothes!",
+      rate: 7,
+      reviewedBy: "63ce75449ae462be0adad72d",
+      _id: "63ce75449ae462be0adae13a",
+    };
     return request(app)
-    .patch("/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae20a")
-    .send(patchData)
-    .expect(404)
-    .then(({ body }) => {
-      const { msg } = body;
-      expect(msg).toBe("Content not found");
-    });
+      .patch(
+        "/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a"
+      )
+      .send(patchData)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+  test("should return a 404 when given an invalid user id", () => {
+    return request(app)
+      .patch(
+        "/api/users/63ce75449ae462be0adad84e/reviews/63ce75449ae462be0adae13a"
+      )
+      .send(patchData)
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
+  });
+  test("should return a 404 when given an invalid review id", () => {
+    const patchData = {
+      reviewBody:
+        "Very good to service :), needs to clean their boot out though! it's full of clothes!",
+      rating: 7,
+      reviewedBy: "63ce75449ae462be0adad72d",
+      _id: "63ce75449ae462be0adae20a",
+    };
+    return request(app)
+      .patch(
+        "/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae20a"
+      )
+      .send(patchData)
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
   });
 });
 
@@ -783,38 +799,44 @@ describe("POST /api/users", () => {
   });
 });
 
-
-describe('PATCH /api/users/:user_id/reviews/:review_id', () => {
+describe("PATCH /api/users/:user_id/reviews/:review_id", () => {
   const patchData = {
-    "reviewBody": "Very good to service :), needs to clean their boot out though! it's full of clothes!",
-    "rating": 7,
-    "reviewedBy": "63ce75449ae462be0adad72d",
-    "_id": "63ce75449ae462be0adae13a"
-  }
-  test('should respond with a 200, accept a review object, update the review, and return it', () => {
+    reviewBody:
+      "Very good to service :), needs to clean their boot out though! it's full of clothes!",
+    rating: 7,
+    reviewedBy: "63ce75449ae462be0adad72d",
+    _id: "63ce75449ae462be0adae13a",
+  };
+  test("should respond with a 200, accept a review object, update the review, and return it", () => {
     return request(app)
-    .patch("/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a")
-    .send(patchData)
-    .expect(200)
-    .then(({ body }) => {
-      const { review } = body;
-      expect(review._id).toEqual("63ce75449ae462be0adad72e");
-      let result = '';
-      review.reviews.forEach((review) => {
-      if (review.reviewBody === patchData.reviewBody) return result = true 
-      return result = false })
-      expect(result).toBe(true)
-    });
+      .patch(
+        "/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a"
+      )
+      .send(patchData)
+      .expect(200)
+      .then(({ body }) => {
+        const { review } = body;
+        expect(review._id).toEqual("63ce75449ae462be0adad72e");
+        let result = "";
+        review.reviews.forEach((review) => {
+          if (review.reviewBody === patchData.reviewBody)
+            return (result = true);
+          return (result = false);
+        });
+        expect(result).toBe(true);
+      });
   });
   test("Should respond with a 400 when given invalid data which does not match the schema", () => {
     const patchData = {
-      "reviewBody": true,
-      "rating": 'a string',
-      "reviewedBy": "63ce75449ae462be0adad72d",
-      "_id": "63ce75449ae462be0adae13a"
-    }
+      reviewBody: true,
+      rating: "a string",
+      reviewedBy: "63ce75449ae462be0adad72d",
+      _id: "63ce75449ae462be0adae13a",
+    };
     return request(app)
-      .patch("/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a")
+      .patch(
+        "/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a"
+      )
       .send(patchData)
       .expect(400)
       .then(({ body }) => {
@@ -822,55 +844,63 @@ describe('PATCH /api/users/:user_id/reviews/:review_id', () => {
         expect(msg).toBe("Bad request");
       });
   });
-  test('should respond with a 400 when given an invalid patch object', () => {
-      const patchData = {
-        "revBody": "Very good to service :), needs to clean their boot out though! it's full of clothes!",
-        "rate": 7,
-        "reviewedBy": "63ce75449ae462be0adad72d",
-        "_id": "63ce75449ae462be0adae13a"
-      }
-      return request(app)
-        .patch("/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a")
-        .send(patchData)
-        .expect(400)
-        .then(({ body }) => {
-          const { msg } = body;
-          expect(msg).toBe("Bad request");
-        });
-    });
-  test('should return a 404 when given an invalid user id', () => {
-    return request(app)
-    .patch("/api/users/63ce75449ae462be0adad84e/reviews/63ce75449ae462be0adae13a")
-    .send(patchData)
-    .expect(404)
-    .then(({ body }) => {
-      const { msg } = body;
-      expect(msg).toBe("Content not found");
-    });
-  });
-  test('should return a 404 when given an invalid review id', () => {
+  test("should respond with a 400 when given an invalid patch object", () => {
     const patchData = {
-      "reviewBody": "Very good to service :), needs to clean their boot out though! it's full of clothes!",
-      "rating": 7,
-      "reviewedBy": "63ce75449ae462be0adad72d",
-      "_id": "63ce75449ae462be0adae20a"
-    }
+      revBody:
+        "Very good to service :), needs to clean their boot out though! it's full of clothes!",
+      rate: 7,
+      reviewedBy: "63ce75449ae462be0adad72d",
+      _id: "63ce75449ae462be0adae13a",
+    };
     return request(app)
-    .patch("/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae20a")
-    .send(patchData)
-    .expect(404)
-    .then(({ body }) => {
-      const { msg } = body;
-      expect(msg).toBe("Content not found");
-    });
+      .patch(
+        "/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a"
+      )
+      .send(patchData)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
   });
-
+  test("should return a 404 when given an invalid user id", () => {
+    return request(app)
+      .patch(
+        "/api/users/63ce75449ae462be0adad84e/reviews/63ce75449ae462be0adae13a"
+      )
+      .send(patchData)
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
+  });
+  test("should return a 404 when given an invalid review id", () => {
+    const patchData = {
+      reviewBody:
+        "Very good to service :), needs to clean their boot out though! it's full of clothes!",
+      rating: 7,
+      reviewedBy: "63ce75449ae462be0adad72d",
+      _id: "63ce75449ae462be0adae20a",
+    };
+    return request(app)
+      .patch(
+        "/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae20a"
+      )
+      .send(patchData)
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
+  });
+});
 
 describe("DELETE /api/users/:user_id", () => {
   test("should delete a review using review_id", () => {
     return request(app)
       .delete("/api/users/63ce75449ae462be0adad72a")
-      .expect(204)
+      .expect(204);
   });
   test("should return a 404 when provided an non-existant user_id", () => {
     return request(app)
@@ -889,8 +919,7 @@ describe("DELETE /api/users/:user_id", () => {
         const { msg } = body;
         expect(msg).toBe("Content not found");
       });
-});
-});
+  });
 });
 
 describe('POST /api/users/:user_id/orders', () => {
