@@ -17,7 +17,7 @@ const {
 } = require("./controllers/controllers.technicians");
 
 
-const { postReview, getUserReviews, postUser, removeReview, patchUserReview, deleteUser,  postOrder} = require("./controllers/controllers.users");
+const { postReview, getUserReviews, postUser, removeReview, patchUserReview, deleteUser, postOrder, getUserOrders } = require("./controllers/controllers.users");
 
 
 const app = express();
@@ -41,8 +41,8 @@ app.post("/api/users", postUser);
 app.delete("/api/users/:user_id", deleteUser);
 
 app.delete("/api/:user_id/reviews/:review_id", removeReview);
-
-app.post('/api/users/:user_id/orders', postOrder);
+app.get("/api/users/:user_id/orders", getUserOrders);
+app.post("/api/users/:user_id/orders", postOrder);
 
 app.use(handleCustomErrors);
 app.use(handleMongoDBErrors);
