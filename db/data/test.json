@@ -58,7 +58,8 @@
         "services": [{"name": "Servicing and MOT", "price": 120, "description": "Serviced and MOTed. Requires clutch repairs" }, {"name": "Clutch repairs", "price": 200, "description": "clutch repairs to pass MOT" }],
         "createdAt": "2020-05-18T14:10:30Z",
         "fulfilledAt": "2020-05-28T14:09:10Z",
-        "servicedBy": "63ce75449ae462be0adad72e"
+        "servicedBy": "63ce75449ae462be0adad72e",
+        "_id": "63ce75449ae462be0adad23a"
       },
       {
         "services": [{ "name": "Breakdown and recovery", "price": 150, "description": "Ran out of fuel causing engine to stall and battery to die"}],

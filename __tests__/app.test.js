@@ -1064,4 +1064,62 @@ describe('POST /api/users/:user_id/orders', () => {
   });
 });
 
+describe('PATCH /api/users/:user_id/orders/:order_id', () => {
+  const orderPatch = {"services": [{"name": "Servicing and MOT", "price": 80, "description": "MOT passed"}]}
+  test('should respond with a 200 and patched orders', () => {
+    const expected = [
+      {
+        "services": [{"name": "Servicing and MOT", "price": 80, "description": "MOT passed"}],
+        "createdAt": "2020-05-18T14:10:30.000Z",
+        "fulfilledAt": "2020-05-28T14:09:10.000Z",
+        "servicedBy": "63ce75449ae462be0adad72e"
+      },
+      {
+        "services": [{ "name": "Breakdown and recovery", "price": 150, "description": "Ran out of fuel causing engine to stall and battery to die"}],
+        "createdAt": "2021-08-18T14:12:30.000Z",
+        "fulfilledAt": "2021-08-18T14:13:30.000Z",
+        "servicedBy": "63ce75449ae462be0adad72e"
+      }
+    ]
+    return request(app)
+      .patch("/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad23a")
+      .send(orderPatch)
+      .expect(200)
+      .then(({ body }) => {
+        const { orders } = body;
+        expect(orders).toMatchObject(expected);
+      });
+  });
 
+  test("should respond with a 400 when given an invalid patch object", () => {
+    const badPatch = {"sers": [{"name": "Servicing and MOT", "price": 80, "description": "MOT passed"}]}
+    return request(app)
+      .patch("/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad23a")
+      .send(badPatch)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+  test("should return a 404 when given an invalid user id", () => {
+    return request(app)
+      .patch("/api/users/63ce75449ae462be0adad45c/orders/63ce75449ae462be0adad23a")
+      .send(orderPatch)
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
+  });
+  test("should return a 404 when given an invalid order id", () => {
+    return request(app)
+      .patch("/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad38a")
+      .send(orderPatch)
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
+  });
+});
