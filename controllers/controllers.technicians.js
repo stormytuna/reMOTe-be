@@ -4,7 +4,8 @@ const {
   findTechnician,
   updateTechnicianProp,
   postReviewForTech,
-  updateTechnician
+  updateTechnician,
+  removeTechReview,
 } = require("../models/models.technicians");
 
 exports.getTechnicians = async (req, res, next) => {
@@ -57,6 +58,15 @@ exports.createReviewforTech = async (req, res, next) => {
   try {
     const technician = await postReviewForTech(req.params.user_id, req.body);
     res.status(201).send({ technician });
+  } catch (e) {
+    next(e);
+  }
+};
+
+exports.removeTechReview = async (req, res, next) => {
+  try {
+    await removeTechReview(req.params.user_id, req.params.review_id);
+    res.status(204).send();
   } catch (e) {
     next(e);
   }
