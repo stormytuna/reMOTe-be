@@ -92,7 +92,8 @@
           "rating": 1,
           "reviewedBy": "63ce75449ae462be0adad72a"
         }
-      ]
+      ],
+      "company": "James the Technician"
     },
     "reviews": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
@@ -135,7 +136,8 @@
           "rating": 5,
           "reviewedBy": "63ce75449ae462be0adad72a"
         }
-      ]
+      ],
+      "company": "James the Technician"
     },
     "reviews": [
       {

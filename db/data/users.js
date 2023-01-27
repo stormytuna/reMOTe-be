@@ -58,6 +58,14 @@ const userSchema = new mongoose.Schema({
           },
         },
       ],
+      company: {
+        type: String,
+        required: true,
+      },
+      companyImage: {
+        type: String,
+        default: "https://i.imgur.com/RSX3fMZ.png",
+      },
     },
     enum: [Object, null],
     default: null,

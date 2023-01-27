@@ -109,7 +109,8 @@
           "rating": 1,
           "reviewedBy": "63ce75449ae462be0adad72a"
         }
-      ]
+      ],
+      "company": "James the Technician"
     },
     "reviews": [],
     "orders": [],
@@ -153,7 +154,8 @@
           "rating": 5,
           "reviewedBy": "63ce75449ae462be0adad72a"
         }
-      ]
+      ],
+      "company": "James the Technician"
     },
     "reviews": [
       {

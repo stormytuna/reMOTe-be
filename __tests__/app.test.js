@@ -7,12 +7,12 @@ const { disconnect } = require("../db/end-connection");
 const { seedTest } = require("../db/seed-test");
 const mongoose = require("mongoose");
 
-beforeAll(() => {
-  return connect();
+beforeAll(async () => {
+  return await connect();
 });
 
-beforeEach(() => {
-  return seedTest(userData);
+beforeEach(async () => {
+  return await seedTest();
 });
 
 afterAll(() => {
@@ -66,6 +66,7 @@ describe("POST /api/technicians", () => {
           { name: "Servicing and MOT", price: 45 },
           { name: "clutch repair", price: 100 },
         ],
+        company: "Ahmed's Repairs",
       },
       avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
     };

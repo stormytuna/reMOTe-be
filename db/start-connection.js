@@ -13,7 +13,7 @@ if (process.env.MONGODB_USERNAME && process.env.MONGODB_PASSWORD) {
   dbUri = `mongodb+srv://${username}:${password}@test.cpnpkbx.mongodb.net/test`;
 }
 
-exports.connect = () => {
+exports.connect = async () => {
   mongoose.set("strictQuery", false);
   mongoose.connect(
     dbUri,
