@@ -799,7 +799,57 @@ describe("POST /api/users", () => {
   });
 });
 
+
+describe('GET /api/users/:user_id/orders', () => {
+  const ordersData = [
+    {
+      "services": [{"name": "Servicing and MOT", "price": 120, "description": "Serviced and MOTed. Requires clutch repairs" }, {"name": "Clutch repairs", "price": 200, "description": "clutch repairs to pass MOT" }],
+      "createdAt": "2020-05-18T14:10:30.000Z",
+      "fulfilledAt": "2020-05-28T14:09:10.000Z",
+      "servicedBy": "63ce75449ae462be0adad72e"
+    },
+    {
+      "services": [{ "name": "Breakdown and recovery", "price": 150, "description": "Ran out of fuel causing engine to stall and battery to die"}],
+      "createdAt": "2021-08-18T14:12:30.000Z",
+      "fulfilledAt": "2021-08-18T14:13:30.000Z",
+      "servicedBy": "63ce75449ae462be0adad72e"
+    }
+  ]
+
+  test('should return 200 and an array of all order objects', () => {
+    return request(app)
+    .get("/api/users/63ce75449ae462be0adad72c/orders")
+    .expect(200)
+    .then(({ body }) => {
+      const { orders } = body;
+      expect(orders).toMatchObject(ordersData)
+    })
+  });
+
+  test("should respond with a 400 when provided an invalid user ID", () => {
+    return request(app)
+      .get("/api/users/bad-user-id/orders")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+  test("should respond with a 404 when provided a non-existant user ID", () => {
+    return request(app)
+      .get("/api/users/63ceaaaaaae462be0adad72a/orders")
+            .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
+  });
+ });
+
+
+
 describe("PATCH /api/users/:user_id/reviews/:review_id", () => {
+
   const patchData = {
     reviewBody:
       "Very good to service :), needs to clean their boot out though! it's full of clothes!",
@@ -863,6 +913,7 @@ describe("PATCH /api/users/:user_id/reviews/:review_id", () => {
         expect(msg).toBe("Bad request");
       });
   });
+  
   test("should return a 404 when given an invalid user id", () => {
     return request(app)
       .patch(
@@ -920,73 +971,182 @@ describe("DELETE /api/users/:user_id", () => {
         expect(msg).toBe("Content not found");
       });
   });
+  });
+
+
+describe('POST /api/users/:user_id/orders', () => {
+  const newOrder = {"services": [{"name": "Tyres, wheels and tracking", "price": 100, "description": "Tracking was causing car to veer left which had worn tires out on right side, needed replacing"}], 
+  "createdAt": "2023-01-18T14:12:30Z",
+  "fulfilledAt": Date.now(),
+  "servicedBy": "63ce75449ae462be0adad72e"}
+  test('should respond with a 201 and post a new order', () => {
+    const expected = [
+      {
+        "services": [{"name": "Servicing and MOT", "price": 120, "description": "Serviced and MOTed. Requires clutch repairs" }, {"name": "Clutch repairs", "price": 200, "description": "clutch repairs to pass MOT" }],
+        "createdAt": "2020-05-18T14:10:30.000Z",
+        "fulfilledAt": "2020-05-28T14:09:10.000Z",
+        "servicedBy": "63ce75449ae462be0adad72e"
+      },
+      {
+        "services": [{ "name": "Breakdown and recovery", "price": 150, "description": "Ran out of fuel causing engine to stall and battery to die"}],
+        "createdAt": "2021-08-18T14:12:30.000Z",
+        "fulfilledAt": "2021-08-18T14:13:30.000Z",
+        "servicedBy": "63ce75449ae462be0adad72e"
+      }, 
+      {
+        "services":[{"name": "Tyres, wheels and tracking", "price": 100, "description": "Tracking was causing car to veer left which had worn tires out on right side, needed replacing"}],
+        "createdAt": expect.any(String),
+        "fulfilledAt": expect.any(String),
+        "servicedBy": "63ce75449ae462be0adad72e"
+      }
+    ]
+    return request(app)
+      .post("/api/users/63ce75449ae462be0adad72c/orders")
+      .send(newOrder)
+      .expect(201)
+      .then(({ body }) => {
+        const { orders } = body;
+        expect(orders).toMatchObject(expected);
+      });
+  });
+
+
+  test("should respond with a 404 when given a malformed order", () => {
+    const badData = {"servs": [{"name": "Tyres, wheels and tracking", "price": 100, "description": "Tracking was causing car to veer left which had worn tires out on right side, needed replacing"}], 
+    "creaasdtedAt": "2023-01-18T14:12:30Z",
+    "fudAt": Date.now(),
+    "serdBy": "63ce75449ae462be0adad72e"};
+    return request(app)
+      .post("/api/users/63ce75449ae462be0adad72c/orders")
+      .send(badData)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("should respond with a 400 when provided with an invalid schema", () => {
+    const terribleData = {"services": {"name": "Tyres, wheels and tracking", "price": 100, "description": "Tracking was causing car to veer left which had worn tires out on right side, needed replacing"}, 
+    "createdAt": 40,
+    "fulfilledAt": Date.now(),
+    "servicedBy": true};
+    return request(app)
+      .post("/api/users/63ce75449ae462be0adad72c/orders")
+      .send(terribleData)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("should respond with a 404 when provided with a user_id that does not exist", () => {
+    return request(app)
+      .post("/api/users/63ce7544aaaaa2be0adad72f/orders")
+      .send(newOrder)
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
+  });
+
+  test("should respond with a 404 when provided with an invalid user_id", () => {
+    return request(app)
+      .post("/api/users/not-a-user-id/orders")
+      .send(newOrder)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request")
+  });
+  });
 });
 
+describe('PATCH /api/users/:user_id/orders/:order_id', () => {
+  const orderPatch = {"services": [{"name": "Servicing and MOT", "price": 80, "description": "MOT passed"}]}
+  test('should respond with a 200 and patched orders', () => {
+    const expected = [
+      {
+        "services": [{"name": "Servicing and MOT", "price": 80, "description": "MOT passed"}],
+        "createdAt": "2020-05-18T14:10:30.000Z",
+        "fulfilledAt": "2020-05-28T14:09:10.000Z",
+        "servicedBy": "63ce75449ae462be0adad72e"
+      },
+      {
+        "services": [{ "name": "Breakdown and recovery", "price": 150, "description": "Ran out of fuel causing engine to stall and battery to die"}],
+        "createdAt": "2021-08-18T14:12:30.000Z",
+        "fulfilledAt": "2021-08-18T14:13:30.000Z",
+        "servicedBy": "63ce75449ae462be0adad72e"
+      }
+    ]
+    return request(app)
+      .patch("/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad23a")
+      .send(orderPatch)
+      .expect(200)
+      .then(({ body }) => {
+        const { orders } = body;
+        expect(orders).toMatchObject(expected);
+      });
+  });
 
+  test("should respond with a 400 when given an invalid patch object", () => {
+    const badPatch = {"sers": [{"name": "Servicing and MOT", "price": 80, "description": "MOT passed"}]}
+    return request(app)
+      .patch("/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad23a")
+      .send(badPatch)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+  test("should return a 404 when given an invalid user id", () => {
+    return request(app)
+      .patch("/api/users/63ce75449ae462be0adad45c/orders/63ce75449ae462be0adad23a")
+      .send(orderPatch)
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
+  });
+  test("should return a 404 when given an invalid order id", () => {
+    return request(app)
+      .patch("/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad38a")
+      .send(orderPatch)
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+  });
+  });
+  });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ----------------------------------------------------
 describe('DELETE /api/technicians/:user_id/reviews/:review_id', () => {
   test('should delete a review when provided a valid review id', () => {
     return request(app)
     .delete("/api/technicians/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae55a")
     .expect(204);
   });
-  test("should return a 404 when provided an non-existant user_id", () => {
+    test("should return a 404 when provided an non-existant user_id", () => {
     return request(app)
-      .delete("/api/technicians/63ce75449ae462be0adad95e/reviews/63ce75449ae462be0adae55a")
-      .expect(404)
-      .then(({ body: { msg } }) => {
-        expect(msg).toBe("Content not found");
+    .delete("/api/technicians/63ce75449ae462be0adad95e/reviews/63ce75449ae462be0adae55a")
+    .expect(404)
+    .then(({ body: { msg } }) => {
+    expect(msg).toBe("Content not found");
       });
   });
   test("should return a 404 when provided an non-existant review_id", () => {
-    return request(app)
-      .delete("/api/technicians/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae66a")
-      .expect(404)
-      .then(({ body: { msg } }) => {
-        expect(msg).toBe("Content not found");
+  return request(app)
+  .delete("/api/technicians/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae66a")
+  .expect(404)
+  .then(({ body: { msg } }) => {
+   expect(msg).toBe("Content not found");
       });
   });
-  test("should return a 400 when given an invalid user ID", () => {
+    test("should return a 400 when given an invalid user ID", () => {
     return request(app)
       .delete("/api/technicians/fake-id/reviews/63ce75449ae462be0adae55a")
       .expect(400)
@@ -998,6 +1158,49 @@ describe('DELETE /api/technicians/:user_id/reviews/:review_id', () => {
   test("should return a 400 when given an invalid review ID", () => {
     return request(app)
       .delete("/api/technicians/63ce75449ae462be0adad72e/reviews/not-a-valid-review-id")
+       .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+});
+
+describe('DELETE /api/users/:user_id/orders/:order_id', () => {
+  test('should delete an order using order_id', () => {
+    return request(app)
+    .delete("/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad23a")
+    .expect(204);
+  });
+  test("should return a 404 when provided an non-existant user_id", () => {
+    return request(app)
+    .delete("/api/users/63ce75449ae462be0adad17c/orders/63ce75449ae462be0adad23a")
+    .expect(404)
+    .then(({ body: { msg } }) => {
+    expect(msg).toBe("Content not found");
+      });
+  });
+  test("should return a 404 when provided an non-existant order_id", () => {
+    return request(app)
+      .delete("/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad39a")
+      .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Content not found");
+      });
+  });
+
+  test("should return a 404 when given an invalid user ID", () => {
+    return request(app)
+      .delete("/api/users/fake-user-ID/orders/63ce75449ae462be0adad23a")
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
+  });
+  test("should return a 400 when given an invalid order ID", () => {
+    return request(app)
+      .delete("/api/users/63ce75449ae462be0adad72c/orders/not-a-valid-order")
       .expect(400)
       .then(({ body }) => {
         const { msg } = body;
