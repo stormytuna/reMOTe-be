@@ -1,4 +1,5 @@
 const User = require("../db/data/users");
+const { patchKeysAreEqual } = require("../utils");
 
 exports.findTechnicians = async () => {
   const technicians = await User.find({
@@ -68,7 +69,12 @@ exports.postReviewForTech = async (id, review) => {
 };
 
 exports.updateTechnician = async (id, updates) => {
-  await User.findOneAndUpdate(
+  // Handles 400s
+  if (!patchKeysAreEqual(Object.keys(updates), ["name", "price"])) {
+    return Promise.reject({ status: 400, msg: "Bad request" });
+  }
+
+  const aa = await User.findOneAndUpdate(
     { _id: id },
     { $push: { "technician.services": updates } }
   );

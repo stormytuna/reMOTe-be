@@ -1,5 +1,5 @@
 const User = require("../db/data/users");
-const { patchKeysAreEqual } = require('../utils');
+const { patchKeysAreEqual, isValidId } = require("../utils");
 
 exports.createReview = async (review, id) => {
   // Check for bad request
@@ -35,14 +35,15 @@ exports.findUserReviews = async (id) => {
   return user.reviews;
 };
 
-
 exports.updateUserReview = async (user_id, review_id, updates) => {
   const { rating, reviewBody } = updates;
-  const expectedKeys = ["reviewBody", "rating", "reviewedBy", "_id"]
+  const expectedKeys = ["reviewBody", "rating", "reviewedBy", "_id"];
   const receivedKeys = Object.keys(updates);
 
-  const user = await User.findById({_id: user_id});
-  const review = await User.find({'reviews': {$elemMatch: {_id: review_id}}})
+  const user = await User.findById({ _id: user_id });
+  const review = await User.find({
+    reviews: { $elemMatch: { _id: review_id } },
+  });
 
   // Handle 404s
   if (!user) {
@@ -57,12 +58,20 @@ exports.updateUserReview = async (user_id, review_id, updates) => {
     return Promise.reject({ status: 400, msg: "Bad request" });
   }
 
-  await User.findOneAndUpdate({'_id' : user_id}, { $set: {"reviews.$[elem].rating": rating, 'reviews.$[elem].reviewBody': reviewBody}}, {arrayFilters: [ {"elem._id": {$eq: review_id} }]})
-  return await User.findById({_id: user_id});
+  await User.findOneAndUpdate(
+    { _id: user_id },
+    {
+      $set: {
+        "reviews.$[elem].rating": rating,
+        "reviews.$[elem].reviewBody": reviewBody,
+      },
+    },
+    { arrayFilters: [{ "elem._id": { $eq: review_id } }] }
+  );
+  return await User.findById({ _id: user_id });
 };
 
 exports.createUser = async (user) => {
-  
   if (user.user === null) {
     return Promise.reject({ status: 400, msg: "Bad request" });
   }
@@ -70,16 +79,20 @@ exports.createUser = async (user) => {
   return newUser;
 };
 exports.deleteReview = async (user_id, review_id) => {
-
   const user = await User.findById(user_id);
-  const review = await User.findOne({[`reviews._id`]: review_id}, {'reviews._id': 1})
+  const review = await User.findOne(
+    { [`reviews._id`]: review_id },
+    { "reviews._id": 1 }
+  );
 
   if (!user || !review) {
     return Promise.reject({ status: 404, msg: "Content not found" });
   }
-  await User.findOneAndUpdate({ _id: user_id }, { $pull: { "reviews": { _id: review_id } } });
-}
-
+  await User.findOneAndUpdate(
+    { _id: user_id },
+    { $pull: { reviews: { _id: review_id } } }
+  );
+};
 
 exports.findUserOrders = async (user_id) => {
   const user = await User.findById(user_id);
@@ -87,58 +100,65 @@ exports.findUserOrders = async (user_id) => {
   if (!user) {
     return Promise.reject({ status: 404, msg: "Content not found" });
   }
-    return user.orders;
+  return user.orders;
 };
 
-
 exports.removeUser = async (user_id) => {
-  const user = await User.findById(user_id);
-  
+  const user = await User.findById({ _id: user_id });
+
+  if (!isValidId(user_id)) {
+    return Promise.reject({ status: 400, msg: "Bad request" });
+  }
+
   if (!user) {
     return Promise.reject({ status: 404, msg: "Content not found" });
   }
-  
-  await User.remove({ _id: user_id})
-}
+
+  await User.remove({ _id: user_id });
+};
 
 exports.createOrder = async (user_id, order) => {
-  const expectedKeys = ['services', 'createdAt', 'fulfilledAt', 'servicedBy']
-  const receivedKeys = Object.keys(order)
+  const expectedKeys = ["services", "createdAt", "fulfilledAt", "servicedBy"];
+  const receivedKeys = Object.keys(order);
 
-    if (!patchKeysAreEqual(receivedKeys, expectedKeys)){
-      return Promise.reject({ status: 400, msg: "Bad request" });
-    }
+  if (!patchKeysAreEqual(receivedKeys, expectedKeys)) {
+    return Promise.reject({ status: 400, msg: "Bad request" });
+  }
 
-    await User.findOneAndUpdate({ _id: user_id }, { $push: { orders: order } });
-    
-    const updatedUser = await User.findById({ _id: user_id });
-   
-    if (!updatedUser) {
-      return Promise.reject({ status: 404, msg: "Content not found" });
-    }
-    
-    return updatedUser.orders;
+  await User.findOneAndUpdate({ _id: user_id }, { $push: { orders: order } });
+
+  const updatedUser = await User.findById({ _id: user_id });
+
+  if (!updatedUser) {
+    return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+
+  return updatedUser.orders;
 };
 
 exports.updateOrder = async (user_id, order_id, updates) => {
   const { services } = updates;
-  const expectedKeys = ["services"]
+  const expectedKeys = ["services"];
   const receivedKeys = Object.keys(updates);
 
-  if (!patchKeysAreEqual(expectedKeys, receivedKeys)){
+  if (!patchKeysAreEqual(expectedKeys, receivedKeys)) {
     return Promise.reject({ status: 400, msg: "Bad request" });
   }
 
-  await User.findOneAndUpdate({'_id' : user_id}, { $set: {"orders.$[elem].services": services}}, {arrayFilters: [ {"elem._id": {$eq: order_id} }]})
-  const user = await User.findById({_id: user_id});
+  await User.findOneAndUpdate(
+    { _id: user_id },
+    { $set: { "orders.$[elem].services": services } },
+    { arrayFilters: [{ "elem._id": { $eq: order_id } }] }
+  );
+  const user = await User.findById({ _id: user_id });
 
   if (!user) {
     return Promise.reject({ status: 404, msg: "Content not found" });
   }
 
-  const order = await User.find({'orders': {$elemMatch: {_id: order_id}}})
+  const order = await User.find({ orders: { $elemMatch: { _id: order_id } } });
 
-  if(order.length === 0) {
+  if (order.length === 0) {
     return Promise.reject({ status: 404, msg: "Content not found" });
   }
 

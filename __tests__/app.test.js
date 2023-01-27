@@ -245,8 +245,8 @@ describe("GET /api/technicians/:user_id", () => {
 });
 
 describe("PATCH /api/technicians/:user_id", () => {
-  const patchData = { name: "Tyre Replacement", price: 50 };
   test("status:200, should accept an object of services, update the technician, and return it", () => {
+    const patchData = { name: "Tyre Replacement", price: 50 };
     return request(app)
       .patch("/api/technicians/63ce75449ae462be0adad72d")
       .send(patchData)
@@ -265,7 +265,7 @@ describe("PATCH /api/technicians/:user_id", () => {
   test("status:400, responds with an appropriate error message when given a malformed body", () => {
     const patchData = { wgrfwsfsfs: "Tyre Replacement", arafa: 50 };
     return request(app)
-      .patch("/api/technicians/not-an-id")
+      .patch("/api/technicians/63ce75449ae462be0adad72d")
       .send(patchData)
       .expect(400)
       .then(({ body }) => {
@@ -277,7 +277,19 @@ describe("PATCH /api/technicians/:user_id", () => {
   test("status:400, responds with an appropriate error message when given body fails schema validation", () => {
     const patchData = { name: "Tyre Replacement", price: "aaa" };
     return request(app)
-      .patch("/api/technicians/not-an-id")
+      .patch("/api/technicians/63ce75449ae462be0adad72d")
+      .send(patchData)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("status:400, responds with an appropriate error message when given user ID is invalid", () => {
+    const patchData = { name: "Tyre Replacement", price: 50 };
+    return request(app)
+      .patch("/api/technicians/totally-real-user-id")
       .send(patchData)
       .expect(400)
       .then(({ body }) => {
@@ -287,6 +299,7 @@ describe("PATCH /api/technicians/:user_id", () => {
   });
 
   test("status:404, should respond with an appropriate error message when given id does not exist", () => {
+    const patchData = { name: "Tyre Replacement", price: 50 };
     return request(app)
       .patch("/api/technicians/63ce7544aaaaa2be0adad72d")
       .send(patchData)
@@ -488,11 +501,20 @@ describe("DELETE /api/user_id/reviews/:review_id", () => {
   });
   test("should return a 400 when given an invalid user ID", () => {
     return request(app)
-      .delete("/api/fake-user-ID/reviews/63ce75449ae462be0adae13a")
-      .expect(404)
+      .delete("/api/fake-user-ID/reviews/totally-a-real-user-id")
+      .expect(400)
       .then(({ body }) => {
         const { msg } = body;
-        expect(msg).toBe("Content not found");
+        expect(msg).toBe("Bad request");
+      });
+  });
+  test("status:400, responds with an appropriate error message when given an invalid review ID", () => {
+    return request(app)
+      .delete("/api/63ce75449ae462be0adad72e/reviews/totally-a-real-id")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
       });
   });
 });
@@ -646,6 +668,31 @@ describe("PATCH /api/users/:user_id/reviews/:review_id", () => {
         expect(msg).toBe("Bad request");
       });
   });
+
+  test("status:400, responds with an appropriate error message when given user ID is invalid", () => {
+    return request(app)
+      .patch("/api/users/totally-a-real-user/reviews/63ce75449ae462be0adae13a")
+      .send(patchData)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("status:400, responds with an appropriate error message when given review ID is invalid", () => {
+    return request(app)
+      .patch(
+        "/api/users/63ce75449ae462be0adad72e/reviews/totally-a-real-review-id"
+      )
+      .send(patchData)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
   test("should return a 404 when given an invalid user id", () => {
     return request(app)
       .patch(
@@ -799,31 +846,48 @@ describe("POST /api/users", () => {
   });
 });
 
-
-describe('GET /api/users/:user_id/orders', () => {
+describe("GET /api/users/:user_id/orders", () => {
   const ordersData = [
     {
-      "services": [{"name": "Servicing and MOT", "price": 120, "description": "Serviced and MOTed. Requires clutch repairs" }, {"name": "Clutch repairs", "price": 200, "description": "clutch repairs to pass MOT" }],
-      "createdAt": "2020-05-18T14:10:30.000Z",
-      "fulfilledAt": "2020-05-28T14:09:10.000Z",
-      "servicedBy": "63ce75449ae462be0adad72e"
+      services: [
+        {
+          name: "Servicing and MOT",
+          price: 120,
+          description: "Serviced and MOTed. Requires clutch repairs",
+        },
+        {
+          name: "Clutch repairs",
+          price: 200,
+          description: "clutch repairs to pass MOT",
+        },
+      ],
+      createdAt: "2020-05-18T14:10:30.000Z",
+      fulfilledAt: "2020-05-28T14:09:10.000Z",
+      servicedBy: "63ce75449ae462be0adad72e",
     },
     {
-      "services": [{ "name": "Breakdown and recovery", "price": 150, "description": "Ran out of fuel causing engine to stall and battery to die"}],
-      "createdAt": "2021-08-18T14:12:30.000Z",
-      "fulfilledAt": "2021-08-18T14:13:30.000Z",
-      "servicedBy": "63ce75449ae462be0adad72e"
-    }
-  ]
+      services: [
+        {
+          name: "Breakdown and recovery",
+          price: 150,
+          description:
+            "Ran out of fuel causing engine to stall and battery to die",
+        },
+      ],
+      createdAt: "2021-08-18T14:12:30.000Z",
+      fulfilledAt: "2021-08-18T14:13:30.000Z",
+      servicedBy: "63ce75449ae462be0adad72e",
+    },
+  ];
 
-  test('should return 200 and an array of all order objects', () => {
+  test("should return 200 and an array of all order objects", () => {
     return request(app)
-    .get("/api/users/63ce75449ae462be0adad72c/orders")
-    .expect(200)
-    .then(({ body }) => {
-      const { orders } = body;
-      expect(orders).toMatchObject(ordersData)
-    })
+      .get("/api/users/63ce75449ae462be0adad72c/orders")
+      .expect(200)
+      .then(({ body }) => {
+        const { orders } = body;
+        expect(orders).toMatchObject(ordersData);
+      });
   });
 
   test("should respond with a 400 when provided an invalid user ID", () => {
@@ -838,107 +902,6 @@ describe('GET /api/users/:user_id/orders', () => {
   test("should respond with a 404 when provided a non-existant user ID", () => {
     return request(app)
       .get("/api/users/63ceaaaaaae462be0adad72a/orders")
-            .expect(404)
-      .then(({ body }) => {
-        const { msg } = body;
-        expect(msg).toBe("Content not found");
-      });
-  });
- });
-
-
-
-describe("PATCH /api/users/:user_id/reviews/:review_id", () => {
-
-  const patchData = {
-    reviewBody:
-      "Very good to service :), needs to clean their boot out though! it's full of clothes!",
-    rating: 7,
-    reviewedBy: "63ce75449ae462be0adad72d",
-    _id: "63ce75449ae462be0adae13a",
-  };
-  test("should respond with a 200, accept a review object, update the review, and return it", () => {
-    return request(app)
-      .patch(
-        "/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a"
-      )
-      .send(patchData)
-      .expect(200)
-      .then(({ body }) => {
-        const { review } = body;
-        expect(review._id).toEqual("63ce75449ae462be0adad72e");
-        let result = "";
-        review.reviews.forEach((review) => {
-          if (review.reviewBody === patchData.reviewBody)
-            return (result = true);
-          return (result = false);
-        });
-        expect(result).toBe(true);
-      });
-  });
-  test("Should respond with a 400 when given invalid data which does not match the schema", () => {
-    const patchData = {
-      reviewBody: true,
-      rating: "a string",
-      reviewedBy: "63ce75449ae462be0adad72d",
-      _id: "63ce75449ae462be0adae13a",
-    };
-    return request(app)
-      .patch(
-        "/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a"
-      )
-      .send(patchData)
-      .expect(400)
-      .then(({ body }) => {
-        const { msg } = body;
-        expect(msg).toBe("Bad request");
-      });
-  });
-  test("should respond with a 400 when given an invalid patch object", () => {
-    const patchData = {
-      revBody:
-        "Very good to service :), needs to clean their boot out though! it's full of clothes!",
-      rate: 7,
-      reviewedBy: "63ce75449ae462be0adad72d",
-      _id: "63ce75449ae462be0adae13a",
-    };
-    return request(app)
-      .patch(
-        "/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae13a"
-      )
-      .send(patchData)
-      .expect(400)
-      .then(({ body }) => {
-        const { msg } = body;
-        expect(msg).toBe("Bad request");
-      });
-  });
-  
-  test("should return a 404 when given an invalid user id", () => {
-    return request(app)
-      .patch(
-        "/api/users/63ce75449ae462be0adad84e/reviews/63ce75449ae462be0adae13a"
-      )
-      .send(patchData)
-      .expect(404)
-      .then(({ body }) => {
-        const { msg } = body;
-        expect(msg).toBe("Content not found");
-      });
-  });
-  test("should return a 404 when given an invalid review id", () => {
-    const patchData = {
-      reviewBody:
-        "Very good to service :), needs to clean their boot out though! it's full of clothes!",
-      rating: 7,
-      reviewedBy: "63ce75449ae462be0adad72d",
-      _id: "63ce75449ae462be0adae20a",
-    };
-    return request(app)
-      .patch(
-        "/api/users/63ce75449ae462be0adad72e/reviews/63ce75449ae462be0adae20a"
-      )
-      .send(patchData)
       .expect(404)
       .then(({ body }) => {
         const { msg } = body;
@@ -965,41 +928,74 @@ describe("DELETE /api/users/:user_id", () => {
   test("should return a 400 when given an invalid user ID", () => {
     return request(app)
       .delete("/api/users/fake-user-ID")
-      .expect(404)
+      .expect(400)
       .then(({ body }) => {
         const { msg } = body;
-        expect(msg).toBe("Content not found");
+        expect(msg).toBe("Bad request");
       });
   });
-  });
+});
 
-
-describe('POST /api/users/:user_id/orders', () => {
-  const newOrder = {"services": [{"name": "Tyres, wheels and tracking", "price": 100, "description": "Tracking was causing car to veer left which had worn tires out on right side, needed replacing"}], 
-  "createdAt": "2023-01-18T14:12:30Z",
-  "fulfilledAt": Date.now(),
-  "servicedBy": "63ce75449ae462be0adad72e"}
-  test('should respond with a 201 and post a new order', () => {
+describe("POST /api/users/:user_id/orders", () => {
+  const newOrder = {
+    services: [
+      {
+        name: "Tyres, wheels and tracking",
+        price: 100,
+        description:
+          "Tracking was causing car to veer left which had worn tires out on right side, needed replacing",
+      },
+    ],
+    createdAt: "2023-01-18T14:12:30Z",
+    fulfilledAt: Date.now(),
+    servicedBy: "63ce75449ae462be0adad72e",
+  };
+  test("should respond with a 201 and post a new order", () => {
     const expected = [
       {
-        "services": [{"name": "Servicing and MOT", "price": 120, "description": "Serviced and MOTed. Requires clutch repairs" }, {"name": "Clutch repairs", "price": 200, "description": "clutch repairs to pass MOT" }],
-        "createdAt": "2020-05-18T14:10:30.000Z",
-        "fulfilledAt": "2020-05-28T14:09:10.000Z",
-        "servicedBy": "63ce75449ae462be0adad72e"
+        services: [
+          {
+            name: "Servicing and MOT",
+            price: 120,
+            description: "Serviced and MOTed. Requires clutch repairs",
+          },
+          {
+            name: "Clutch repairs",
+            price: 200,
+            description: "clutch repairs to pass MOT",
+          },
+        ],
+        createdAt: "2020-05-18T14:10:30.000Z",
+        fulfilledAt: "2020-05-28T14:09:10.000Z",
+        servicedBy: "63ce75449ae462be0adad72e",
       },
       {
-        "services": [{ "name": "Breakdown and recovery", "price": 150, "description": "Ran out of fuel causing engine to stall and battery to die"}],
-        "createdAt": "2021-08-18T14:12:30.000Z",
-        "fulfilledAt": "2021-08-18T14:13:30.000Z",
-        "servicedBy": "63ce75449ae462be0adad72e"
-      }, 
+        services: [
+          {
+            name: "Breakdown and recovery",
+            price: 150,
+            description:
+              "Ran out of fuel causing engine to stall and battery to die",
+          },
+        ],
+        createdAt: "2021-08-18T14:12:30.000Z",
+        fulfilledAt: "2021-08-18T14:13:30.000Z",
+        servicedBy: "63ce75449ae462be0adad72e",
+      },
       {
-        "services":[{"name": "Tyres, wheels and tracking", "price": 100, "description": "Tracking was causing car to veer left which had worn tires out on right side, needed replacing"}],
-        "createdAt": expect.any(String),
-        "fulfilledAt": expect.any(String),
-        "servicedBy": "63ce75449ae462be0adad72e"
-      }
-    ]
+        services: [
+          {
+            name: "Tyres, wheels and tracking",
+            price: 100,
+            description:
+              "Tracking was causing car to veer left which had worn tires out on right side, needed replacing",
+          },
+        ],
+        createdAt: expect.any(String),
+        fulfilledAt: expect.any(String),
+        servicedBy: "63ce75449ae462be0adad72e",
+      },
+    ];
     return request(app)
       .post("/api/users/63ce75449ae462be0adad72c/orders")
       .send(newOrder)
@@ -1010,12 +1006,20 @@ describe('POST /api/users/:user_id/orders', () => {
       });
   });
 
-
-  test("should respond with a 404 when given a malformed order", () => {
-    const badData = {"servs": [{"name": "Tyres, wheels and tracking", "price": 100, "description": "Tracking was causing car to veer left which had worn tires out on right side, needed replacing"}], 
-    "creaasdtedAt": "2023-01-18T14:12:30Z",
-    "fudAt": Date.now(),
-    "serdBy": "63ce75449ae462be0adad72e"};
+  test("should respond with a 400 when given a malformed order", () => {
+    const badData = {
+      servs: [
+        {
+          name: "Tyres, wheels and tracking",
+          price: 100,
+          description:
+            "Tracking was causing car to veer left which had worn tires out on right side, needed replacing",
+        },
+      ],
+      creaasdtedAt: "2023-01-18T14:12:30Z",
+      fudAt: Date.now(),
+      serdBy: "63ce75449ae462be0adad72e",
+    };
     return request(app)
       .post("/api/users/63ce75449ae462be0adad72c/orders")
       .send(badData)
@@ -1027,10 +1031,17 @@ describe('POST /api/users/:user_id/orders', () => {
   });
 
   test("should respond with a 400 when provided with an invalid schema", () => {
-    const terribleData = {"services": {"name": "Tyres, wheels and tracking", "price": 100, "description": "Tracking was causing car to veer left which had worn tires out on right side, needed replacing"}, 
-    "createdAt": 40,
-    "fulfilledAt": Date.now(),
-    "servicedBy": true};
+    const terribleData = {
+      services: {
+        name: "Tyres, wheels and tracking",
+        price: 100,
+        description:
+          "Tracking was causing car to veer left which had worn tires out on right side, needed replacing",
+      },
+      createdAt: 40,
+      fulfilledAt: Date.now(),
+      servicedBy: true,
+    };
     return request(app)
       .post("/api/users/63ce75449ae462be0adad72c/orders")
       .send(terribleData)
@@ -1059,30 +1070,45 @@ describe('POST /api/users/:user_id/orders', () => {
       .expect(400)
       .then(({ body }) => {
         const { msg } = body;
-        expect(msg).toBe("Bad request")
-  });
+        expect(msg).toBe("Bad request");
+      });
   });
 });
 
-describe('PATCH /api/users/:user_id/orders/:order_id', () => {
-  const orderPatch = {"services": [{"name": "Servicing and MOT", "price": 80, "description": "MOT passed"}]}
-  test('should respond with a 200 and patched orders', () => {
+describe("PATCH /api/users/:user_id/orders/:order_id", () => {
+  const orderPatch = {
+    services: [
+      { name: "Servicing and MOT", price: 80, description: "MOT passed" },
+    ],
+  };
+  test("should respond with a 200 and patched orders", () => {
     const expected = [
       {
-        "services": [{"name": "Servicing and MOT", "price": 80, "description": "MOT passed"}],
-        "createdAt": "2020-05-18T14:10:30.000Z",
-        "fulfilledAt": "2020-05-28T14:09:10.000Z",
-        "servicedBy": "63ce75449ae462be0adad72e"
+        services: [
+          { name: "Servicing and MOT", price: 80, description: "MOT passed" },
+        ],
+        createdAt: "2020-05-18T14:10:30.000Z",
+        fulfilledAt: "2020-05-28T14:09:10.000Z",
+        servicedBy: "63ce75449ae462be0adad72e",
       },
       {
-        "services": [{ "name": "Breakdown and recovery", "price": 150, "description": "Ran out of fuel causing engine to stall and battery to die"}],
-        "createdAt": "2021-08-18T14:12:30.000Z",
-        "fulfilledAt": "2021-08-18T14:13:30.000Z",
-        "servicedBy": "63ce75449ae462be0adad72e"
-      }
-    ]
+        services: [
+          {
+            name: "Breakdown and recovery",
+            price: 150,
+            description:
+              "Ran out of fuel causing engine to stall and battery to die",
+          },
+        ],
+        createdAt: "2021-08-18T14:12:30.000Z",
+        fulfilledAt: "2021-08-18T14:13:30.000Z",
+        servicedBy: "63ce75449ae462be0adad72e",
+      },
+    ];
     return request(app)
-      .patch("/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad23a")
+      .patch(
+        "/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad23a"
+      )
       .send(orderPatch)
       .expect(200)
       .then(({ body }) => {
@@ -1092,9 +1118,15 @@ describe('PATCH /api/users/:user_id/orders/:order_id', () => {
   });
 
   test("should respond with a 400 when given an invalid patch object", () => {
-    const badPatch = {"sers": [{"name": "Servicing and MOT", "price": 80, "description": "MOT passed"}]}
+    const badPatch = {
+      services: [
+        { name: "Servicing and MOT", price: "aaaa", description: "MOT passed" },
+      ],
+    };
     return request(app)
-      .patch("/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad23a")
+      .patch(
+        "/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad23a"
+      )
       .send(badPatch)
       .expect(400)
       .then(({ body }) => {
@@ -1102,9 +1134,56 @@ describe('PATCH /api/users/:user_id/orders/:order_id', () => {
         expect(msg).toBe("Bad request");
       });
   });
-  test("should return a 404 when given an invalid user id", () => {
+
+  test("status:400, responds with an appropriate error message when given data that fails schema validation", () => {
+    const badPatch = {
+      sers: [
+        { name: "Servicing and MOT", price: 80, description: "MOT passed" },
+      ],
+    };
     return request(app)
-      .patch("/api/users/63ce75449ae462be0adad45c/orders/63ce75449ae462be0adad23a")
+      .patch(
+        "/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad23a"
+      )
+      .send(badPatch)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("status:400, responds with an appropriate error message when given an invalid user ID", () => {
+    return request(app)
+      .patch(
+        "/api/users/totally-a-real-user-id/orders/63ce75449ae462be0adad23a"
+      )
+      .send(orderPatch)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("status:400, responds with an appropriate error message when given an invalid order ID", () => {
+    return request(app)
+      .patch(
+        "/api/users/63ce75449ae462be0adad72c/orders/totally-a-real-order-id"
+      )
+      .send(orderPatch)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("should return a 404 when given a non-existent user id", () => {
+    return request(app)
+      .patch(
+        "/api/users/63ce75449ae462be0adad45c/orders/63ce75449ae462be0adad23a"
+      )
       .send(orderPatch)
       .expect(404)
       .then(({ body }) => {
@@ -1112,9 +1191,11 @@ describe('PATCH /api/users/:user_id/orders/:order_id', () => {
         expect(msg).toBe("Content not found");
       });
   });
-  test("should return a 404 when given an invalid order id", () => {
+  test("should return a 404 when given a non-existent order id", () => {
     return request(app)
-      .patch("/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad38a")
+      .patch(
+        "/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad38a"
+      )
       .send(orderPatch)
       .expect(404)
       .then(({ body }) => {
