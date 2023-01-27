@@ -18,7 +18,7 @@ const {
 
 const cors = require("cors");
 
-const { postReview, getUserReviews, postUser, removeReview, patchUserReview, deleteUser, postOrder, getUserOrders, patchOrder } = require("./controllers/controllers.users");
+const { postReview, getUserReviews, postUser, removeReview, patchUserReview, deleteUser, postOrder, getUserOrders, patchOrder, removeOrder } = require("./controllers/controllers.users");
 
 const app = express();
 
@@ -47,6 +47,9 @@ app.post("/api/users/:user_id/orders", postOrder);
 
 
 app.patch("/api/users/:user_id/orders/:order_id", patchOrder)
+
+
+app.delete("/api/users/:user_id/orders/:order_id", removeOrder)
 
 app.use(handleCustomErrors);
 app.use(handleMongoDBErrors);

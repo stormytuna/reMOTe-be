@@ -1120,6 +1120,48 @@ describe('PATCH /api/users/:user_id/orders/:order_id', () => {
       .then(({ body }) => {
         const { msg } = body;
         expect(msg).toBe("Content not found");
+  });
+  });
+  });
+
+describe('DELETE /api/users/:user_id/orders/:order_id', () => {
+  test('should delete an order using order_id', () => {
+    return request(app)
+    .delete("/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad23a")
+    .expect(204);
+  });
+  test("should return a 404 when provided an non-existant user_id", () => {
+    return request(app)
+      .delete("/api/users/63ce75449ae462be0adad17c/orders/63ce75449ae462be0adad23a")
+      .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Content not found");
+      });
+  });
+  test("should return a 404 when provided an non-existant order_id", () => {
+    return request(app)
+      .delete("/api/users/63ce75449ae462be0adad72c/orders/63ce75449ae462be0adad39a")
+      .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Content not found");
+      });
+  });
+  test("should return a 404 when given an invalid user ID", () => {
+    return request(app)
+      .delete("/api/users/fake-user-ID/orders/63ce75449ae462be0adad23a")
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
+  });
+  test("should return a 400 when given an invalid order ID", () => {
+    return request(app)
+      .delete("/api/users/63ce75449ae462be0adad72c/orders/not-a-valid-order")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
       });
   });
 });

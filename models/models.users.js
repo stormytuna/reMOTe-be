@@ -135,12 +135,31 @@ exports.updateOrder = async (user_id, order_id, updates) => {
   if (!user) {
     return Promise.reject({ status: 404, msg: "Content not found" });
   }
-
+  
   const order = await User.find({'orders': {$elemMatch: {_id: order_id}}})
 
   if(order.length === 0) {
-    return Promise.reject({ status: 404, msg: "Content not found" });
+        return Promise.reject({ status: 404, msg: "Content not found" });
   }
+  
+   return user.orders;
+}
 
+exports.removeOrder = async (user_id, order_id) => {
+  
+  const order = await User.find({'orders': {$elemMatch: {_id: order_id}}})
+
+  if(order.length === 0) {
+      return Promise.reject({ status: 404, msg: "Content not found" });
+  }
+  
+  await User.findOneAndUpdate({ _id: user_id }, { $pull: { "orders": { _id: order_id } } });
+
+  const user = await User.findById(user_id);
+  
+  if (!user) {
+      return Promise.reject({ status: 404, msg: "Content not found" });
+    }
+    
   return user.orders;
 };
