@@ -11,8 +11,8 @@ beforeAll(() => {
   return connect();
 });
 
-beforeEach(() => {
-  return seedTest(userData);
+beforeEach(async () => {
+  return await seedTest();
 });
 
 afterAll(() => {
@@ -66,6 +66,7 @@ describe("POST /api/technicians", () => {
           { name: "Servicing and MOT", price: 45 },
           { name: "clutch repair", price: 100 },
         ],
+        company: "Ahmed's Repairs",
       },
       avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
     };
