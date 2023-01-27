@@ -19,6 +19,7 @@
         "reviewedBy": "63ce75449ae462be0adad72d"
       }
     ],
+    "orders": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
   {
@@ -35,6 +36,7 @@
       "email": "johnswash@company.com"
     },
     "reviews": [],
+    "orders": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
   {
@@ -68,6 +70,7 @@
     ],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
+
   {
     "_id": "63ce75449ae462be0adad72d",
     "username": "test-tech-01",
@@ -110,6 +113,7 @@
       ]
     },
     "reviews": [],
+    "orders": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
   {
@@ -160,6 +164,7 @@
         "_id": "63ce75449ae462be0adae13a"
       }
     ],
+    "orders": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   }
 ]
