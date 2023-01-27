@@ -13,9 +13,10 @@ const {
   getTechnician,
   deleteTechnician,
   createReviewforTech,
-  patchTechnician
+  patchTechnician,
 } = require("./controllers/controllers.technicians");
 
+const cors = require("cors");
 
 const { postReview, getUserReviews, postUser, removeReview, getUserOrders, deleteUser, patchUserReview} = require("./controllers/controllers.users");
 
@@ -23,6 +24,7 @@ const { postReview, getUserReviews, postUser, removeReview, getUserOrders, delet
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.get("/api", getApi);
 
