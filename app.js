@@ -14,12 +14,23 @@ const {
   deleteTechnician,
   createReviewforTech,
   patchTechnician,
-  removeTechReview
+  removeTechReview,
 } = require("./controllers/controllers.technicians");
 
 const cors = require("cors");
 
-const { postReview, getUserReviews, postUser, removeReview, patchUserReview, deleteUser, postOrder, getUserOrders, patchOrder, removeOrder } = require("./controllers/controllers.users");
+const {
+  postReview,
+  getUserReviews,
+  postUser,
+  removeReview,
+  patchUserReview,
+  deleteUser,
+  postOrder,
+  getUserOrders,
+  patchOrder,
+  removeOrder,
+} = require("./controllers/controllers.users");
 
 const app = express();
 
@@ -46,15 +57,11 @@ app.delete("/api/:user_id/reviews/:review_id", removeReview);
 app.get("/api/users/:user_id/orders", getUserOrders);
 app.post("/api/users/:user_id/orders", postOrder);
 
+app.patch("/api/users/:user_id/orders/:order_id", patchOrder);
 
-app.patch("/api/users/:user_id/orders/:order_id", patchOrder)
+app.delete("/api/users/:user_id/orders/:order_id", removeOrder);
 
-
-app.delete("/api/users/:user_id/orders/:order_id", removeOrder)
-
-
-
-app.delete("/api/technicians/:user_id/reviews/:review_id", removeTechReview)
+app.delete("/api/technicians/:user_id/reviews/:review_id", removeTechReview);
 
 app.use(handleCustomErrors);
 app.use(handleMongoDBErrors);

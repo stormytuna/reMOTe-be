@@ -5,7 +5,7 @@ const {
   updateTechnicianProp,
   postReviewForTech,
   updateTechnician,
-  removeTechReview
+  removeTechReview,
 } = require("../models/models.technicians");
 
 exports.getTechnicians = async (req, res, next) => {
@@ -70,4 +70,4 @@ exports.removeTechReview = async (req, res, next) => {
   } catch (e) {
     next(e);
   }
-}
+};
