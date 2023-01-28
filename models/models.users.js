@@ -84,6 +84,10 @@ exports.createUser = async (user) => {
   return newUser;
 };
 exports.deleteReview = async (user_id, review_id) => {
+  if (!isValidId(user_id) || !isValidId(review_id)) {
+    return badRequestError();
+  }
+
   const user = await User.findById(user_id);
   const review = await User.findOne(
     { [`reviews._id`]: review_id },

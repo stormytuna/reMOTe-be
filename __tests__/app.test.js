@@ -504,7 +504,7 @@ describe("DELETE /api/user_id/reviews/:review_id", () => {
 
   test("status:400, responds with an appropriate error message when given user ID is invalid", () => {
     return request(app)
-      .delete("/api/fake-user-ID/reviews/totally-a-real-user-id")
+      .delete("/api/fake-user-ID/reviews/63ce75449ae462be0adae13a")
       .expect(400)
       .then(({ body }) => {
         const { msg } = body;
