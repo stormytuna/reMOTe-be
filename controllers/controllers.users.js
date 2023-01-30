@@ -9,7 +9,17 @@ const {
   findUserOrders,
   updateOrder,
   removeOrder,
+  findUsers,
 } = require("../models/models.users");
+
+exports.getUsers = async (req, res, next) => {
+  try {
+    const users = await findUsers();
+    res.status(200).send({ users });
+  } catch (e) {
+    next(e);
+  }
+};
 
 exports.postReview = async (req, res, next) => {
   try {

@@ -6,6 +6,10 @@ const {
   contentNotFoundError,
 } = require("../utils");
 
+exports.findUsers = async () => {
+  return await User.find({ technician: { $eq: null } });
+};
+
 exports.createReview = async (review, id) => {
   // Check for bad request
   const { reviewBody, rating, reviewedBy, ...rest } = review;
