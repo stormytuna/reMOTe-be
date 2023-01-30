@@ -3,6 +3,35 @@
     "GET /api": {
       "description": "serves a json representation of all the available endpoints of the api"
     },
+    "GET /api/users": {
+      "description": "Serves an array of all users",
+      "queries": [],
+      "exampleResponse": [
+        {
+          "_id": "63ce75449ae462be0adad72a",
+          "username": "test-user-01",
+          "firstName": "David",
+          "lastName": "Smith",
+          "address": {
+            "addressLine": "123 Somewhere Street",
+            "postcode": "AB12 3CD"
+          },
+          "contact": {
+            "phoneNumber": "123456789",
+            "email": "davidsmith@company.com"
+          },
+          "reviews": [
+            {
+              "reviewBody": "Very good to service :)",
+              "rating": 5,
+              "reviewedBy": "63ce75449ae462be0adad72d"
+            }
+          ],
+          "orders": [],
+          "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+        }
+      ]
+    },
     "GET /api/technicians": {
       "description": "Serves an array of all technicians",
       "queries": [],

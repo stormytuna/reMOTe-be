@@ -47,6 +47,21 @@ describe("GET /api/technicians", () => {
   });
 });
 
+describe("GET /api/users", () => {
+  test("status:200, responds with an array of users", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body }) => {
+        const { users } = body;
+        expect(users).toBeInstanceOf(Array);
+        users.forEach((user) => {
+          expect(user.technician).toBeNull();
+        });
+      });
+  });
+});
+
 describe("POST /api/technicians", () => {
   test("status:200, responds with the new technician object", () => {
     const newTechnician = {
