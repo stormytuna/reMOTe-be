@@ -45,6 +45,16 @@ describe("GET /api/technicians", () => {
         });
       });
   });
+  test('should accept a query returning all technicians relevant to that query', () => {
+    return request(app)
+    .get('/api/technicians?category=mot')
+    .expect(200)
+    .then(( { body: { technicians } }) => {
+      technicians.forEach(technician => {
+        expect(technician.technician.services[0].name).toEqual('mot')
+      })
+    })
+  });
 });
 
 describe("GET /api/users", () => {
