@@ -1,150 +1,709 @@
 [
   {
-    "_id": "63ce75449ae462be0adad72a",
-    "username": "test-user-01",
-    "firstName": "David",
-    "lastName": "Smith",
+    "_id": "000000000000000000000000",
+    "username": "pumbaasnake",
+    "firstName": "Elaine",
+    "lastName": "Sokol",
     "address": {
-      "addressLine": "123 Somewhere Street",
-      "postcode": "AB12 3CD"
+      "addressLine": "283 Station Road",
+      "postcode": "CR65 7UN"
     },
     "contact": {
-      "phoneNumber": "123456789",
-      "email": "davidsmith@company.com"
+      "phoneNumber": "+44 7700 900178",
+      "email": "pumbaasnake@email.com"
     },
-    "reviews": [
+    "technician": null,
+    "reviews": [],
+    "orders": [
       {
-        "reviewBody": "Very good to service :)",
-        "rating": 5,
-        "reviewedBy": "63ce75449ae462be0adad72d"
+        "services": [
+          {
+            "name": "MOT",
+            "price": 1500,
+            "description": "something"
+          }
+        ],
+        "createdAt": "2023-01-13T10:41:25+00:00",
+        "fulfilledAt": "2023-01-17T10:41:25+00:00",
+        "servicedBy": ""
+      },
+      {
+        "services": [
+          {
+            "name": "Tyre repair",
+            "price": 1000,
+            "description": "something else"
+          }
+        ],
+        "createdAt": "2023-01-19T10:41:25+00:00",
+        "fulfilledAt": "2023-01-23T10:41:25+00:00",
+        "servicedBy": ""
+      }
+    ],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  }, 
+  {
+    "_id": "000000000000000000000001",
+    "username": "eggpapillon",
+    "firstName": "Gera",
+    "lastName": "Roussel",
+    "address": {
+      "addressLine": "9 New Road",
+      "postcode": "WV93 4ZO"
+    },
+    "contact": {
+      "phoneNumber": "+44 7700 900404",
+      "email": "eggpapillon@email.com"
+    },
+    "technician": null,
+    "reviews": [],
+    "orders": [
+      {
+        "services": [
+          {
+            "name": "Tyre repair",
+            "price": 1000,
+            "description": "something something something"
+          }
+        ],
+        "createdAt": "2023-01-19T10:41:25+00:00",
+        "fulfilledAt": "2023-01-23T10:41:25+00:00",
+        "servicedBy": ""
       }
     ],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
   {
-    "_id": "63ce75449ae462be0adad72b",
-    "username": "test-user-02",
-    "firstName": "John",
-    "lastName": "Swash",
+    "_id": "000000000000000000000002",
+    "username": "highjumpingfern",
+    "firstName": "Timotej",
+    "lastName": "Fabre",
     "address": {
-      "addressLine": "153 Place Blvd",
-      "postcode": "GD13 3IK"
+      "addressLine": "77 Chester Road",
+      "postcode": "EC71 9EJ"
     },
     "contact": {
-      "phoneNumber": "4567890123",
-      "email": "johnswash@company.com"
+      "phoneNumber": "+44 7700 900228",
+      "email": "highjumpingfern@email.com"
     },
+    "technician": null,
     "reviews": [],
+    "orders": [
+      {
+        "services": [
+          {
+            "name": "Tyre repair",
+            "price": 1000,
+            "description": ""
+          }
+        ],
+        "createdAt": "2023-01-19T10:41:25+00:00",
+        "fulfilledAt": "2023-01-23T10:41:25+00:00",
+        "servicedBy": ""
+      }
+    ],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
   {
-    "_id": "63ce75449ae462be0adad72c",
-    "username": "test-user-03",
-    "firstName": "Alex",
-    "lastName": "Something",
+    "_id": "000000000000000000000003",
+    "username": "theminionspie",
+    "firstName": "Lisette",
+    "lastName": "Sommer",
     "address": {
-      "addressLine": "233 Somewhere Street",
-      "postcode": "AB12 3CF"
+      "addressLine": "4 Manor Road",
+      "postcode": "BD20 0MH"
     },
     "contact": {
-      "phoneNumber": "32985262132",
-      "email": "alexsomething@company.com"
+      "phoneNumber": "+44 7700 900561",
+      "email": "theminionspie@email.com"
     },
+    "technician": null,
     "reviews": [],
+    "orders": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
   {
-    "_id": "63ce75449ae462be0adad72d",
-    "username": "test-tech-01",
-    "firstName": "James",
-    "lastName": "Wright",
+    "_id": "000000000000000000000004",
+    "username": "pigstormlion",
+    "firstName": "Jennifer",
+    "lastName": "Grober",
     "address": {
-      "addressLine": "12 Random Place",
-      "postcode": "KF76 9LM"
+      "addressLine": "61 The Grove",
+      "postcode": "E51 0YS"
     },
     "contact": {
-      "phoneNumber": "32985262911",
-      "email": "jameswright@company.com"
+      "phoneNumber": "+44 7700 900551",
+      "email": "pigstormlion@email.com"
+    },
+    "technician": null,
+    "reviews": [],
+    "orders": [],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "000000000000000000000005",
+    "username": "fargogalileo",
+    "firstName": "Puta",
+    "lastName": "Jokela",
+    "address": {
+      "addressLine": "10 Green Lane",
+      "postcode": "IP71 0OG"
+    },
+    "contact": {
+      "phoneNumber": "+44 7700 900211",
+      "email": "fargogalileo@email.com"
+    },
+    "technician": null,
+    "reviews": [
+      {
+        "reviewBody": "Very cool",
+        "rating": 4,
+        "reviewedBy": ""
+      }
+    ],
+    "orders": [],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "000000000000000000000006",
+    "username": "thegreenmilevolleyball",
+    "firstName": "Jamesina",
+    "lastName": "Domitia",
+    "address": {
+      "addressLine": "5 Main Street",
+      "postcode": "EX50 8XE"
+    },
+    "contact": {
+      "phoneNumber": "+44 7700 900139",
+      "email": "thegreenmilevolleyball@email.com"
+    },
+    "technician": null,
+    "reviews": [
+      {
+        "reviewBody": "Very cool",
+        "rating": 4,
+        "reviewedBy": ""
+      },
+      {
+        "reviewBody": "Bad >:(",
+        "rating": 2,
+        "reviewedBy": ""
+      }
+    ],
+    "orders": [],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "000000000000000000000007",
+    "username": "lockflatsun",
+    "firstName": "Lacchus",
+    "lastName": "Ruane",
+    "address": {
+      "addressLine": "61 Church Street",
+      "postcode": "SL90 3FB"
+    },
+    "contact": {
+      "phoneNumber": "+44 7700 900473",
+      "email": "lockflatsun@email.com"
+    },
+    "technician": null,
+    "reviews": [
+      {
+        "reviewBody": "Very cool",
+        "rating": 4,
+        "reviewedBy": ""
+      },
+      {
+        "reviewBody": "Very very cool",
+        "rating": 5,
+        "reviewedBy": ""
+      }
+    ],
+    "orders": [],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "000000000000000000000008",
+    "username": "cerealsunred",
+    "firstName": "Jenna",
+    "lastName": "Lewerentz",
+    "address": {
+      "addressLine": "74 York Road",
+      "postcode": "ST13 6OY"
+    },
+    "contact": {
+      "phoneNumber": "+44 7700 900953",
+      "email": "cerealsunred@email.com"
+    },
+    "technician": null,
+    "reviews": [
+      {
+        "reviewBody": "Mid",
+        "rating": 3,
+        "reviewedBy": ""
+      },
+      {
+        "reviewBody": "Very cool",
+        "rating": 4,
+        "reviewedBy": ""
+      },
+      {
+        "reviewBody": "Very very cool",
+        "rating": 5,
+        "reviewedBy": ""
+      }
+    ],
+    "orders": [],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "000000000000000000000009",
+    "username": "mercuryheat",
+    "firstName": "Ilja",
+    "lastName": "Ardiccioni",
+    "address": {
+      "addressLine": "27 North Road",
+      "postcode": "LS0 6YU"
+    },
+    "contact": {
+      "phoneNumber": "+44 7700 900986",
+      "email": "mercuryheat@email.com"
+    },
+    "technician": null,
+    "reviews": [
+      {
+        "reviewBody": "Mid",
+        "rating": 3,
+        "reviewedBy": ""
+      },
+      {
+        "reviewBody": "Very cool",
+        "rating": 4,
+        "reviewedBy": ""
+      },
+      {
+        "reviewBody": "Very very cool",
+        "rating": 5,
+        "reviewedBy": ""
+      }
+    ],
+    "orders": [],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "00000000000000000000000a",
+    "username": "cakenoodles",
+    "firstName": "Eddy",
+    "lastName": "Mann",
+    "address": {
+      "addressLine": "43 West Street",
+      "postcode": "RG36 5AP"
+    },
+    "contact": {
+      "phoneNumber": "+44 7700 900525",
+      "email": "cakenoodles@email.com"
+    },
+    "technician": null,
+    "reviews": [
+      {
+        "reviewBody": "Mid",
+        "rating": 3,
+        "reviewedBy": ""
+      },
+      {
+        "reviewBody": "Bad >:(",
+        "rating": 2,
+        "reviewedBy": ""
+      },
+      {
+        "reviewBody": "Very bad >:(",
+        "rating": 1,
+        "reviewedBy": ""
+      }
+    ],
+    "orders": [],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "00000000000000000000000b",
+    "username": "grantorinofish",
+    "firstName": "Wessel",
+    "lastName": "Simek",
+    "address": {
+      "addressLine": "93 Mill Lane",
+      "postcode": "SS76 6UX"
+    },
+    "contact": {
+      "phoneNumber": "+44 7700 900881",
+      "email": "grantorinofish@email.com"
+    },
+    "technician": null,
+    "reviews": [
+      {
+        "reviewBody": "Very cool",
+        "rating": 4,
+        "reviewedBy": ""
+      },
+      {
+        "reviewBody": "Bad >:(",
+        "rating": 2,
+        "reviewedBy": ""
+      },
+      {
+        "reviewBody": "Very bad >:(",
+        "rating": 1,
+        "reviewedBy": ""
+      }
+    ],
+    "orders": [],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "00000000000000000000000c",
+    "username": "grasshoppersmokewave",
+    "firstName": "Linh",
+    "lastName": "Gershon",
+    "address": {
+      "addressLine": "97 High Street",
+      "postcode": "KW24 7UW"
+    },
+    "contact": {
+      "phoneNumber": "+44 7700 900305",
+      "email": "grasshoppersmokewave@email.com"
     },
     "technician": {
       "services": [
         {
-          "name": "Clutch repairs",
-          "price": 100
+          "name": "MOT",
+          "price": 1500,
+          "description": "aaaaaaa"
         },
         {
-          "name": "Breakdown and recovery",
-          "price": 1000
+          "name": "Tyre replacement",
+          "price": 1000,
+          "description": "gbiabfcmocn"
         },
         {
-          "name": "Tyres, wheels and tracking",
-          "price": 10000
+          "name": "Brake fluid replacement",
+          "price": 1000,
+          "description": "gbiabfcmocn"
         }
       ],
       "reviews": [
         {
-          "reviewBody": "Very good services :)",
+          "reviewBody": "Very cool",
           "rating": 4,
-          "reviewedBy": "63ce75449ae462be0adad72c"
+          "reviewedBy": ""
         },
         {
           "reviewBody": "Bad >:(",
+          "rating": 2,
+          "reviewedBy": ""
+        },
+        {
+          "reviewBody": "Very bad >:(",
           "rating": 1,
-          "reviewedBy": "63ce75449ae462be0adad72a"
+          "reviewedBy": ""
         }
-      ]
+      ],
+      "company": "Linh's Car Services",
+      "companyImage": "https://i1.wp.com/insurance-edge.net/wp-content/uploads/2020/03/fixter-collect-and-deliver-car-servicing-sanitised-cleaning.jpg"
     },
     "reviews": [],
+    "orders": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   },
   {
-    "_id": "63ce75449ae462be0adad72e",
-    "username": "test-tech-02",
-    "firstName": "Marie",
-    "lastName": "Smith",
+    "_id": "00000000000000000000000d",
+    "username": "cedaromeganebuladog",
+    "firstName": "Marjolein",
+    "lastName": "Kariuki",
     "address": {
-      "addressLine": "554 Some Street",
-      "postcode": "KJ73 1LN"
+      "addressLine": "426 Manchester Road",
+      "postcode": "BR52 3OP"
     },
     "contact": {
-      "phoneNumber": "32911162985",
-      "email": "mariesmith@company.com"
+      "phoneNumber": "+44 7700 900823",
+      "email": "cedaromeganebuladog@email.com"
     },
     "technician": {
       "services": [
         {
-          "name": "Servicing and MOT",
-          "price": 100
+          "name": "MOT",
+          "price": 1500,
+          "description": "aaaaaaa"
         },
         {
-          "name": "Clutch repairs",
-          "price": 1000
+          "name": "Tyre replacement",
+          "price": 1000,
+          "description": "gbiabfcmocn"
         },
         {
-          "name": "Breakdown and recovery",
-          "price": 10000
-        },
-        {
-          "name": "Tyres, wheels and tracking",
-          "price": 100000
+          "name": "Brake fluid replacement",
+          "price": 1000,
+          "description": "gbiabfcmocn"
         }
       ],
       "reviews": [
         {
-          "reviewBody": "Very good services :)",
-          "rating": 5,
-          "reviewedBy": "63ce75449ae462be0adad72a"
+          "reviewBody": "Very cool",
+          "rating": 4,
+          "reviewedBy": ""
+        },
+        {
+          "reviewBody": "Bad >:(",
+          "rating": 2,
+          "reviewedBy": ""
         }
-      ]
+      ],
+      "company": "Marjolein's Car Services",
+      "companyImage": "https://www.cannonautorepair.com/images/mechanic_with_customer.jpeg"
     },
-    "reviews": [
-      {
-        "reviewBody": "Very good to service :)",
-        "rating": 5,
-        "reviewedBy": "63ce75449ae462be0adad72d",
-        "_id": "63ce75449ae462be0adae13a"
-      }
-    ],
+    "reviews": [],
+    "orders": [],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "00000000000000000000000e",
+    "username": "doughnutskiwistone",
+    "firstName": "Loki",
+    "lastName": "Muhammad",
+    "address": {
+      "addressLine": "5 Park Avenue",
+      "postcode": "WS88 0NJ"
+    },
+    "contact": {
+      "phoneNumber": "+44 7700 900571",
+      "email": "doughnutskiwistone@email.com"
+    },
+    "technician": {
+      "services": [
+        {
+          "name": "MOT",
+          "price": 1500,
+          "description": "aaaaaaa"
+        },
+        {
+          "name": "Tyre replacement",
+          "price": 1000,
+          "description": "gbiabfcmocn"
+        },
+        {
+          "name": "Brake fluid replacement",
+          "price": 1000,
+          "description": "gbiabfcmocn"
+        }
+      ],
+      "reviews": [
+        {
+          "reviewBody": "Very cool",
+          "rating": 4,
+          "reviewedBy": ""
+        },
+        {
+          "reviewBody": "Very cool",
+          "rating": 4,
+          "reviewedBy": ""
+        },
+        {
+          "reviewBody": "Very bad >:(",
+          "rating": 1,
+          "reviewedBy": ""
+        }
+      ],
+      "company": "Loki's Car Services",
+      "companyImage": "https://cotswoldoverland.co.uk/wp-content/uploads/mechanics.jpg"
+    },
+    "reviews": [],
+    "orders": [],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "00000000000000000000000f",
+    "username": "ketchupsevensamurai",
+    "firstName": "Candice",
+    "lastName": "Damijana",
+    "address": {
+      "addressLine": "80 Richmond Road",
+      "postcode": "CO2 5LG"
+    },
+    "contact": {
+      "phoneNumber": "+44 7700 900292",
+      "email": "ketchupsevensamurai@email.com"
+    },
+    "technician": {
+      "services": [
+        {
+          "name": "MOT",
+          "price": 1500,
+          "description": "aaaaaaa"
+        },
+        {
+          "name": "Tyre replacement",
+          "price": 1000,
+          "description": "gbiabfcmocn"
+        },
+        {
+          "name": "Brake fluid replacement",
+          "price": 1000,
+          "description": "gbiabfcmocn"
+        }
+      ],
+      "reviews": [
+        {
+          "reviewBody": "Very cool",
+          "rating": 4,
+          "reviewedBy": ""
+        },
+        {
+          "reviewBody": "Very cool",
+          "rating": 4,
+          "reviewedBy": ""
+        },
+        {
+          "reviewBody": "Very bad >:(",
+          "rating": 1,
+          "reviewedBy": ""
+        }
+      ],
+      "company": "Candice's Car Services",
+      "companyImage": "https://www.radiatorland.com/wp-content/uploads/2018/08/RadiatorLand-578100924.jpg"
+    },
+    "reviews": [],
+    "orders": [],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "000000000000000000000010",
+    "username": "seadolphinpeanutscow",
+    "firstName": "Almudena",
+    "lastName": "Nuh",
+    "address": {
+      "addressLine": "426 Manchester Road",
+      "postcode": "BR52 3OP"
+    },
+    "contact": {
+      "phoneNumber": "+44 7700 900649",
+      "email": "seadolphinpeanutscow@email.com"
+    },
+    "technician": {
+      "services": [
+        {
+          "name": "MOT",
+          "price": 1500,
+          "description": "aaaaaaa"
+        },
+        {
+          "name": "Tyre replacement",
+          "price": 1000,
+          "description": "gbiabfcmocn"
+        },
+        {
+          "name": "Brake fluid replacement",
+          "price": 1000,
+          "description": "gbiabfcmocn"
+        }
+      ],
+      "reviews": [
+        {
+          "reviewBody": "Very bad >:(",
+          "rating": 1,
+          "reviewedBy": ""
+        },
+        {
+          "reviewBody": "Very cool",
+          "rating": 4,
+          "reviewedBy": ""
+        },
+        {
+          "reviewBody": "Very bad >:(",
+          "rating": 1,
+          "reviewedBy": ""
+        }
+      ],
+      "company": "Almudena's Car Services",
+      "companyImage": "https://evanstire.com/wp-content/uploads/2021/11/October-blog-image-768x483.jpg"
+    },
+    "reviews": [],
+    "orders": [],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "000000000000000000000011",
+    "username": "thegeneralaceventura",
+    "firstName": "Aurelianus",
+    "lastName": "Dinu",
+    "address": {
+      "addressLine": "46 Manchester Road",
+      "postcode": "NP60 0IV"
+    },
+    "contact": {
+      "phoneNumber": "+44 7700 900842",
+      "email": "thegeneralaceventura@email.com"
+    },
+    "technician": {
+      "services": [
+        {
+          "name": "MOT",
+          "price": 1500,
+          "description": "aaaaaaa"
+        },
+        {
+          "name": "Tyre replacement",
+          "price": 1000,
+          "description": "gbiabfcmocn"
+        },
+        {
+          "name": "Brake fluid replacement",
+          "price": 1000,
+          "description": "gbiabfcmocn"
+        }
+      ],
+      "reviews": [],
+      "company": "Aurelianus' Car Services",
+      "companyImage": "https://d1gymyavdvyjgt.cloudfront.net/drive/images/uploads/headers/ws_cropper/26_0x65_1200x629_1200x630_seven-signs-header.jpg"
+    },
+    "reviews": [],
+    "orders": [],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "000000000000000000000012",
+    "username": "beforesunsetapricot",
+    "firstName": "Siw",
+    "lastName": "Pratibha",
+    "address": {
+      "addressLine": "487 Victoria Road",
+      "postcode": "M59 5ME"
+    },
+    "contact": {
+      "phoneNumber": "+44 7700 900160",
+      "email": "beforesunsetapricot@email.com"
+    },
+    "technician": {
+      "services": [
+        {
+          "name": "MOT",
+          "price": 1500,
+          "description": "aaaaaaa"
+        },
+        {
+          "name": "Tyre replacement",
+          "price": 1000,
+          "description": "gbiabfcmocn"
+        },
+        {
+          "name": "Brake fluid replacement",
+          "price": 1000,
+          "description": "gbiabfcmocn"
+        }
+      ],
+      "reviews": [],
+      "company": "Siw's Car Services",
+      "companyImage": "https://cdn.images.express.co.uk/img/dynamic/24/750x445/1100425.jpg"
+    },
+    "reviews": [],
+    "orders": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
   }
 ]
