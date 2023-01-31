@@ -45,15 +45,33 @@ describe("GET /api/technicians", () => {
         });
       });
   });
-  test('should accept a query returning all technicians relevant to that query', () => {
+
+  test("status:200, responds with an array of technicians filtered by services they provide", () => {
     return request(app)
-    .get('/api/technicians?category=mot')
-    .expect(200)
-    .then(( { body: { technicians } }) => {
-      technicians.forEach(technician => {
-        expect(technician.technician.services[0].name).toEqual('mot')
-      })
-    })
+      .get("/api/technicians?service=servicing")
+      .expect(200)
+      .then(({ body }) => {
+        const { technicians } = body;
+        expect(technicians).toBeInstanceOf(Array);
+        expect(technicians).toHaveLength(1);
+        expect(technicians[0].technician.services[0].name).toBe(
+          "Servicing and MOT"
+        );
+      });
+  });
+
+  test("status:200, responds with an array of technicians filtered by services they provide with spaces in the query", () => {
+    return request(app)
+      .get("/api/technicians?service=servicing+and+mot")
+      .expect(200)
+      .then(({ body }) => {
+        const { technicians } = body;
+        expect(technicians).toBeInstanceOf(Array);
+        expect(technicians).toHaveLength(1);
+        expect(technicians[0].technician.services[0].name).toBe(
+          "Servicing and MOT"
+        );
+      });
   });
 });
 

@@ -5,23 +5,26 @@ const {
   contentNotFoundError,
 } = require("../utils");
 
-exports.findTechnicians = async (category, sort_by, order) => {
-  const validSortByQueries = [];
-  const validOrderQueries = ['asc', 'desc']
-  const validCategories = ['servicing', 'clutch_repairs', 'breakdown_and_recovery', 'tyres_wheels_and_tracking', 'valet', 'mot', 'battery_replacement', 'tow_service' ]
+exports.findTechnicians = async (serviceFilter, sortBy, order) => {
+  // TODO: Add sortby and orderby
 
-// if (!validSortByQueries.includes(sortBy) || !validOrderQueries.includes(order)){
-//   return Promise.reject({ status: 400, msg: 'Bad Request' });
-// }
-
-if (validCategories.includes(category)){
-  const categoryQuery = await User.find({"technician.services": { $elemMatch: {"name": `${category}` } } })
-  return categoryQuery
-}
-
-  const technicians = await User.find({
+  let technicians = await User.find({
     technician: { $ne: null },
   });
+
+  if (serviceFilter) {
+    technicians = technicians.filter((technician) => {
+      let matches = false;
+      technician.technician.services.forEach((service) => {
+        if (service.name.toLowerCase().includes(serviceFilter.toLowerCase())) {
+          matches = true;
+          return;
+        }
+      });
+      return matches;
+    });
+  }
+
   return technicians;
 };
 
