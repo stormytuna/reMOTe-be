@@ -154,6 +154,70 @@
           "rating": 5,
           "reviewedBy": "63ce75449ae462be0adad72a",
           "_id": "63ce75449ae462be0adae55a"
+        },
+        {
+          "reviewBody": "bsadedfsfx",
+          "rating": 3,
+          "reviewedBy": "63ce75449ae462be0adad72a",
+          "_id": "63ce75449ae462be0adae5ba"
+        }
+      ]
+    },
+    "reviews": [
+      {
+        "reviewBody": "Very good to service :)",
+        "rating": 5,
+        "reviewedBy": "63ce75449ae462be0adad72d",
+        "_id": "63ce75449ae462be0adae13a"
+      }
+    ],
+    "orders": [],
+    "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+  },
+  {
+    "_id": "63ce75449ae462be0adad72f",
+    "username": "test-tech-03",
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "address": {
+      "addressLine": "514 Some Street",
+      "postcode": "KJ73 1LM"
+    },
+    "contact": {
+      "phoneNumber": "32911162085",
+      "email": "janedoe@company.com"
+    },
+    "technician": {
+      "services": [
+        {
+          "name": "Servicing and MOT",
+          "price": 100
+        },
+        {
+          "name": "Clutch repairs",
+          "price": 1000
+        },
+        {
+          "name": "Breakdown and recovery",
+          "price": 10000
+        },
+        {
+          "name": "Tyres, wheels and tracking",
+          "price": 100000
+        }
+      ],
+      "reviews": [
+        {
+          "reviewBody": "Very good services :)",
+          "rating": 4,
+          "reviewedBy": "63ce75449ae462be0adad72a",
+          "_id": "63ce75449ae462be0adae55a"
+        },
+        {
+          "reviewBody": "bsadedfsfx",
+          "rating": 2,
+          "reviewedBy": "63ce75449ae462be0adad72a",
+          "_id": "63ce75449ae462be0adae5ba"
         }
       ]
     },
