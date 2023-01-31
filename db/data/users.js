@@ -58,6 +58,12 @@ const userSchema = new mongoose.Schema({
           },
         },
       ],
+      company: { type: String },
+      companyImage: {
+        type: String,
+        default:
+          "https://cdn.images.express.co.uk/img/dynamic/24/750x445/1100425.jpg",
+      },
     },
     enum: [Object, null],
     default: null,
