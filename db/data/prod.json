@@ -12,6 +12,7 @@
       "phoneNumber": "+44 7700 900178",
       "email": "pumbaasnake@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": null,
     "reviews": [],
     "orders": [
@@ -55,6 +56,7 @@
       "phoneNumber": "+44 7700 900404",
       "email": "eggpapillon@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": null,
     "reviews": [],
     "orders": [
@@ -86,6 +88,7 @@
       "phoneNumber": "+44 7700 900228",
       "email": "highjumpingfern@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": null,
     "reviews": [],
     "orders": [
@@ -117,6 +120,7 @@
       "phoneNumber": "+44 7700 900561",
       "email": "theminionspie@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": null,
     "reviews": [],
     "orders": [],
@@ -135,6 +139,7 @@
       "phoneNumber": "+44 7700 900551",
       "email": "pigstormlion@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": null,
     "reviews": [],
     "orders": [],
@@ -153,6 +158,7 @@
       "phoneNumber": "+44 7700 900211",
       "email": "fargogalileo@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": null,
     "reviews": [
       {
@@ -177,6 +183,7 @@
       "phoneNumber": "+44 7700 900139",
       "email": "thegreenmilevolleyball@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": null,
     "reviews": [
       {
@@ -206,6 +213,7 @@
       "phoneNumber": "+44 7700 900473",
       "email": "lockflatsun@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": null,
     "reviews": [
       {
@@ -235,6 +243,7 @@
       "phoneNumber": "+44 7700 900953",
       "email": "cerealsunred@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": null,
     "reviews": [
       {
@@ -269,6 +278,7 @@
       "phoneNumber": "+44 7700 900986",
       "email": "mercuryheat@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": null,
     "reviews": [
       {
@@ -303,6 +313,7 @@
       "phoneNumber": "+44 7700 900525",
       "email": "cakenoodles@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": null,
     "reviews": [
       {
@@ -337,6 +348,7 @@
       "phoneNumber": "+44 7700 900881",
       "email": "grantorinofish@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": null,
     "reviews": [
       {
@@ -371,6 +383,7 @@
       "phoneNumber": "+44 7700 900305",
       "email": "grasshoppersmokewave@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": {
       "services": [
         {
@@ -423,6 +436,7 @@
       "phoneNumber": "+44 7700 900823",
       "email": "cedaromeganebuladog@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": {
       "services": [
         {
@@ -470,6 +484,7 @@
       "phoneNumber": "+44 7700 900571",
       "email": "doughnutskiwistone@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": {
       "services": [
         {
@@ -522,6 +537,7 @@
       "phoneNumber": "+44 7700 900292",
       "email": "ketchupsevensamurai@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": {
       "services": [
         {
@@ -570,6 +586,7 @@
       "phoneNumber": "+44 7700 900649",
       "email": "seadolphinpeanutscow@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": {
       "services": [
         {
@@ -618,6 +635,7 @@
       "phoneNumber": "+44 7700 900842",
       "email": "thegeneralaceventura@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": {
       "services": [
         {
@@ -650,6 +668,7 @@
       "phoneNumber": "+44 7700 900160",
       "email": "beforesunsetapricot@email.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": {
       "services": [
         {
