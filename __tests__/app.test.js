@@ -455,7 +455,7 @@ describe("DELETE /api/technicians/:user_id", () => {
 });
 
 describe("GET /api/users/:user_id/reviews", () => {
-  test.only("status:200, responds with a reviews from a user with the given user_id", () => {
+  test("status:200, responds with a reviews from a user with the given user_id", () => {
     return request(app)
       .get("/api/users/63ce75449ae462be0adad72a/reviews")
       .expect(200)
