@@ -32,17 +32,6 @@
         }
       ]
     },
-    "GET /api/users/:user_id/reviews": {
-      "description": "Serves the reviews of the user with the given user ID",
-      "queries": [],
-      "exampleResponse": [
-        {
-          "reviewBody": "Very good services :)",
-          "rating": 5,
-          "reviewedBy": "63ce75449ae462be0adad72a"
-        }
-      ]
-    },
     "GET /api/users/:user_id/orders": {
       "description": "Serves the orders of the user with the given user ID",
       "queries": [],
