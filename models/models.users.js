@@ -1,4 +1,7 @@
 const User = require("../db/data/users");
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
+const asyncHandler = require('express-async-handler');
 const {
   patchKeysAreEqual,
   isValidId,
@@ -195,3 +198,80 @@ exports.removeOrder = async (user_id, order_id) => {
 
   return user.orders;
 };
+
+exports.createUser = async (newUser) => {
+  const { username, contact, firstName, lastName, address, avatarUrl, password } = newUser;
+  const expectedKeys = ["username", "firstName", "lastName", "address", "contact", "password", "avatarUrl"];
+  const receivedKeys = Object.keys(newUser);
+
+
+  if (!patchKeysAreEqual(expectedKeys, receivedKeys)) {
+    return badRequestError();
+  }
+
+  if(!username || !contact.email || !password || !contact.phoneNumber) {
+    return badRequestError();
+  }
+
+  const userExists = await User.findOne({email: "contact.email"})
+
+  if(userExists){
+    return badRequestError();
+  }
+
+  const salt = await bcrypt.genSalt(10)
+  const hashedPassword = await bcrypt.hash(password, salt);
+
+  const user = await User.create({
+    username: username,
+    firstName: firstName,
+    lastName: lastName,
+    address: {
+      addressLine: address.addressLine,
+      postcode: address.postcode
+    },
+    contact: {
+    phoneNumber: contact.phoneNumber,
+    email: contact.email
+    },
+    password: hashedPassword,
+    reviews: [],
+    avatarUrl:avatarUrl
+  })
+
+  return { username: user.username, _id: user._id, token: generateToken(user._id) }
+}
+
+exports.login = async (userCreds) => {
+  const { email, password } = userCreds
+
+  const user = await User.findOne({"contact.email": email})
+
+  if(user && (await bcrypt.compare(password, user.password))){
+   return {
+      _id: user._id,
+      username: user.username,
+      email: user.contact.email,
+      token: generateToken(user._id)
+  };
+  } else {
+    return badRequestError();
+  }
+}
+
+exports.findUser = async (id) => {
+  const { _id, username, contact } = await User.findById(id)
+
+  return {
+  _id: _id,
+  username: username,
+  email: contact.email
+  }
+}
+
+
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: '30d'
+  })
+}

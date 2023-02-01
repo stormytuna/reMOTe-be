@@ -1239,35 +1239,36 @@ describe("POST /api/users/register", () => {
       .send(newUser)
       .expect(201)
       .then(({ body }) => {
-        expect(body.username).toEqual("totally-not-batman-btw");
+        const { user } = body
+        expect(user.username).toEqual("totally-not-batman-btw");
       });
   });
 
   test("status:400, responds with an appropriate error message when given a malformed body", () => {
     const newUser = {
-      userdddname: "totally-not-batman-btw",
+      userasdasname: "totally-not-batman-btw",
       firstName: "Bruce",
-      lastdddName: "Wayne",
-      addrdddddess: {
+      lastNasdame: "Wayne",
+      addrasdess: {
         addressLine: "153 Gotham Avenue",
-        postcode: "GT52 12P",
+        postcode: "GT52 12P"
       },
-      contact: {
-        phoneNumber: "52452852152",
-        email: "b_wayne@wayne-tech.com",
+      contasdact: {
+        phoneasdNumber: "52452852152",
+        email: "b_wayne@wayne-tech.com"
       },
-      reviews: [],
-      avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
+      passwasdord: "apassword",
+      avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg"
     };
 
-    // return request(app)
-    //   .post("/api/users")
-    //   .send(newUser)
-    //   .expect(400)
-    //   .then(({ body }) => {
-    //     const { msg } = body;
-    //     expect(msg).toBe("Bad request");
-    //   });
+    return request(app)
+      .post("/api/users/register")
+      .send(newUser)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
   });
 
   test("status:400, responds with an appropriate error message when given body fails schema validation", () => {
@@ -1283,14 +1284,41 @@ describe("POST /api/users/register", () => {
       avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
     };
 
-  //   return request(app)
-  //     .post("/api/users")
-  //     .send(newUser)
-  //     .expect(400)
-  //     .then(({ body }) => {
-  //       const { msg } = body;
-  //       expect(msg).toBe("Bad request");
-  //     });
+    return request(app)
+      .post("/api/users/register")
+      .send(newUser)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+  test("status:400, responds with an appropriate error message when user already exists", () => {
+    const newUser = {
+      "username": "test-user-01",
+      "firstName": "David",
+      "lastName": "Smith",
+      "address": {
+        "addressLine": "123 Somewhere Street",
+        "postcode": "AB12 3CD"
+      },
+      "contact": {
+        "phoneNumber": "123456789",
+        "email": "davidsmith@company.com"
+      },
+      "password": "apassword",
+      "reviews": [],
+      "orders": [],
+      "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+    };
+    return request(app)
+      .post("/api/users/register")
+      .send(newUser)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
   });
 });
 
@@ -1305,7 +1333,22 @@ describe('POST /api/login', () => {
     .send(userCreds)
     .expect(201)
     .then(({ body }) => {
-      expect(body.email).toEqual("davidsmith@company.com");
+      const { user } = body
+      expect(user.email).toEqual("davidsmith@company.com");
+    });
+  });
+  test('status:400, should return 400 when provided incorrect login details ', () => {
+    const userCreds = {
+      "email": "davidsmith@coany.com",
+      "password": "apassd"
+    }
+    return request(app)
+    .post("/api/login")
+    .send(userCreds)
+    .expect(400)
+    .then(({ body }) => {
+      const { msg } = body;
+      expect(msg).toBe("Bad request");
     });
   });
 });

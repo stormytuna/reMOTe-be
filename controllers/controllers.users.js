@@ -15,6 +15,7 @@ const {
   updateOrder,
   removeOrder,
   findUsers,
+  login
 } = require("../models/models.users");
 
 exports.getUsers = async (req, res, next) => {
@@ -116,79 +117,28 @@ exports.removeOrder = async (req, res, next) => {
 };
 
 exports.registerUser = asyncHandler(async (req, res, next) => {
-  const { username, contact, firstName, lastName, address, avatarUrl, password } = req.body;
-
-
-  if(!username || !contact.email || !password || !contact.phoneNumber) {
-    res.status(400)
-    throw new Error('Please add all fields')
-  }
-
-  const userExists = await User.findOne({email: "contact.email"})
-
-  if(userExists){
-    res.status(400)
-    throw new Error('User already exists')
-  }
-
-  const salt = await bcrypt.genSalt(10)
-  const hashedPassword = await bcrypt.hash(password, salt);
-
-  const user = await User.create({
-    username: username,
-    firstName: firstName,
-    lastName: lastName,
-    address: {
-      addressLine: address.addressLine,
-      postcode: address.postcode
-    },
-    contact: {
-    phoneNumber: contact.phoneNumber,
-    email: contact.email
-    },
-    password: hashedPassword,
-    reviews: [],
-    avatarUrl:avatarUrl
-  })
-
-  if(user) {
-    res.status(201).send({ username: user.username, _id: user._id, token: generateToken(user._id) })
-  } else {
-    res.status(400)
-    throw new Error('Invalid user data')
+  try {
+    const user = await createUser(req.body)
+    res.status(201).send({ user })
+  } catch (e) {
+    next(e)
   }
 })
 
 exports.loginUser = asyncHandler(async (req, res, next) => {
-  const { email, password } = req.body;
-
-  const user = await User.findOne({"contact.email": email})
-
-  if(user && (await bcrypt.compare(password, user.password))){
-    res.status(201).send({
-      _id: user._id,
-      username: user.username,
-      email: user.contact.email,
-      token: generateToken(user._id)
-  });
-  } else {
-    res.status(400)
-    throw new Error('Invalid credentials')
+  try {
+    const user = await login(req.body)
+    res.status(201).send({ user })
+  } catch (e) {
+    next(e)
   }
 })
 
 exports.getUser = asyncHandler(async (req, res, next) => {
-  const { _id, username, contact } = await User.findById(req.user.id)
-
-  res.status(201).send({
-    _id: _id,
-    username: username,
-    email: contact.email
-  });
+  try {
+    const user = await findUser(req.user.id)
+    res.status(201).send({ user });
+  } catch (e) {
+    next(e)
+  }
 });
-
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '30d'
-  })
-}
