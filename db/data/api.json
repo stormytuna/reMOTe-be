@@ -32,6 +32,36 @@
         }
       ]
     },
+    "GET /api/users/:user_id/reviews": {
+      "description": "Serves the reviews of the user with the given user ID",
+      "queries": [],
+      "exampleResponse": [
+        {
+          "reviewBody": "Very good services :)",
+          "rating": 5,
+          "reviewedBy": "63ce75449ae462be0adad72a"
+        }
+      ]
+    },
+    "GET /api/users/:user_id/orders": {
+      "description": "Serves the orders of the user with the given user ID",
+      "queries": [],
+      "exampleResponse": [
+        {
+          "services": [{"name": "Servicing and MOT", "price": 120, "description": "Serviced and MOTed. Requires clutch repairs" }, {"name": "Clutch repairs", "price": 200, "description": "clutch repairs to pass MOT" }],
+          "createdAt": "2020-05-18T14:10:30Z",
+          "fulfilledAt": "2020-05-28T14:09:10Z",
+          "servicedBy": "63ce75449ae462be0adad72e",
+          "_id": "63ce75449ae462be0adad23a"
+        },
+        {
+          "services": [{ "name": "Breakdown and recovery", "price": 150, "description": "Ran out of fuel causing engine to stall and battery to die"}],
+          "createdAt": "2021-08-18T14:12:30Z",
+          "fulfilledAt": "2021-08-18T14:13:30Z",
+          "servicedBy": "63ce75449ae462be0adad72e"
+        }
+      ]
+    },
     "GET /api/technicians": {
       "description": "Serves an array of all technicians",
       "queries": [
@@ -168,6 +198,39 @@
         }
       ]
     },
+    "PATCH /api/users/:user_id/reviews/:review_id": {
+      "description": "Replaces the review body and rating with the sent review object and responds with the newly patched review",
+      "exampleRequest": {
+        "reviewBody": "Bad >:(",
+        "rating": 2
+      },
+      "exampleResponse": {
+        "reviewBody": "Bad >:(",
+        "rating": 2,
+        "reviewedBy": "63ce75449ae462be0adad72d",
+        "_id": "63ce75449ae462be0adae13a"
+      }
+    },
+    "PATCH /api/users/:user_id/orders/:order_id": {
+      "description": "Updates the services prop with the sent services object and responds with the newly updated order",
+      "exampleRequest": {
+        "services": [
+          { "name": "Servicing and MOT", "price": 80, "description": "MOT passed" }
+        ]
+      },
+      "exampleResponse": {
+        "services": [
+          {
+            "name": "Breakdown and recovery",
+            "price": 150,
+            "description": "Ran out of fuel causing engine to stall and battery to die"
+          }
+        ],
+        "createdAt": "2021-08-18T14:12:30.000Z",
+        "fulfilledAt": "2021-08-18T14:13:30.000Z",
+        "servicedBy": "63ce75449ae462be0adad72e"
+      }
+    },
     "PATCH /api/technicians/:user_id": {
       "description": "Replaces the technicians services array with the sent services array",
       "exampleRequest": [
@@ -215,6 +278,50 @@
           "reviews": [],
           "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
         }
+      }
+    },
+    "POST /api/users/:user_id/reviews": {
+      "description": "Adds the sent review to the users reviews array and responds with the newly created review",
+      "exampleRequest": {
+        "reviewBody": "This is a review",
+        "rating": 3,
+        "reviewedBy": "63ce75449ae462be0adad72b"
+      },
+      "exampleResponse": {
+        "reviewBody": "This is a review",
+        "rating": 3,
+        "reviewedBy": "63ce75449ae462be0adad72b",
+        "_id": "63ce75449ae462beaadad11e"
+      }
+    },
+    "POST /api/users/:user_id/orders": {
+      "description": "Adds the sent order to the users orders array and responds with the newly created order",
+      "exampleRequest": {
+        "services": [
+          {
+            "name": "Tyres, wheels and tracking",
+            "price": 100,
+            "description":
+              "Tracking was causing car to veer left which had worn tires out on right side, needed replacing"
+          }
+        ],
+        "createdAt": "2023-01-18T14:12:30Z",
+        "fulfilledAt": null,
+        "servicedBy": "63ce75449ae462be0adad72e"
+      },
+      "exampleResponse": {
+        "services": [
+          {
+            "name": "Tyres, wheels and tracking",
+            "price": 100,
+            "description":
+              "Tracking was causing car to veer left which had worn tires out on right side, needed replacing"
+          }
+        ],
+        "createdAt": "2023-01-18T14:12:30Z",
+        "fulfilledAt": null,
+        "servicedBy": "63ce75449ae462be0adad72e",
+        "_id": "63ce75449ae462beaadad11e"
       }
     },
     "POST /api/technicians": {
@@ -325,6 +432,12 @@
         "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
       }
     },
+    "DELETE /api/users/:user_id/reviews/:review_id": {
+      "description": "Removes the review from the given user"
+    },
+    "DELETE /api/users/:user_id/orders/:order_id": {
+      "description": "Removes the order from the given user"
+    },
     "DELETE /api/technicians/:user_id": {
       "description": "Sets the technician prop on the given technician to null and serves the user",
       "exampleResponse": {
@@ -350,6 +463,9 @@
         ],
         "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
       }
+    },
+    "DELETE /api/technicians/:user_id/reviews/:review_id": {
+      "description": "Removes the review from that technician"
     }
   }
 }
