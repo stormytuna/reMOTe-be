@@ -63,6 +63,24 @@ exports.findTechnicians = async (
 
 exports.findTechnician = async (id) => {
   const technician = await User.findById(id);
+
+  // Hacky fix, need some more info for reviews on the front end but no GET /api/technicians/:user_id/reviews endpoint
+  technician.reviews = Promise.all(
+    technician.reviews.map(async (review) => {
+      const clone = JSON.parse(JSON.stringify(review));
+      const reviewee = await User.findOne({ _id: clone.reviewedBy });
+
+      delete clone.reviewedBy;
+      clone.reviewee = {
+        username: reviewee.username,
+        name: `${reviewee.firstName} ${reviewee.lastName}`,
+        avatarUrl: reviewee.avatarUrl,
+      };
+
+      return clone;
+    })
+  );
+
   return technician;
 };
 
