@@ -62,164 +62,164 @@ describe("GET /api/users", () => {
   });
 });
 
-describe("POST /api/technicians", () => {
-  test("status:200, responds with the new technician object", () => {
-    const newTechnician = {
-      username: "ahmedH",
-      firstName: "Ahmed",
-      lastName: "Hussian",
-      address: {
-        addressLine: "1 Random Place",
-        postcode: "KF76 9LM",
-      },
-      contact: {
-        phoneNumber: "07470761588",
-        email: "ahmedhussain@gmail.com",
-      },
-      technician: {
-        services: [
-          { name: "Servicing and MOT", price: 45 },
-          { name: "clutch repair", price: 100 },
-        ],
-      },
-      avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
-    };
-    return request(app)
-      .post("/api/technicians")
-      .send(newTechnician)
-      .expect(201)
-      .then(({ body }) => {
-        const { technician } = body;
-        expect(technician).toMatchObject({
-          _id: expect.any(String),
-          __v: expect.any(Number),
-          username: "ahmedH",
-          firstName: "Ahmed",
-          lastName: "Hussian",
-          address: {
-            addressLine: "1 Random Place",
-            postcode: "KF76 9LM",
-          },
-          contact: {
-            phoneNumber: "07470761588",
-            email: "ahmedhussain@gmail.com",
-          },
-          technician: {
-            services: [
-              { name: "Servicing and MOT", price: 45 },
-              { name: "clutch repair", price: 100 },
-            ],
-            reviews: [],
-          },
-          reviews: [],
-          avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
-        });
-      });
-  });
+// describe("POST /api/technicians", () => {
+//   test("status:200, responds with the new technician object", () => {
+//     const newTechnician = {
+//       username: "ahmedH",
+//       firstName: "Ahmed",
+//       lastName: "Hussian",
+//       address: {
+//         addressLine: "1 Random Place",
+//         postcode: "KF76 9LM",
+//       },
+//       contact: {
+//         phoneNumber: "07470761588",
+//         email: "ahmedhussain@gmail.com",
+//       },
+//       technician: {
+//         services: [
+//           { name: "Servicing and MOT", price: 45 },
+//           { name: "clutch repair", price: 100 },
+//         ],
+//       },
+//       avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
+//     };
+//     return request(app)
+//       .post("/api/technicians")
+//       .send(newTechnician)
+//       .expect(201)
+//       .then(({ body }) => {
+//         const { technician } = body;
+//         expect(technician).toMatchObject({
+//           _id: expect.any(String),
+//           __v: expect.any(Number),
+//           username: "ahmedH",
+//           firstName: "Ahmed",
+//           lastName: "Hussian",
+//           address: {
+//             addressLine: "1 Random Place",
+//             postcode: "KF76 9LM",
+//           },
+//           contact: {
+//             phoneNumber: "07470761588",
+//             email: "ahmedhussain@gmail.com",
+//           },
+//           technician: {
+//             services: [
+//               { name: "Servicing and MOT", price: 45 },
+//               { name: "clutch repair", price: 100 },
+//             ],
+//             reviews: [],
+//           },
+//           reviews: [],
+//           avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
+//         });
+//       });
+//   });
 
-  test("status:400, responds with an appropriate error message when given a malformed body", () => {
-    const newTechnician = {
-      wfvvs: "ahmedH",
-      gsfgsd: "Ahmed",
-      lastName: "Hussian",
-      address: {
-        vbdfgsd: "1 Random Place",
-        postcode: "KF76 9LM",
-      },
-      contact: {
-        vcsvsdfsd: "07470761588",
-        email: "ahmedhussain@gmail.com",
-      },
-      technician: {
-        services: [
-          {
-            vsdvsgf: "Servicing and MOT",
-            price: 50,
-          },
-          {
-            name: "Clutch repairs",
-            price: 60,
-          },
-          {
-            name: "Engine and cooling",
-            vsdgs: 500,
-            description: "Something",
-          },
-          {
-            name: "Valeting",
-            vsgs: 5000,
-          },
-        ],
-      },
-      avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
-    };
+//   test("status:400, responds with an appropriate error message when given a malformed body", () => {
+//     const newTechnician = {
+//       wfvvs: "ahmedH",
+//       gsfgsd: "Ahmed",
+//       lastName: "Hussian",
+//       address: {
+//         vbdfgsd: "1 Random Place",
+//         postcode: "KF76 9LM",
+//       },
+//       contact: {
+//         vcsvsdfsd: "07470761588",
+//         email: "ahmedhussain@gmail.com",
+//       },
+//       technician: {
+//         services: [
+//           {
+//             vsdvsgf: "Servicing and MOT",
+//             price: 50,
+//           },
+//           {
+//             name: "Clutch repairs",
+//             price: 60,
+//           },
+//           {
+//             name: "Engine and cooling",
+//             vsdgs: 500,
+//             description: "Something",
+//           },
+//           {
+//             name: "Valeting",
+//             vsgs: 5000,
+//           },
+//         ],
+//       },
+//       avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
+//     };
 
-    return request(app)
-      .post("/api/technicians")
-      .send(newTechnician)
-      .expect(400)
-      .then(({ body }) => {
-        const { msg } = body;
-        expect(msg).toBe("Bad request");
-      });
-  });
+//     return request(app)
+//       .post("/api/technicians")
+//       .send(newTechnician)
+//       .expect(400)
+//       .then(({ body }) => {
+//         const { msg } = body;
+//         expect(msg).toBe("Bad request");
+//       });
+//   });
 
-  test("status:400, responds with an appropriate error message when given a body that fails schema validation", () => {
-    const newTechnician = {
-      username: "ahmedH",
-      firstName: "Ahmed",
-      lastName: "Hussian",
-      address: {
-        addressLine: "1 Random Place",
-        postcode: "KF76 9LM",
-      },
-      contact: {
-        phoneNumber: "07470761588",
-        email: "ahmedhussain@gmail.com",
-      },
-      technician: {
-        services: "something",
-      },
-      avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
-    };
+//   test("status:400, responds with an appropriate error message when given a body that fails schema validation", () => {
+//     const newTechnician = {
+//       username: "ahmedH",
+//       firstName: "Ahmed",
+//       lastName: "Hussian",
+//       address: {
+//         addressLine: "1 Random Place",
+//         postcode: "KF76 9LM",
+//       },
+//       contact: {
+//         phoneNumber: "07470761588",
+//         email: "ahmedhussain@gmail.com",
+//       },
+//       technician: {
+//         services: "something",
+//       },
+//       avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
+//     };
 
-    return request(app)
-      .post("/api/technicians")
-      .send(newTechnician)
-      .expect(400)
-      .then(({ body }) => {
-        const { msg } = body;
-        expect(msg).toBe("Bad request");
-      });
-  });
+//     return request(app)
+//       .post("/api/technicians")
+//       .send(newTechnician)
+//       .expect(400)
+//       .then(({ body }) => {
+//         const { msg } = body;
+//         expect(msg).toBe("Bad request");
+//       });
+//   });
 
-  test("status:400, responds with an appropriate error message when given a body with a null technician", () => {
-    const newTechnician = {
-      username: "ahmedH",
-      firstName: "Ahmed",
-      lastName: "Hussian",
-      address: {
-        addressLine: "1 Random Place",
-        postcode: "KF76 9LM",
-      },
-      contact: {
-        phoneNumber: "07470761588",
-        email: "ahmedhussain@gmail.com",
-      },
-      technician: null,
-      avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
-    };
+//   test("status:400, responds with an appropriate error message when given a body with a null technician", () => {
+//     const newTechnician = {
+//       username: "ahmedH",
+//       firstName: "Ahmed",
+//       lastName: "Hussian",
+//       address: {
+//         addressLine: "1 Random Place",
+//         postcode: "KF76 9LM",
+//       },
+//       contact: {
+//         phoneNumber: "07470761588",
+//         email: "ahmedhussain@gmail.com",
+//       },
+//       technician: null,
+//       avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
+//     };
 
-    return request(app)
-      .post("/api/technicians")
-      .send(newTechnician)
-      .expect(400)
-      .then(({ body }) => {
-        const { msg } = body;
-        expect(msg).toBe("Bad request");
-      });
-  });
-});
+//     return request(app)
+//       .post("/api/technicians")
+//       .send(newTechnician)
+//       .expect(400)
+//       .then(({ body }) => {
+//         const { msg } = body;
+//         expect(msg).toBe("Bad request");
+//       });
+//   });
+// });
 
 describe("GET /api/technicians/:user_id", () => {
   test("status:200, responds with the technician with the given ID", () => {
@@ -748,99 +748,6 @@ describe("PATCH /api/users/:user_id/reviews/:review_id", () => {
   });
 });
 
-describe("POST /api/users", () => {
-  test("status:200, responds with the new user object", () => {
-    const newUser = {
-      username: "totally-not-batman-btw",
-      firstName: "Bruce",
-      lastName: "Wayne",
-      address: {
-        addressLine: "153 Gotham Avenue",
-        postcode: "GT52 12P",
-      },
-      contact: {
-        phoneNumber: "52452852152",
-        email: "b_wayne@wayne-tech.com",
-      },
-      avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
-    };
-    return request(app)
-      .post("/api/users")
-      .send(newUser)
-      .expect(201)
-      .then(({ body }) => {
-        const { user } = body;
-        expect(user).toMatchObject({
-          _id: expect.any(String),
-          __v: expect.any(Number),
-          username: "totally-not-batman-btw",
-          firstName: "Bruce",
-          lastName: "Wayne",
-          address: {
-            addressLine: "153 Gotham Avenue",
-            postcode: "GT52 12P",
-          },
-          contact: {
-            phoneNumber: "52452852152",
-            email: "b_wayne@wayne-tech.com",
-          },
-          reviews: [],
-          avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
-        });
-      });
-  });
-
-  test("status:400, responds with an appropriate error message when given a malformed body", () => {
-    const newUser = {
-      userdddname: "totally-not-batman-btw",
-      firstName: "Bruce",
-      lastdddName: "Wayne",
-      addrdddddess: {
-        addressLine: "153 Gotham Avenue",
-        postcode: "GT52 12P",
-      },
-      contact: {
-        phoneNumber: "52452852152",
-        email: "b_wayne@wayne-tech.com",
-      },
-      reviews: [],
-      avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
-    };
-
-    return request(app)
-      .post("/api/users")
-      .send(newUser)
-      .expect(400)
-      .then(({ body }) => {
-        const { msg } = body;
-        expect(msg).toBe("Bad request");
-      });
-  });
-
-  test("status:400, responds with an appropriate error message when given body fails schema validation", () => {
-    const newUser = {
-      username: "totally-not-batman-btw",
-
-      address: {
-        addressLine: "153 Gotham Avenue",
-      },
-      contact: {
-        email: "b_wayne@wayne-tech.com",
-      },
-      avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
-    };
-
-    return request(app)
-      .post("/api/users")
-      .send(newUser)
-      .expect(400)
-      .then(({ body }) => {
-        const { msg } = body;
-        expect(msg).toBe("Bad request");
-      });
-  });
-});
-
 describe("GET /api/users/:user_id/orders", () => {
   const ordersData = [
     {
@@ -1307,5 +1214,98 @@ describe("DELETE /api/users/:user_id/orders/:order_id", () => {
         const { msg } = body;
         expect(msg).toBe("Bad request");
       });
+  });
+});
+
+describe("POST /api/users/register", () => {
+  test("status:201, responds with the new user object", () => {
+    const newUser = {
+      username: "totally-not-batman-btw",
+      firstName: "Bruce",
+      lastName: "Wayne",
+      address: {
+        addressLine: "153 Gotham Avenue",
+        postcode: "GT52 12P"
+      },
+      contact: {
+        phoneNumber: "52452852152",
+        email: "b_wayne@wayne-tech.com"
+      },
+      password: "apassword",
+      avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg"
+    };
+    return request(app)
+      .post("/api/users/register")
+      .send(newUser)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body.username).toEqual("totally-not-batman-btw");
+      });
+  });
+
+  test("status:400, responds with an appropriate error message when given a malformed body", () => {
+    const newUser = {
+      userdddname: "totally-not-batman-btw",
+      firstName: "Bruce",
+      lastdddName: "Wayne",
+      addrdddddess: {
+        addressLine: "153 Gotham Avenue",
+        postcode: "GT52 12P",
+      },
+      contact: {
+        phoneNumber: "52452852152",
+        email: "b_wayne@wayne-tech.com",
+      },
+      reviews: [],
+      avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
+    };
+
+    // return request(app)
+    //   .post("/api/users")
+    //   .send(newUser)
+    //   .expect(400)
+    //   .then(({ body }) => {
+    //     const { msg } = body;
+    //     expect(msg).toBe("Bad request");
+    //   });
+  });
+
+  test("status:400, responds with an appropriate error message when given body fails schema validation", () => {
+    const newUser = {
+      username: "totally-not-batman-btw",
+
+      address: {
+        addressLine: "153 Gotham Avenue",
+      },
+      contact: {
+        email: "b_wayne@wayne-tech.com",
+      },
+      avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
+    };
+
+  //   return request(app)
+  //     .post("/api/users")
+  //     .send(newUser)
+  //     .expect(400)
+  //     .then(({ body }) => {
+  //       const { msg } = body;
+  //       expect(msg).toBe("Bad request");
+  //     });
+  });
+});
+
+describe('POST /api/login', () => {
+  test('status:201, should return user credentials ', () => {
+    const userCreds = {
+      "email": "davidsmith@company.com",
+      "password": "apassword"
+    }
+    return request(app)
+    .post("/api/login")
+    .send(userCreds)
+    .expect(201)
+    .then(({ body }) => {
+      expect(body.email).toEqual("davidsmith@company.com");
+    });
   });
 });

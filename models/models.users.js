@@ -80,13 +80,6 @@ exports.updateUserReview = async (user_id, review_id, updates) => {
   return await User.findById({ _id: user_id });
 };
 
-exports.createUser = async (user) => {
-  if (user.user === null) {
-    return badRequestError();
-  }
-  const newUser = await User.create(user);
-  return newUser;
-};
 exports.deleteReview = async (user_id, review_id) => {
   if (!isValidId(user_id) || !isValidId(review_id)) {
     return badRequestError();

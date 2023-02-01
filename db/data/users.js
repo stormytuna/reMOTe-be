@@ -4,7 +4,7 @@ const { postcodeRegex, phoneNumberRegex, emailRegex } = require("../../utils");
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
+    required: [true, 'Please add a username'], 
     unique: true,
   },
   firstName: String,
@@ -29,12 +29,17 @@ const userSchema = new mongoose.Schema({
     },
     email: {
       type: String,
+      required: [true, 'Please add a email'],
       unique: true,
       validate: {
         validator: (value) => emailRegex.test(value),
         message: (props) => `${props.value} is not a valid email`,
       },
     },
+  },
+  password: {
+    type: String,
+    required: [true, 'Please add a password'],
   },
   technician: {
     type: {
@@ -103,6 +108,9 @@ const userSchema = new mongoose.Schema({
     ],
   },
   avatarUrl: { type: String, default: "https://i.imgur.com/pN04qjy.jpg" },
+},
+{
+  timestamps: true
 });
 
 const User = new mongoose.model("User", userSchema);
