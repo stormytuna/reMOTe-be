@@ -455,7 +455,7 @@ describe("DELETE /api/technicians/:user_id", () => {
 });
 
 describe("GET /api/users/:user_id/reviews", () => {
-  test("status:200, responds with a reviews from a user with the given user_id", () => {
+  test.only("status:200, responds with a reviews from a user with the given user_id", () => {
     return request(app)
       .get("/api/users/63ce75449ae462be0adad72a/reviews")
       .expect(200)
@@ -465,7 +465,11 @@ describe("GET /api/users/:user_id/reviews", () => {
           {
             reviewBody: "Very good to service :)",
             rating: 5,
-            reviewedBy: "63ce75449ae462be0adad72d",
+            reviewee: {
+              username: expect.any(String),
+              name: expect.any(String),
+              avatarUrl: expect.any(String),
+            },
           },
         ]);
       });

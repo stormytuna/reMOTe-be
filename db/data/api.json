@@ -139,7 +139,11 @@
         {
           "reviewBody": "Very good services :)",
           "rating": 5,
-          "reviewedBy": "63ce75449ae462be0adad72a"
+          "reviewee": {
+            "username": "test-tech-01",
+            "name": "James Wright",
+            "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+          }
         }
       ]
     },
