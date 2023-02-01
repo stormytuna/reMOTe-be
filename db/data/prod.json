@@ -375,18 +375,15 @@
       "services": [
         {
           "name": "MOT",
-          "price": 1500,
-          "description": "aaaaaaa"
+          "price": 3500
         },
         {
           "name": "Tyre replacement",
-          "price": 1000,
-          "description": "gbiabfcmocn"
+          "price": 6000
         },
         {
-          "name": "Brake fluid replacement",
-          "price": 1000,
-          "description": "gbiabfcmocn"
+          "name": "Flat tyre",
+          "price": 2400
         }
       ],
       "reviews": [
@@ -430,18 +427,15 @@
       "services": [
         {
           "name": "MOT",
-          "price": 1500,
-          "description": "aaaaaaa"
+          "price": 6000
         },
         {
-          "name": "Tyre replacement",
-          "price": 1000,
-          "description": "gbiabfcmocn"
+          "name": "Battery replacement",
+          "price": 4000
         },
         {
-          "name": "Brake fluid replacement",
-          "price": 1000,
-          "description": "gbiabfcmocn"
+          "name": "Valet",
+          "price": 1200
         }
       ],
       "reviews": [
@@ -480,18 +474,15 @@
       "services": [
         {
           "name": "MOT",
-          "price": 1500,
-          "description": "aaaaaaa"
+          "price": 6000
         },
         {
           "name": "Tyre replacement",
-          "price": 1000,
-          "description": "gbiabfcmocn"
+          "price": 4000
         },
         {
           "name": "Brake fluid replacement",
-          "price": 1000,
-          "description": "gbiabfcmocn"
+          "price": 1200
         }
       ],
       "reviews": [
@@ -534,19 +525,12 @@
     "technician": {
       "services": [
         {
-          "name": "MOT",
-          "price": 1500,
-          "description": "aaaaaaa"
+          "name": "Clutch repairs",
+          "price": 4500
         },
         {
           "name": "Tyre replacement",
-          "price": 1000,
-          "description": "gbiabfcmocn"
-        },
-        {
-          "name": "Brake fluid replacement",
-          "price": 1000,
-          "description": "gbiabfcmocn"
+          "price": 2300
         }
       ],
       "reviews": [
@@ -590,18 +574,11 @@
       "services": [
         {
           "name": "MOT",
-          "price": 1500,
-          "description": "aaaaaaa"
+          "price": 8000
         },
         {
-          "name": "Tyre replacement",
-          "price": 1000,
-          "description": "gbiabfcmocn"
-        },
-        {
-          "name": "Brake fluid replacement",
-          "price": 1000,
-          "description": "gbiabfcmocn"
+          "name": "Flat tyre",
+          "price": 3400
         }
       ],
       "reviews": [
@@ -644,19 +621,12 @@
     "technician": {
       "services": [
         {
-          "name": "MOT",
-          "price": 1500,
-          "description": "aaaaaaa"
-        },
-        {
           "name": "Tyre replacement",
-          "price": 1000,
-          "description": "gbiabfcmocn"
+          "price": 4000
         },
         {
-          "name": "Brake fluid replacement",
-          "price": 1000,
-          "description": "gbiabfcmocn"
+          "name": "Service",
+          "price": 3400
         }
       ],
       "reviews": [],
@@ -683,19 +653,12 @@
     "technician": {
       "services": [
         {
-          "name": "MOT",
-          "price": 1500,
-          "description": "aaaaaaa"
+          "name": "Battery replacement",
+          "price": 2300
         },
         {
           "name": "Tyre replacement",
-          "price": 1000,
-          "description": "gbiabfcmocn"
-        },
-        {
-          "name": "Brake fluid replacement",
-          "price": 1000,
-          "description": "gbiabfcmocn"
+          "price": 6000
         }
       ],
       "reviews": [],
