@@ -34,7 +34,28 @@
     },
     "GET /api/technicians": {
       "description": "Serves an array of all technicians",
-      "queries": [],
+      "queries": [
+        {
+          "query": "service",
+          "description": "Filters out technicians who do not offer a service with a name containing the given string",
+          "defaultValue": "",
+          "exampleUsage": "?service=clutch+repairs"
+        },
+        {
+          "query": "sort_by",
+          "description": "Sorts the technicians array by the given value",
+          "defaultValue": "rating",
+          "validValues": [ "rating", "reviews" ],
+          "exampleUsage": "?sort_by=rating"
+        },
+        {
+          "query": "order",
+          "description": "Orders the technicians array",
+          "defaultValue": "asc",
+          "validValues": [ "asc", "desc" ],
+          "exampleUsage": "?order=asc"
+        }
+      ],
       "exampleResponse": [ 
         {
           "_id": "63ce75449ae462be0adad72d",

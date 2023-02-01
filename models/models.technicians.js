@@ -5,10 +5,59 @@ const {
   contentNotFoundError,
 } = require("../utils");
 
-exports.findTechnicians = async () => {
-  const technicians = await User.find({
+exports.findTechnicians = async (
+  serviceFilter,
+  sortBy = "rating",
+  order = "asc"
+) => {
+  const validSortBys = ["rating", "reviews"];
+  const validOrders = ["asc", "desc"];
+
+  if (!validSortBys.includes(sortBy) || !validOrders.includes(order)) {
+    return badRequestError();
+  }
+
+  let technicians = await User.find({
     technician: { $ne: null },
   });
+
+  if (serviceFilter) {
+    technicians = technicians.filter((technician) => {
+      let matches = false;
+      technician.technician.services.forEach((service) => {
+        if (service.name.toLowerCase().includes(serviceFilter.toLowerCase())) {
+          matches = true;
+          return;
+        }
+      });
+      return matches;
+    });
+  }
+
+  technicians = technicians.sort((cur, pre) => {
+    if (sortBy === "rating") {
+      const curTotalRatings = cur.technician.reviews.reduce((pre, cur) => {
+        return pre + cur.rating;
+      }, 0);
+      const curRating = curTotalRatings / cur.technician.reviews.length;
+
+      const preTotalRatings = pre.technician.reviews.reduce((pre, cur) => {
+        return pre + cur.rating;
+      }, 0);
+      const preRating = preTotalRatings / pre.technician.reviews.length;
+
+      return preRating - curRating;
+    } else if (sortBy === "reviews") {
+      const curReviews = cur.technician.reviews.length;
+      const preReviews = pre.technician.reviews.length;
+      return preReviews - curReviews;
+    }
+  });
+
+  if (sortBy === "desc") {
+    technicians = technicians.reverse();
+  }
+
   return technicians;
 };
 

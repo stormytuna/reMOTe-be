@@ -12,7 +12,7 @@ beforeAll(() => {
 });
 
 beforeEach(() => {
-  return seedTest(userData);
+  return seedTest();
 });
 
 afterAll(() => {
@@ -39,10 +39,101 @@ describe("GET /api/technicians", () => {
       .then(({ body }) => {
         const { technicians } = body;
         expect(technicians).toBeInstanceOf(Array);
-        expect(technicians).toHaveLength(2);
+        expect(technicians).toHaveLength(3);
         technicians.forEach((technician) => {
           expect(technician.technician.services.length).toBeGreaterThan(0);
         });
+      });
+  });
+
+  test("status:200, responds with an array of technicians filtered by services they provide", () => {
+    return request(app)
+      .get("/api/technicians?service=servicing")
+      .expect(200)
+      .then(({ body }) => {
+        const { technicians } = body;
+        expect(technicians).toBeInstanceOf(Array);
+        expect(technicians).toHaveLength(2);
+        expect(technicians[0].technician.services[0].name).toBe(
+          "Servicing and MOT"
+        );
+      });
+  });
+
+  test("status:200, responds with an array of technicians filtered by services they provide with spaces in the query", () => {
+    return request(app)
+      .get("/api/technicians?service=servicing+and+mot")
+      .expect(200)
+      .then(({ body }) => {
+        const { technicians } = body;
+        expect(technicians).toBeInstanceOf(Array);
+        expect(technicians).toHaveLength(2);
+        expect(technicians[0].technician.services[0].name).toBe(
+          "Servicing and MOT"
+        );
+      });
+  });
+
+  test("status:200, responds with an array of technicians sorted by their average rating", () => {
+    return request(app)
+      .get("/api/technicians?sort_by=rating")
+      .expect(200)
+      .then(({ body }) => {
+        const { technicians } = body;
+        // Not 100% sure about this test but I can't think of a better way to test
+        expect(technicians).toEqual(
+          technicians.sort((cur, pre) => {
+            const curTotalRatings = cur.technician.reviews.reduce(
+              (pre, cur) => {
+                return pre + cur.rating;
+              },
+              0
+            );
+            const curRating = curTotalRatings / cur.technician.reviews.length;
+
+            const preTotalRatings = pre.technician.reviews.reduce(
+              (pre, cur) => {
+                return pre + cur.rating;
+              },
+              0
+            );
+            const preRating = preTotalRatings / pre.technician.reviews.length;
+
+            return preRating - curRating;
+          })
+        );
+      });
+  });
+
+  test("status:200, responds with an array of technicians sorted by their review count", () => {
+    return request(app)
+      .get("/api/technicians?sort_by=reviews")
+      .expect(200)
+      .then(({ body }) => {
+        const { technicians } = body;
+        expect(technicians).toEqual(
+          technicians.sort((cur, pre) => {
+            const curReviews = cur.technician.reviews.length;
+            const preReviews = pre.technician.reviews.length;
+            return preReviews - curReviews;
+          })
+        );
+      });
+  });
+
+  test("status:200, responds with an array of technicians sorted by their average review count descending", () => {
+    return request(app)
+      .get("/api/technicians?sort_by=reviews&order=desc")
+      .expect(200)
+      .then(({ body }) => {
+        const { technicians } = body;
+        expect(technicians).toEqual(
+          technicians.sort((cur, pre) => {
+            const curReviews = cur.technician.reviews.length;
+            const preReviews = pre.technician.reviews.length;
+            return curReviews - preReviews;
+          })
+        );
       });
   });
 });

@@ -9,8 +9,9 @@ const {
 } = require("../models/models.technicians");
 
 exports.getTechnicians = async (req, res, next) => {
+  const { service, sort_by, order } = req.query;
   try {
-    const technicians = await findTechnicians();
+    const technicians = await findTechnicians(service, sort_by, order);
     res.status(200).send({ technicians });
   } catch (e) {
     next(e);
