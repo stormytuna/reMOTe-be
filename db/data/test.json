@@ -12,6 +12,7 @@
       "phoneNumber": "123456789",
       "email": "davidsmith@company.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "reviews": [
       {
         "reviewBody": "Very good to service :)",
@@ -35,6 +36,7 @@
       "phoneNumber": "4567890123",
       "email": "johnswash@company.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "reviews": [],
     "orders": [],
     "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
@@ -52,6 +54,7 @@
       "phoneNumber": "32985262132",
       "email": "alexsomething@company.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "reviews": [],
     "orders": [
       {
@@ -84,6 +87,7 @@
       "phoneNumber": "32985262911",
       "email": "jameswright@company.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": {
       "services": [
         {
@@ -129,6 +133,7 @@
       "phoneNumber": "32911162985",
       "email": "mariesmith@company.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": {
       "services": [
         {

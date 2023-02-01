@@ -1,3 +1,8 @@
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
+const asyncHandler = require('express-async-handler');
+const User = require("../db/data/users");
+
 const {
   createReview,
   findUserReviews,
@@ -10,6 +15,7 @@ const {
   updateOrder,
   removeOrder,
   findUsers,
+  login
 } = require("../models/models.users");
 
 exports.getUsers = async (req, res, next) => {
@@ -49,15 +55,6 @@ exports.patchUserReview = async (req, res, next) => {
     res.status(200).send({ review });
   } catch (e) {
     next(e);
-  }
-};
-
-exports.postUser = async (req, res, next) => {
-  try {
-    const user = await createUser(req.body);
-    res.status(201).send({ user });
-  } catch (err) {
-    next(err);
   }
 };
 
@@ -118,3 +115,30 @@ exports.removeOrder = async (req, res, next) => {
     next(e);
   }
 };
+
+exports.registerUser = asyncHandler(async (req, res, next) => {
+  try {
+    const user = await createUser(req.body)
+    res.status(201).send({ user })
+  } catch (e) {
+    next(e)
+  }
+})
+
+exports.loginUser = asyncHandler(async (req, res, next) => {
+  try {
+    const user = await login(req.body)
+    res.status(201).send({ user })
+  } catch (e) {
+    next(e)
+  }
+})
+
+exports.getUser = asyncHandler(async (req, res, next) => {
+  try {
+    const user = await findUser(req.user.id)
+    res.status(201).send({ user });
+  } catch (e) {
+    next(e)
+  }
+});
