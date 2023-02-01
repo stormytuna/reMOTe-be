@@ -192,6 +192,7 @@
       "phoneNumber": "32911162085",
       "email": "janedoe@company.com"
     },
+    "password": "$2a$10$dDJJJB6yk.OlpToYjts9VO3kUpBeMhQuMR4yLkMjXhAB78NOtlZG.",
     "technician": {
       "services": [
         {
