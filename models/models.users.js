@@ -41,7 +41,27 @@ exports.findUserReviews = async (id) => {
     return contentNotFoundError();
   }
 
-  return user.reviews;
+  let reviews = user.reviews;
+
+  reviews = await Promise.all(
+    reviews.map(async (review) => {
+      const clone = JSON.parse(JSON.stringify(review));
+      const reviewee = await User.findOne({ _id: review.reviewedBy });
+
+      delete clone.reviewedBy;
+      clone.reviewee = {
+        username: reviewee.username,
+        name: `${reviewee.firstName} ${reviewee.lastName}`,
+        avatarUrl: reviewee.avatarUrl,
+      };
+
+      console.log(clone);
+
+      return clone;
+    })
+  );
+
+  return reviews;
 };
 
 exports.updateUserReview = async (user_id, review_id, updates) => {

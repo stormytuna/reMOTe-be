@@ -465,7 +465,11 @@ describe("GET /api/users/:user_id/reviews", () => {
           {
             reviewBody: "Very good to service :)",
             rating: 5,
-            reviewedBy: "63ce75449ae462be0adad72d",
+            reviewee: {
+              username: expect.any(String),
+              name: expect.any(String),
+              avatarUrl: expect.any(String),
+            },
           },
         ]);
       });
