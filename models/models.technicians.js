@@ -67,9 +67,13 @@ exports.findTechnicians = async (
 exports.findTechnician = async (id) => {
   const technician = await User.findById(id);
 
+  if (!technician) {
+    return contentNotFoundError();
+  }
+
   // Hacky fix, need some more info for reviews on the front end but no GET /api/technicians/:user_id/reviews endpoint
-  technician.reviews = Promise.all(
-    technician.reviews.map(async (review) => {
+  const newReviews = await Promise.all(
+    technician.technician.reviews.map(async (review) => {
       const clone = JSON.parse(JSON.stringify(review));
       const reviewee = await User.findOne({ _id: clone.reviewedBy });
 
@@ -84,7 +88,11 @@ exports.findTechnician = async (id) => {
     })
   );
 
-  return technician;
+  const clone = JSON.parse(JSON.stringify(technician));
+  delete clone.technician.reviews;
+  clone.technician.reviews = newReviews;
+
+  return clone;
 };
 
 exports.postTechnician = async (technician) => {
@@ -94,17 +102,6 @@ exports.postTechnician = async (technician) => {
 
   const newTechnician = await User.create(technician);
   return newTechnician;
-};
-
-exports.findTechnician = async (id) => {
-  const technician = await User.findById(id);
-
-  // Check 404s
-  if (!technician) {
-    return contentNotFoundError();
-  }
-
-  return technician;
 };
 
 exports.updateTechnicianProp = async (technicianID) => {
