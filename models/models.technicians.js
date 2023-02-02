@@ -1,4 +1,7 @@
 const User = require("../db/data/users");
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const asyncHandler = require('express-async-handler');
 const {
   patchKeysAreEqual,
   badRequestError,
@@ -178,4 +181,75 @@ exports.removeTechReview = async (user_id, review_id) => {
     { _id: user_id },
     { "technician.reviews": { $pull: { _id: review_id } } }
   );
+};
+
+exports.createTech = async (newTech) => {
+  const {
+    username,
+    contact,
+    firstName,
+    lastName,
+    address,
+    avatarUrl,
+    password,
+    technician
+  } = newTech;
+  const expectedKeys = [
+    "username",
+    "firstName",
+    "lastName",
+    "address",
+    "contact",
+    "password",
+    "avatarUrl",
+    "technician"
+  ];
+  const receivedKeys = Object.keys(newTech);
+
+  if (!patchKeysAreEqual(expectedKeys, receivedKeys)) {
+    return badRequestError();
+  }
+
+  if (!username || !contact.email || !password || !contact.phoneNumber) {
+    return badRequestError();
+  }
+
+  const userExists = await User.findOne({ email: "contact.email" });
+
+  if (userExists) {
+    return badRequestError();
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+
+  const user = await User.create({
+    username: username,
+    firstName: firstName,
+    lastName: lastName,
+    address: {
+      addressLine: address.addressLine,
+      postcode: address.postcode,
+    },
+    contact: {
+      phoneNumber: contact.phoneNumber,
+      email: contact.email,
+    },
+    password: hashedPassword,
+    technician: {services:[...technician.services]},
+    reviews: [],
+    avatarUrl: avatarUrl,
+  });
+
+  return {
+    username: user.username,
+    _id: user._id,
+    token: generateToken(user._id),
+  };
+};
+
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
 };
