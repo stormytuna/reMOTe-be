@@ -1,3 +1,4 @@
+const asyncHandler = require('express-async-handler');
 const {
   findTechnicians,
   postTechnician,
@@ -6,6 +7,7 @@ const {
   postReviewForTech,
   updateTechnician,
   removeTechReview,
+  createTech,
 } = require("../models/models.technicians");
 
 exports.getTechnicians = async (req, res, next) => {
@@ -72,3 +74,12 @@ exports.removeTechReview = async (req, res, next) => {
     next(e);
   }
 };
+
+exports.registerTech = asyncHandler(async (req, res, next) => {
+  try {
+    const user = await createTech(req.body)
+    res.status(201).send({ user })
+  } catch (e) {
+    next(e)
+  }
+})

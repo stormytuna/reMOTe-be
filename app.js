@@ -17,6 +17,7 @@ const {
   createReviewforTech,
   patchTechnician,
   removeTechReview,
+  registerTech,
 } = require("./controllers/controllers.technicians");
 
 const cors = require("cors");
@@ -66,6 +67,7 @@ app.delete("/api/:user_id/reviews/:review_id", removeReview);
 app.delete("/api/users/:user_id/orders/:order_id", removeOrder);
 
 app.post("/api/users/register", registerUser);
+app.post("/api/technicians/register", registerTech);
 app.post("/api/login", loginUser);
 app.get("/api/user", protect, getUser);
 

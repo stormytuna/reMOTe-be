@@ -1481,3 +1481,115 @@ describe("POST /api/login", () => {
       });
   });
 });
+
+  describe("POST /api/technicians/register", () => {
+    test("status:201, responds with the new user object", () => {
+      const newUser = {
+        username: "totally-not-batman-btw",
+        firstName: "Bruce",
+        lastName: "Wayne",
+        address: {
+          addressLine: "153 Gotham Avenue",
+          postcode: "GT52 12P"
+        },
+        contact: {
+          phoneNumber: "52452852152",
+          email: "b_wayne@wayne-tech.com"
+        },
+        password: "apassword",
+        technician: {
+          services:[
+            {"name": "MOT","price": 6000},
+            {"name": "Battery replacement","price": 4000}
+          ]
+        },
+        avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg"
+      };
+      return request(app)
+        .post("/api/technicians/register")
+        .send(newUser)
+        .expect(201)
+        .then(({ body }) => {
+          const { user } = body
+          expect(user.username).toEqual("totally-not-batman-btw");
+        });
+    });
+  
+    test("status:400, responds with an appropriate error message when given a malformed body", () => {
+      const newUser = {
+        userasdasname: "totally-not-batman-btw",
+        firstName: "Bruce",
+        lastNasdame: "Wayne",
+        addrasdess: {
+          addressLine: "153 Gotham Avenue",
+          postcode: "GT52 12P"
+        },
+        contasdact: {
+          phoneasdNumber: "52452852152",
+          email: "b_wayne@wayne-tech.com"
+        },
+        passwasdord: "apassword",
+        avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg"
+      };
+  
+      return request(app)
+        .post("/api/technicians/register")
+        .send(newUser)
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Bad request");
+        });
+    });
+  
+    test("status:400, responds with an appropriate error message when given body fails schema validation", () => {
+      const newUser = {
+        username: "totally-not-batman-btw",
+  
+        address: {
+          addressLine: "153 Gotham Avenue",
+        },
+        contact: {
+          email: "b_wayne@wayne-tech.com",
+        },
+        avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
+      };
+  
+      return request(app)
+        .post("/api/technicians/register")
+        .send(newUser)
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Bad request");
+        });
+    });
+    test("status:400, responds with an appropriate error message when user already exists", () => {
+      const newUser = {
+        "username": "test-user-01",
+        "firstName": "David",
+        "lastName": "Smith",
+        "address": {
+          "addressLine": "123 Somewhere Street",
+          "postcode": "AB12 3CD"
+        },
+        "contact": {
+          "phoneNumber": "123456789",
+          "email": "davidsmith@company.com"
+        },
+        "password": "apassword",
+        "reviews": [],
+        "orders": [],
+        "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+      };
+      return request(app)
+        .post("/api/technicians/register")
+        .send(newUser)
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Bad request");
+        });
+    });
+  });
+});
