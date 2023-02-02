@@ -350,6 +350,40 @@ describe("GET /api/technicians/:user_id", () => {
   });
 });
 
+describe("GET /api/users/:user_id", () => {
+  test("status:200, responds with the user with the given ID", () => {
+    return request(app)
+      .get("/api/users/63ce75449ae462be0adad72a")
+      .expect(200)
+      .then(({ body }) => {
+        const { user } = body;
+        expect(user).toMatchObject({
+          username: "test-user-01",
+        });
+      });
+  });
+
+  test("status:400, responds with an appropriate error message when given user ID is invalid", () => {
+    return request(app)
+      .get("/api/users/totally-a-valid-user-id")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
+  });
+
+  test("status:404, responds with an appropriate error message when given user ID doesn't exist", () => {
+    return request(app)
+      .get("/api/users/63ceaaaaaae462be0adad72a")
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Content not found");
+      });
+  });
+});
+
 describe("PATCH /api/technicians/:user_id", () => {
   test("status:200, responds with the updated technician", () => {
     const patchData = { name: "Tyre Replacement", price: 50 };

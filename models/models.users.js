@@ -13,6 +13,25 @@ exports.findUsers = async () => {
   return await User.find({ technician: { $eq: null } });
 };
 
+exports.findUserById = async (id) => {
+  // Handle 400s
+  if (!isValidId(id)) {
+    return badRequestError();
+  }
+
+  const user = await User.findOne({
+    _id: { $eq: id },
+    technician: { $eq: null },
+  });
+
+  // Handle 404s
+  if (!user) {
+    return contentNotFoundError();
+  }
+
+  return user;
+};
+
 exports.createReview = async (review, id) => {
   // Check for bad request
   const { reviewBody, rating, reviewedBy, ...rest } = review;

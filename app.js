@@ -1,7 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const { getApi } = require("./controllers/controllers.api");
-const { protect } = require('./controllers/authMiddleware');
+const { protect } = require("./controllers/authMiddleware");
 const {
   handle404s,
   handleMongoDBErrors,
@@ -35,7 +35,8 @@ const {
   getUsers,
   registerUser,
   loginUser,
-  getUser
+  getUser,
+  getUserById,
 } = require("./controllers/controllers.users");
 
 const app = express();
@@ -53,6 +54,7 @@ app.delete("/api/technicians/:user_id", deleteTechnician);
 app.delete("/api/technicians/:user_id/reviews/:review_id", removeTechReview);
 
 app.get("/api/users", getUsers);
+app.get("/api/users/:user_id", getUserById);
 app.get("/api/users/:user_id/reviews", getUserReviews);
 app.get("/api/users/:user_id/orders", getUserOrders);
 app.patch("/api/users/:user_id/reviews/:review_id", patchUserReview);
@@ -65,9 +67,7 @@ app.delete("/api/users/:user_id/orders/:order_id", removeOrder);
 
 app.post("/api/users/register", registerUser);
 app.post("/api/login", loginUser);
-app.get('/api/user', protect, getUser);
-
-
+app.get("/api/user", protect, getUser);
 
 app.use(handleCustomErrors);
 app.use(handleMongoDBErrors);
