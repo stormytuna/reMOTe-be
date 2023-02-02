@@ -1320,21 +1320,21 @@ describe("POST /api/users/register", () => {
       lastName: "Wayne",
       address: {
         addressLine: "153 Gotham Avenue",
-        postcode: "GT52 12P"
+        postcode: "GT52 12P",
       },
       contact: {
         phoneNumber: "52452852152",
-        email: "b_wayne@wayne-tech.com"
+        email: "b_wayne@wayne-tech.com",
       },
       password: "apassword",
-      avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg"
+      avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
     };
     return request(app)
       .post("/api/users/register")
       .send(newUser)
       .expect(201)
       .then(({ body }) => {
-        const { user } = body
+        const { user } = body;
         expect(user.username).toEqual("totally-not-batman-btw");
       });
   });
@@ -1346,14 +1346,14 @@ describe("POST /api/users/register", () => {
       lastNasdame: "Wayne",
       addrasdess: {
         addressLine: "153 Gotham Avenue",
-        postcode: "GT52 12P"
+        postcode: "GT52 12P",
       },
       contasdact: {
         phoneasdNumber: "52452852152",
-        email: "b_wayne@wayne-tech.com"
+        email: "b_wayne@wayne-tech.com",
       },
       passwasdord: "apassword",
-      avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg"
+      avatarUrl: "https://i.imgur.com/SYXzHx3.jpeg",
     };
 
     return request(app)
@@ -1390,21 +1390,21 @@ describe("POST /api/users/register", () => {
   });
   test("status:400, responds with an appropriate error message when user already exists", () => {
     const newUser = {
-      "username": "test-user-01",
-      "firstName": "David",
-      "lastName": "Smith",
-      "address": {
-        "addressLine": "123 Somewhere Street",
-        "postcode": "AB12 3CD"
+      username: "test-user-01",
+      firstName: "David",
+      lastName: "Smith",
+      address: {
+        addressLine: "123 Somewhere Street",
+        postcode: "AB12 3CD",
       },
-      "contact": {
-        "phoneNumber": "123456789",
-        "email": "davidsmith@company.com"
+      contact: {
+        phoneNumber: "123456789",
+        email: "davidsmith@company.com",
       },
-      "password": "apassword",
-      "reviews": [],
-      "orders": [],
-      "avatarUrl": "https://i.imgur.com/pN04qjy.jpg"
+      password: "apassword",
+      reviews: [],
+      orders: [],
+      avatarUrl: "https://i.imgur.com/pN04qjy.jpg",
     };
     return request(app)
       .post("/api/users/register")
@@ -1417,33 +1417,33 @@ describe("POST /api/users/register", () => {
   });
 });
 
-describe('POST /api/login', () => {
-  test('status:201, should return user credentials ', () => {
+describe("POST /api/login", () => {
+  test("status:201, should return user credentials ", () => {
     const userCreds = {
-      "email": "davidsmith@company.com",
-      "password": "apassword"
-    }
+      email: "davidsmith@company.com",
+      password: "apassword",
+    };
     return request(app)
-    .post("/api/login")
-    .send(userCreds)
-    .expect(201)
-    .then(({ body }) => {
-      const { user } = body
-      expect(user.email).toEqual("davidsmith@company.com");
-    });
+      .post("/api/login")
+      .send(userCreds)
+      .expect(201)
+      .then(({ body }) => {
+        const { user } = body;
+        expect(user.email).toEqual("davidsmith@company.com");
+      });
   });
-  test('status:400, should return 400 when provided incorrect login details ', () => {
+  test("status:400, should return 400 when provided incorrect login details ", () => {
     const userCreds = {
-      "email": "davidsmith@coany.com",
-      "password": "apassd"
-    }
+      email: "davidsmith@coany.com",
+      password: "apassd",
+    };
     return request(app)
-    .post("/api/login")
-    .send(userCreds)
-    .expect(400)
-    .then(({ body }) => {
-      const { msg } = body;
-      expect(msg).toBe("Bad request");
-    });
+      .post("/api/login")
+      .send(userCreds)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Bad request");
+      });
   });
 });
